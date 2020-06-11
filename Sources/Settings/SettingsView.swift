@@ -40,9 +40,9 @@ public struct SettingsView<Content>: View where Content: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView(showSettings: .constant(true), content: {
-            SettingsAppearanceView()
-            SettingsSupportView()
-            SettingsResetView()
+            Settings.AppearanceView()
+            Settings.SupportView()
+            Settings.ResetView()
         })
     }
 }

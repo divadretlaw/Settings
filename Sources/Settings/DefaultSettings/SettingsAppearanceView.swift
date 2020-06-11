@@ -8,46 +8,47 @@
 
 import SwiftUI
 
-public struct SettingsAppearanceView: View {
-    @ObservedObject var viewModel: ViewModel
-    private var header: String?
-    private var matchSystemTitle: String
-    private var darkModeTitle: String
-    
-    public var body: some View {
-        Section(header: self.headerView) {
-            Toggle(isOn: self.$viewModel.matchSystemTheme) {
-                Text(self.matchSystemTitle)
-            }
-            if !viewModel.matchSystemTheme {
-                Toggle(isOn: self.$viewModel.useDarkMode) {
-                    Text(self.darkModeTitle)
-                }.transition(.slide)
-            }
-        }.animation(.default)
-    }
-    
-    var headerView: some View {
-        Group {
-            if header == nil {
-                EmptyView()
-            } else {
-                Text(header ?? "")
+extension Settings {
+    public struct AppearanceView: View {
+        @ObservedObject var viewModel: ViewModel
+        private var header: String?
+        private var matchSystemTitle: String
+        private var darkModeTitle: String
+        
+        public var body: some View {
+            Section(header: self.headerView) {
+                Toggle(isOn: self.$viewModel.matchSystemTheme) {
+                    Text(self.matchSystemTitle)
+                }
+                if !viewModel.matchSystemTheme {
+                    Toggle(isOn: self.$viewModel.useDarkMode) {
+                        Text(self.darkModeTitle)
+                    }.transition(.slide)
+                }
+            }.animation(.default)
+        }
+        
+        var headerView: some View {
+            Group {
+                if header == nil {
+                    EmptyView()
+                } else {
+                    Text(header ?? "")
+                }
             }
         }
-    }
-    
-    public init(header: String? = "Appearance",
-         matchSystemTitle: String = "Match System Theme",
-         darkModeTitle: String = "Dark Mode") {
-        self.header = header
-        self.matchSystemTitle = matchSystemTitle
-        self.darkModeTitle = darkModeTitle
-        self.viewModel = ViewModel()
+        
+        public init(header: String? = "Appearance",
+             matchSystemTitle: String = "Match System Theme",
+             darkModeTitle: String = "Dark Mode") {
+            self.header = header
+            self.matchSystemTitle = matchSystemTitle
+            self.darkModeTitle = darkModeTitle
+            self.viewModel = ViewModel()
+        }
     }
 }
-
-extension SettingsAppearanceView {
+extension Settings.AppearanceView {
     class ViewModel: ObservableObject {
         @Published var matchSystemTheme: Bool {
             didSet {
@@ -85,7 +86,7 @@ extension SettingsAppearanceView {
 struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            SettingsAppearanceView()
+            Settings.AppearanceView()
         }.listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
     }
