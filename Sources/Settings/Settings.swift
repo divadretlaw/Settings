@@ -1,6 +1,6 @@
 import Foundation
 
-struct Settings {
+public struct Settings {
    @propertyWrapper public struct Entry<Value> {
         let key: String
         let `default`: Value
@@ -31,8 +31,8 @@ struct Settings {
     }
 }
 
-extension Settings {
-    public struct Appearance {
+public extension Settings {
+    struct Appearance {
         @Entry("Settings:Appearance-matchSystemTheme", default: true)
         public static var matchSystemTheme: Bool
         

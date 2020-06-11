@@ -47,11 +47,12 @@ extension Settings {
         }
         
         public init(header: String? = "Reset",
-                    buttonTitle: String = "Reset all data"
+                    buttonTitle: String = "Reset all data",
                     alertHeader: String = "Reset all data?",
                     alertMessage: String = "All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action",
                     alertAction: String = "Reset all data") {
             self.header = header
+            self.buttonTitle = buttonTitle
             self.alertHeader = alertHeader
             self.alertMessage = alertMessage
             self.alertAction = alertAction

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+#if !os(macOS)
 import UIKit
 
 extension UIApplication {
@@ -20,3 +21,4 @@ extension UIApplication {
         }
     }
 }
+#endif

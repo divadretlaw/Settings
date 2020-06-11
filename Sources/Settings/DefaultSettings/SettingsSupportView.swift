@@ -7,7 +7,9 @@
 //
 
 import SwiftUI
+#if !os(macOS)
 import MessageUI
+#endif
 
 extension Settings {
     public struct SupportView: View {
@@ -18,15 +20,21 @@ extension Settings {
         @State private var showMFMailView = false
         
         public var body: some View {
-            Section(header: self.headerView) {
-                Button(action: {
-                    self.showMFMailView = true
-                }, label: {
-                    Text(self.buttonTitle)
-                }).disabled(!MFMailComposeViewController.canSendMail())
-                    .mailSheet(Settings.Configuration.shared.mailOptions,
-                               result: self.$result,
-                               isPresented: self.$showMFMailView)
+            Group {
+                #if !os(macOS)
+                Section(header: self.headerView) {
+                    Button(action: {
+                        self.showMFMailView = true
+                    }, label: {
+                        Text(self.buttonTitle)
+                    }).disabled(!MFMailComposeViewController.canSendMail())
+                        .mailSheet(Settings.Configuration.shared.mailOptions,
+                                   result: self.$result,
+                                   isPresented: self.$showMFMailView)
+                }
+                #else
+                EmptyView()
+                #endif
             }
         }
         

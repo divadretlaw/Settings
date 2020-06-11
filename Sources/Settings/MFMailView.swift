@@ -6,6 +6,7 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
+#if !os(macOS)
 import SwiftUI
 import MessageUI
 
@@ -91,4 +92,6 @@ struct MFMailView_Previews: PreviewProvider {
         MFMailView(options: nil, isShowing: .constant(true), result: .constant(nil))
     }
 }
+#endif
+
 #endif

@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import MessageUI
 
 public struct SettingsView<Content>: View where Content: View {
     var title: String = "Settings"
