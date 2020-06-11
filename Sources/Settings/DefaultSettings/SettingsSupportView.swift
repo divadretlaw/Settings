@@ -23,7 +23,7 @@ public struct SettingsSupportView: View {
             }, label: {
                 Text(self.buttonTitle)
             }).disabled(!MFMailComposeViewController.canSendMail())
-                .mailSheet(Configuration.shared.mailOptions,
+                .mailSheet(Settings.Configuration.shared.mailOptions,
                            result: self.$result,
                            isPresented: self.$showMFMailView)
         }
