@@ -49,11 +49,7 @@ extension SettingsView where T == Bool {
     public init(showSettings: Binding<Bool>,
                 @ViewBuilder content: @escaping () -> Content) {
         self._showSettingsBool = showSettings
-        self._showSettingsIdentifable = Binding(get: { () -> T? in
-            return nil
-        }, set: { newValue in
-            
-        })
+        self._showSettingsIdentifable = .constant(nil)
         self.content = content
     }
 }
