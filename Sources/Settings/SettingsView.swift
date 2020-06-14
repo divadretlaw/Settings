@@ -8,10 +8,12 @@
 
 import SwiftUI
 
-public struct SettingsView<Content>: View where Content: View {
+public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
     var title: String = "Settings"
     var content: () -> Content
-    @Binding var showSettings: Bool
+    
+    @Binding private var showSettingsBool: Bool
+    @Binding private var showSettingsIdentifable: T?
     
     public var body: some View {
         NavigationView {
@@ -22,7 +24,8 @@ public struct SettingsView<Content>: View where Content: View {
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle(self.title)
             .navigationBarItems(trailing: NavBarButton(action: {
-                self.showSettings = false
+                self.showSettingsBool = false
+                self.showSettingsIdentifable = nil
             }, text: Text(String.done)))
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -30,8 +33,26 @@ public struct SettingsView<Content>: View where Content: View {
     
     public init(showSettings: Binding<Bool>,
                 @ViewBuilder content: @escaping () -> Content) {
-        self._showSettings = showSettings
+        self._showSettingsBool = showSettings
+        self._showSettingsIdentifable = Binding(get: { () -> T? in
+            return nil
+        }, set: { newValue in
+            
+        })
         self.content = content
+    }
+    
+    public init(showSettings: Binding<T?>,
+                @ViewBuilder content: @escaping () -> Content) {
+        self._showSettingsBool = .constant(false)
+        self._showSettingsIdentifable = showSettings
+        self.content = content
+    }
+}
+
+extension Bool: Identifiable {
+    public var id: String {
+        return self ? "true" : "false"
     }
 }
 
