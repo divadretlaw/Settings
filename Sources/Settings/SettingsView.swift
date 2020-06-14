@@ -31,17 +31,6 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         .navigationViewStyle(StackNavigationViewStyle())
     }
     
-    public init(showSettings: Binding<Bool>,
-                @ViewBuilder content: @escaping () -> Content) {
-        self._showSettingsBool = showSettings
-        self._showSettingsIdentifable = Binding(get: { () -> T? in
-            return nil
-        }, set: { newValue in
-            
-        })
-        self.content = content
-    }
-    
     public init(showSettings: Binding<T?>,
                 @ViewBuilder content: @escaping () -> Content) {
         self._showSettingsBool = .constant(false)
@@ -53,6 +42,19 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
 extension Bool: Identifiable {
     public var id: String {
         return self ? "true" : "false"
+    }
+}
+
+extension SettingsView where T == Bool {
+    public init(showSettings: Binding<Bool>,
+                @ViewBuilder content: @escaping () -> Content) {
+        self._showSettingsBool = showSettings
+        self._showSettingsIdentifable = Binding(get: { () -> T? in
+            return nil
+        }, set: { newValue in
+            
+        })
+        self.content = content
     }
 }
 
