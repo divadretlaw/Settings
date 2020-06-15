@@ -13,8 +13,7 @@ import MessageUI
 
 extension Settings {
     public struct SupportView: View {
-        private var header: String?
-        private var buttonTitle: String
+        private var showHeader: Bool
         
         @State private var result: Result<MFMailComposeResult, Error>? = nil
         @State private var showMFMailView = false
@@ -26,7 +25,7 @@ extension Settings {
                     Button(action: {
                         self.showMFMailView = true
                     }, label: {
-                        Text(self.buttonTitle)
+                        Text("Email Developer".localized())
                     }).disabled(!MFMailComposeViewController.canSendMail())
                         .mailSheet(Settings.Configuration.shared.mailOptions,
                                    result: self.$result,
@@ -40,18 +39,16 @@ extension Settings {
         
         var headerView: some View {
             Group {
-                if header == nil {
-                    EmptyView()
+                if showHeader {
+                    Text("Support".localized())
                 } else {
-                    Text(header ?? "")
+                    EmptyView()
                 }
             }
         }
         
-        public init(header: String? = "Support",
-                    buttonTitle: String = "Email developer") {
-            self.header = header
-            self.buttonTitle = buttonTitle
+        public init(showHeader: Bool = true) {
+            self.showHeader = showHeader
         }
     }
 }

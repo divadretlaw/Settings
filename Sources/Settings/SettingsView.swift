@@ -9,7 +9,7 @@
 import SwiftUI
 
 public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
-    var title: String = "Settings"
+    var title: String = "Settings".localized()
     var content: () -> Content
     
     @Binding private var showSettingsBool: Bool
@@ -26,7 +26,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
             .navigationBarItems(trailing: NavBarButton(action: {
                 self.showSettingsBool = false
                 self.showSettingsIdentifable = nil
-            }, text: Text(String.done)))
+            }, text: Text("Done".localized())))
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

@@ -11,12 +11,15 @@ import Foundation
 import UIKit
 #endif
 
+fileprivate class Localizable {
+    
+}
+
 extension String {
-    static var done: String {
-        #if !os(macOS)
-        return UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: nil).title ?? "Done"
-        #else
-        return "Done"
-        #endif
+    func localized(comment: String = "") -> String {
+        let bundle = Bundle.main.path(forResource: "Settings", ofType: "strings") != nil
+            ? Bundle.main : Bundle(for: Localizable.self)
+        
+        return NSLocalizedString(self, tableName: "Settings", bundle: bundle, comment: comment)
     }
 }

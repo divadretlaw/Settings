@@ -10,11 +10,7 @@ import SwiftUI
 
 extension Settings {
     public struct ResetView: View {
-        var header: String?
-        var buttonTitle: String
-        var alertHeader: String
-        var alertMessage: String
-        var alertAction: String
+        var showHeader: Bool
         
         @ObservedObject var viewModel: ViewModel
         @State private var showResetAlert = false
@@ -24,11 +20,11 @@ extension Settings {
                 Button(action: {
                     self.showResetAlert = true
                 }, label: {
-                    Text(self.buttonTitle).foregroundColor(.red)
+                    Text("Reset all data".localized()).foregroundColor(.red)
                 }).alert(isPresented: $showResetAlert) {
-                    Alert(title: Text(self.alertHeader),
-                          message: Text(self.alertMessage),
-                          primaryButton: .destructive(Text(self.alertAction)) {
+                    Alert(title: Text("Reset all data?".localized()),
+                          message: Text("All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action".localized()),
+                          primaryButton: .destructive(Text("Reset all data".localized())) {
                             self.viewModel.resetAll()
                         },
                           secondaryButton: .cancel())
@@ -38,24 +34,16 @@ extension Settings {
         
         var headerView: some View {
             Group {
-                if header == nil {
-                    EmptyView()
+                if showHeader {
+                    Text("Reset".localized())
                 } else {
-                    Text(header ?? "")
+                    EmptyView()
                 }
             }
         }
         
-        public init(header: String? = "Reset",
-                    buttonTitle: String = "Reset all data",
-                    alertHeader: String = "Reset all data?",
-                    alertMessage: String = "All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action",
-                    alertAction: String = "Reset all data") {
-            self.header = header
-            self.buttonTitle = buttonTitle
-            self.alertHeader = alertHeader
-            self.alertMessage = alertMessage
-            self.alertAction = alertAction
+        public init(showHeader: Bool = true) {
+            self.showHeader = showHeader
             self.viewModel = ViewModel()
         }
     }
