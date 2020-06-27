@@ -27,7 +27,11 @@ public struct Settings {
                                                                                  subject: nil,
                                                                                  messageBody: nil))
         
-        var mailOptions: MFMailView.Options
+        public var mailOptions: MFMailView.Options
+        
+        public init(mailOptions: MFMailView.Options) {
+            self.mailOptions = mailOptions
+        }
     }
 }
 
