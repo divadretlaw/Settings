@@ -13,6 +13,14 @@ import MessageUI
 public struct MFMailView: UIViewControllerRepresentable {
     
     public struct Options {
+        public init(toRecipients: [String]?, ccRecipients: [String]?, bccRecipients: [String]?, subject: String?, messageBody: String?) {
+            self.toRecipients = toRecipients
+            self.ccRecipients = ccRecipients
+            self.bccRecipients = bccRecipients
+            self.subject = subject
+            self.messageBody = messageBody
+        }
+        
         let toRecipients: [String]?
         let ccRecipients: [String]?
         let bccRecipients: [String]?
