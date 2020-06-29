@@ -56,7 +56,6 @@ extension Settings {
         private var showHeader: Bool
         
         var body: some View {
-            NavigationView {
                 Form {
                         Toggle(isOn: $viewModel.isOn) {
                             Text("Passcode".localized())
@@ -78,7 +77,7 @@ extension Settings {
                 }
                 .environment(\.horizontalSizeClass, .regular)
                 .animation(.default)
-            }
+                .navigationBarTitle("Passcode".localized())
         }
         
         var headerView: some View {
