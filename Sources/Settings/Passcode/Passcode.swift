@@ -34,6 +34,7 @@ public class Passcode {
             self.biometrics = .none
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didFinishLaunching), name: UIApplication.didFinishLaunchingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
@@ -104,9 +105,13 @@ public class Passcode {
     
     // MARK: - NofificationCenter
     
+    @objc func didFinishLaunching() {
+        authenticate()
+    }
+    
     @objc func willEnterForeground() {
         self.foreground = true
-        if config.autoBiometrics {
+        if config.autoBiometrics, getBiometrics() {
             self.current?.biometrics()
         }
     }
