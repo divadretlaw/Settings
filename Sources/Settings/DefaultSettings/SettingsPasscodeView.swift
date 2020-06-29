@@ -56,21 +56,25 @@ extension Settings {
         private var showHeader: Bool
         
         var body: some View {
-            Section(header: self.headerView) {
-                Toggle(isOn: $viewModel.isOn) {
-                    Text("Passcode".localized())
-                }
-                if viewModel.isOn {
-                    Group {
-                        Button(action: {
-                            self.viewModel.setCode()
-                        }, label: {
-                            Text("Change Passcode")
-                        })
-                        Toggle(isOn: $viewModel.isOn) {
-                            Text("Passcode".localized())
-                        }
-                    }.transition(.slide)
+            Form {
+                Section(header: self.headerView) {
+                    Toggle(isOn: $viewModel.isOn) {
+                        Text("Passcode".localized())
+                    }
+                    if viewModel.isOn {
+                        Group {
+                            Button(action: {
+                                self.viewModel.setCode()
+                            }, label: {
+                                Text("Change Passcode")
+                            })
+                            if Passcode.shared.biometrics != .none {
+                                Toggle(isOn: $viewModel.isOn) {
+                                    Text(Passcode.shared.biometrics.description)
+                                }
+                            }
+                        }.transition(.slide)
+                    }
                 }
             }.animation(.default)
         }
