@@ -56,28 +56,28 @@ extension Settings {
         private var showHeader: Bool
         
         var body: some View {
-                Form {
-                        Toggle(isOn: $viewModel.isOn) {
-                            Text("Passcode".localized())
-                        }
-                        if viewModel.isOn {
-                            Group {
-                                Button(action: {
-                                    self.viewModel.changeCode()
-                                }, label: {
-                                    Text("Change Passcode")
-                                })
-                                if Passcode.shared.biometrics != .none {
-                                    Toggle(isOn: $viewModel.isBiometricsOn) {
-                                        Text(Passcode.shared.biometrics.description)
-                                    }
-                                }
-                            }.transition(.slide)
-                        }
+            Form {
+                Toggle(isOn: $viewModel.isOn) {
+                    Text("Passcode".localized())
                 }
-                .environment(\.horizontalSizeClass, .regular)
-                .animation(.default)
-                .navigationBarTitle("Passcode".localized())
+                if viewModel.isOn {
+                    Group {
+                        Button(action: {
+                            self.viewModel.changeCode()
+                        }, label: {
+                            Text("Change Passcode")
+                        })
+                        if Passcode.shared.biometrics != .none {
+                            Toggle(isOn: $viewModel.isBiometricsOn) {
+                                Text(Passcode.shared.biometrics.description)
+                            }
+                        }
+                    }.transition(.slide)
+                }
+            }
+            .environment(\.horizontalSizeClass, .regular)
+            .animation(.default)
+            .navigationBarTitle("Passcode".localized())
         }
         
         var headerView: some View {
@@ -109,7 +109,7 @@ extension Settings.PasscodeEditView {
         @Published var isBiometricsOn: Bool {
             didSet {
                 if !Passcode.shared.set(biometrics: isBiometricsOn) {
-                    isBiometricsOn = false
+                    isBiometricsOn = oldValue
                 }
             }
         }
