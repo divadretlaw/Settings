@@ -69,7 +69,6 @@ extension Passcode {
                         Text(Passcode.shared.biometrics.description)
                             .padding()
                     }).foregroundColor(Color(Passcode.shared.config.color))
-                    
                 } else {
                     self.cancelButton.hidden()
                 }

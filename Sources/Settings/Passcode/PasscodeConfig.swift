@@ -18,7 +18,6 @@ extension Passcode {
     }
     
     struct Key {
-        static let active = "Active"
         static let useBiometrics = "Biometrics"
         static let code = "Code"
         private init() {}

@@ -31,7 +31,7 @@ extension Settings {
                     }
                 }
             }.onAppear {
-                self.isOn = Passcode.shared.getBiometrics()
+                self.isOn = Passcode.shared.getCode() != nil
             }
         }
         
@@ -56,27 +56,29 @@ extension Settings {
         private var showHeader: Bool
         
         var body: some View {
-            Form {
-                Section(header: self.headerView) {
-                    Toggle(isOn: $viewModel.isOn) {
-                        Text("Passcode".localized())
-                    }
-                    if viewModel.isOn {
-                        Group {
-                            Button(action: {
-                                self.viewModel.setCode()
-                            }, label: {
-                                Text("Change Passcode")
-                            })
-                            if Passcode.shared.biometrics != .none {
-                                Toggle(isOn: $viewModel.isOn) {
-                                    Text(Passcode.shared.biometrics.description)
+            NavigationView {
+                Form {
+                        Toggle(isOn: $viewModel.isOn) {
+                            Text("Passcode".localized())
+                        }
+                        if viewModel.isOn {
+                            Group {
+                                Button(action: {
+                                    self.viewModel.changeCode()
+                                }, label: {
+                                    Text("Change Passcode")
+                                })
+                                if Passcode.shared.biometrics != .none {
+                                    Toggle(isOn: $viewModel.isBiometricsOn) {
+                                        Text(Passcode.shared.biometrics.description)
+                                    }
                                 }
-                            }
-                        }.transition(.slide)
-                    }
+                            }.transition(.slide)
+                        }
                 }
-            }.animation(.default)
+                .environment(\.horizontalSizeClass, .regular)
+                .animation(.default)
+            }
         }
         
         var headerView: some View {
@@ -122,7 +124,15 @@ extension Settings.PasscodeEditView {
             Passcode.shared.changeCode { success in
                 if success {
                     self.isOn = true
+                } else {
+                    self.isOn = false
                 }
+            }
+        }
+        
+        func changeCode() {
+            Passcode.shared.changeCode { _ in
+                
             }
         }
     }
