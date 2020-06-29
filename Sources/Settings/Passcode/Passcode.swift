@@ -12,7 +12,7 @@ import LocalAuthentication
 import KeychainSwift
 
 public class Passcode {
-    static var shared = Passcode()
+    public static var shared = Passcode()
     
     public var window: UIWindow?
     public var config = Config()
