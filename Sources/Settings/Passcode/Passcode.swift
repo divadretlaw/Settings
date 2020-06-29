@@ -14,7 +14,6 @@ import KeychainSwift
 public class Passcode {
     public static var shared = Passcode()
     
-    public var window: UIWindow?
     public var config = Config()
     
     var biometrics: LABiometryType
@@ -23,8 +22,7 @@ public class Passcode {
     
     weak var current: ViewModel?
    
-    init(window: UIWindow? = nil) {
-        self.window = window
+    init() {
         self.foreground = true
         
         let context = LAContext()
@@ -71,7 +69,7 @@ public class Passcode {
         self.current = viewModel
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        self.window?.rootViewController?.present(host,
+        UIApplication.shared.windows.last?.rootViewController?.present(host,
                                                  animated: true,
                                                  completion: nil)
     }
@@ -86,9 +84,9 @@ public class Passcode {
                                   completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        self.window?.rootViewController?.present(host,
-                                                 animated: true,
-                                                 completion: nil)
+        UIApplication.shared.windows.last?.rootViewController?.present(host,
+                                                                       animated: true,
+                                                                       completion: nil)
     }
     
     public func changeCode(completion: @escaping (Bool) -> Void) {
@@ -99,9 +97,9 @@ public class Passcode {
                                   completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        self.window?.rootViewController?.present(host,
-                                                 animated: true,
-                                                 completion: nil)
+        UIApplication.shared.windows.last?.rootViewController?.present(host,
+                                                                       animated: true,
+                                                                       completion: nil)
     }
     
     // MARK: - NofificationCenter
