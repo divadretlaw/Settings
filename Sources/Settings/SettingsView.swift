@@ -20,7 +20,6 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         NavigationView {
             Form {
                 content()
-                    .environmentObject(viewModel)
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
@@ -60,17 +59,23 @@ extension SettingsView where T == Bool {
 }
 
 class SettingsViewModel: ObservableObject {
+    static var shared: SettingsViewModel?
+    
     @Binding private var showSettingsBool: Bool
     @Binding private var showSettingsIdentifable: AnyObject?
     
     init(bool: Binding<Bool>, identifiable: Binding<AnyObject?>?) {
         self._showSettingsBool = bool
         self._showSettingsIdentifable = identifiable ?? .constant(nil)
+        
+        SettingsViewModel.shared = self
     }
     
     func dismiss() {
         self.showSettingsBool = false
         self.showSettingsIdentifable = nil
+        
+        SettingsViewModel.shared = nil
     }
 }
 

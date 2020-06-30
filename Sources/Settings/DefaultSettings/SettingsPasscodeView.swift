@@ -52,7 +52,6 @@ extension Settings {
     }
     
     struct PasscodeEditView: View {
-        @EnvironmentObject private var settingsViewModel: SettingsViewModel
         @ObservedObject var viewModel: ViewModel
         private var showHeader: Bool
         
@@ -80,7 +79,7 @@ extension Settings {
             .animation(.default)
             .navigationBarTitle("Passcode".localized())
             .navigationBarItems(trailing: NavBarButton(action: {
-                self.settingsViewModel.dismiss()
+                SettingsViewModel.shared?.dismiss()
             }, text: Text("Done".localized())))
         }
         
