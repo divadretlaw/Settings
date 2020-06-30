@@ -24,7 +24,7 @@ extension Settings {
                     }
                 }, label: {
                     ZStack {
-                        NavigationLink(destination: PasscodeEditView(), isActive: $showEdit, label: { EmptyView() })
+                        NavigationLink(destination: PasscodeEditView { self.isOn = $0 }, isActive: $showEdit, label: { EmptyView() })
                         HStack {
                             Text("Passcode".localized())
                             Spacer()
@@ -62,7 +62,6 @@ extension Settings {
     
     struct PasscodeEditView: View {
         @ObservedObject var viewModel: ViewModel
-        private var showHeader: Bool
         
         var body: some View {
             Form {
@@ -92,19 +91,8 @@ extension Settings {
             }, text: Text("Done".localized())))
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Passcode".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true) {
-            self.showHeader = showHeader
-            self.viewModel = ViewModel()
+        init(onChange: @escaping (Bool) -> Void) {
+            viewModel = ViewModel(onChange: onChange)
         }
     }
 }
@@ -121,6 +109,7 @@ extension Settings.PasscodeEditView {
                 default:
                     return
                 }
+                self.onChange(isOn)
             }
         }
         @Published var isBiometricsOn: Bool {
@@ -131,18 +120,19 @@ extension Settings.PasscodeEditView {
             }
         }
         
-        init() {
+        var onChange: (Bool) -> Void
+        
+        init(onChange: @escaping (Bool) -> Void) {
+            self.onChange = onChange
             self.isOn = Passcode.shared.getCode() != nil
             self.isBiometricsOn = Passcode.shared.getBiometrics()
         }
         
         func setCode() {
-            Passcode.shared.changeCode { success in
-                if success {
-                    self.isOn = true
-                } else {
-                    self.isOn = false
-                }
+            print("[Settings.Passcode] setting code...")
+            Passcode.shared.changeCode {
+                self.isOn = $0
+                print("[Settings.Passcode] didSet code? \($0)")
             }
         }
         
