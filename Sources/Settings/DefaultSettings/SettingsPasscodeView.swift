@@ -58,7 +58,7 @@ extension Settings {
         
         public init(showHeader: Bool = true) {
             self.showHeader = showHeader
-            self._isOn = State(initialValue: Passcode.shared.getCode() != nil)
+            self._isOn = State(initialValue: Passcode.shared.hasCode())
         }
         
     }

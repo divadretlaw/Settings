@@ -50,6 +50,10 @@ public class Passcode {
         return keychain.get(Key.code)
     }
     
+    func hasCode() -> Bool {
+        return getCode() != nil
+    }
+    
     func deleteCode() -> Bool {
         return keychain.delete(Key.code)
     }
@@ -65,7 +69,7 @@ public class Passcode {
     // MARK: -
     
     public func authenticate(animated: Bool = true) {
-        guard inProgress == false, getCode() != nil else { return }
+        guard inProgress == false, hasCode() else { return }
         self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
@@ -86,7 +90,7 @@ public class Passcode {
     }
     
     public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
-        guard inProgress == false, getCode() != nil else { return }
+        guard inProgress == false, hasCode() else { return }
         self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
@@ -128,6 +132,7 @@ public class Passcode {
     
     @objc func willEnterForeground() {
         self.foreground = true
+        guard hasCode() else { return }
         if config.autoBiometrics, getBiometrics() {
             self.current?.biometrics()
         }
@@ -135,7 +140,7 @@ public class Passcode {
     
     @objc func didEnterBackground() {
         self.foreground = false
-        guard getCode() != nil else { return }
+        guard hasCode() else { return }
         self.authenticate(animated: false)
     }
 }
