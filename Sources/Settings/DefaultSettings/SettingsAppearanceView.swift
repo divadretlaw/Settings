@@ -60,8 +60,8 @@ extension Settings.AppearanceView {
         init() {
             self.matchSystemTheme = Settings.Appearance.matchSystemTheme
             self.useDarkMode = Settings.Appearance.useDarkMode
-            NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: self, queue: nil) { notification in
-                print("notification")
+            NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: self, queue: nil) { _ in
+                
             }
         }
         

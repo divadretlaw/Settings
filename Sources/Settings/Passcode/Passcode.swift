@@ -21,7 +21,7 @@ public class Passcode {
     var foreground: Bool
     
     weak var current: ViewModel?
-   
+    
     init() {
         self.foreground = true
         
@@ -34,7 +34,6 @@ public class Passcode {
             self.biometrics = .none
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didFinishLaunching), name: UIApplication.didFinishLaunchingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
@@ -70,9 +69,13 @@ public class Passcode {
         self.current = viewModel
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        UIApplication.shared.windows.last?.rootViewController?.present(host,
-                                                 animated: true,
-                                                 completion: nil)
+        
+        let window =  UIApplication.shared.windows.last
+        Settings.Appearance.apply(on: window)
+        Settings.Appearance.apply(on: host)
+        window?.rootViewController?.present(host,
+                                            animated: true,
+                                            completion: nil)
     }
     
     public func askCode(completion: @escaping (Bool) -> Void) {
@@ -85,9 +88,12 @@ public class Passcode {
                                   completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        UIApplication.shared.windows.last?.rootViewController?.present(host,
-                                                                       animated: true,
-                                                                       completion: nil)
+        let window =  UIApplication.shared.windows.last
+        Settings.Appearance.apply(on: window)
+        Settings.Appearance.apply(on: host)
+        window?.rootViewController?.present(host,
+                                            animated: true,
+                                            completion: nil)
     }
     
     public func changeCode(completion: @escaping (Bool) -> Void) {
@@ -98,16 +104,15 @@ public class Passcode {
                                   completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        UIApplication.shared.windows.last?.rootViewController?.present(host,
-                                                                       animated: true,
-                                                                       completion: nil)
+        let window =  UIApplication.shared.windows.last
+        Settings.Appearance.apply(on: window)
+        Settings.Appearance.apply(on: host)
+        window?.rootViewController?.present(host,
+                                            animated: true,
+                                            completion: nil)
     }
     
     // MARK: - NofificationCenter
-    
-    @objc func didFinishLaunching() {
-        authenticate()
-    }
     
     @objc func willEnterForeground() {
         self.foreground = true

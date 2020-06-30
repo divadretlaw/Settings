@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 public struct Settings {
    @propertyWrapper public struct Entry<Value> {
@@ -33,6 +34,15 @@ public struct Settings {
             self.mailOptions = mailOptions
         }
     }
+    
+    public static func apply(on window: UIWindow?) {
+        Settings.Appearance.apply(on: window)
+    }
+    
+    public static func apply() {
+        UIApplication.shared.windows.forEach { apply(on: $0) }
+        Passcode.shared.authenticate()
+    }
 }
 
 public extension Settings {
@@ -42,5 +52,21 @@ public extension Settings {
         
         @Entry("Settings:Appearance-useDarkMode", default: false)
         public static var useDarkMode: Bool
+        
+        public static func apply(on viewController: UIViewController?) {
+            if !Settings.Appearance.matchSystemTheme {
+                viewController?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
+            }
+        }
+        
+        public static func apply(on window: UIWindow?) {
+            if !Settings.Appearance.matchSystemTheme {
+                window?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
+            }
+        }
+        
+        public static func apply() {
+            UIApplication.shared.windows.forEach { apply(on: $0) }
+        }
     }
 }
