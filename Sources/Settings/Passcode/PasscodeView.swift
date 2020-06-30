@@ -15,7 +15,7 @@ extension Passcode {
         
         var body: some View {
             ZStack {
-                BlurView(style: .systemMaterial)
+                BlurView(style: .systemUltraThinMaterial)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
                     Text(viewModel.mode == .changeCode ? "Enter New Passcode" : "Enter Passcode")

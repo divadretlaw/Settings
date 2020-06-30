@@ -115,7 +115,7 @@ extension Passcode {
         
         private func dismiss(success: Bool) {
             Passcode.shared.inProgress = false
-            DispatchQueue.main.async { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.completion(success)
                 self?.host.dismiss(animated: true, completion: nil)
             }
