@@ -47,7 +47,7 @@ extension Passcode {
                 self.viewModel.add(self.value)
             }, label: {
                 ZStack {
-                    BlurView(style: .systemThinMaterial)
+                    BlurView(style: Passcode.shared.config.buttonBlur)
                     value.display
                         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                 }.clipShape(Circle())

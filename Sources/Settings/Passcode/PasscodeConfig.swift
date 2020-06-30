@@ -41,5 +41,7 @@ extension Passcode {
         
         public var autoBiometrics = true
         public var color: UIColor = .systemBlue
+        public var backgroundBlur: UIBlurEffect.Style = .systemUltraThinMaterial
+        public var buttonBlur: UIBlurEffect.Style = .systemThinMaterial
     }
 }
