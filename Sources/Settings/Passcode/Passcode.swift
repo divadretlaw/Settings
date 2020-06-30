@@ -132,6 +132,6 @@ public class Passcode {
     @objc func didEnterBackground() {
         self.foreground = false
         guard getCode() != nil else { return }
-        self.authenticate()
+        self.authenticate(animated: false)
     }
 }

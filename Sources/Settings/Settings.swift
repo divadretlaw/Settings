@@ -37,12 +37,12 @@ public struct Settings {
     
     public static func apply(on window: UIWindow?) {
         Settings.Appearance.apply(on: window)
-        Passcode.shared.authenticate()
+        Passcode.shared.authenticate(animated: false)
     }
     
     public static func apply() {
         UIApplication.shared.windows.forEach { apply(on: $0) }
-        Passcode.shared.authenticate()
+        Passcode.shared.authenticate(animated: false)
     }
 }
 
