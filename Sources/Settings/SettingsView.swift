@@ -12,20 +12,23 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
     var title: String = "Settings".localized()
     var content: () -> Content
     
-    @Binding private var showSettingsBool: Bool
-    @Binding private var showSettingsIdentifable: T?
+//    @Binding private var showSettingsBool: Bool
+//    @Binding private var showSettingsIdentifable: T?
+    @ObservedObject private var viewModel: SettingsViewModel
     
     public var body: some View {
         NavigationView {
             Form {
                 content()
+                    .environmentObject(viewModel)
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle(self.title)
             .navigationBarItems(trailing: NavBarButton(action: {
-                self.showSettingsBool = false
-                self.showSettingsIdentifable = nil
+                self.viewModel.dismiss()
+//                self.showSettingsBool = false
+//                self.showSettingsIdentifable = nil
             }, text: Text("Done".localized())))
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -33,9 +36,10 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
     
     public init(showSettings: Binding<T?>,
                 @ViewBuilder content: @escaping () -> Content) {
-        self._showSettingsBool = .constant(false)
-        self._showSettingsIdentifable = showSettings
+//        self._showSettingsBool = .constant(false)
+//        self._showSettingsIdentifable = showSettings
         self.content = content
+        self.viewModel = SettingsViewModel(bool: .constant(false), identifiable: showSettings as? Binding<AnyObject?>)
     }
 }
 
@@ -48,9 +52,25 @@ extension Bool: Identifiable {
 extension SettingsView where T == Bool {
     public init(showSettings: Binding<Bool>,
                 @ViewBuilder content: @escaping () -> Content) {
-        self._showSettingsBool = showSettings
-        self._showSettingsIdentifable = .constant(nil)
+//        self._showSettingsBool = showSettings
+//        self._showSettingsIdentifable = .constant(nil)
         self.content = content
+        self.viewModel = SettingsViewModel(bool: showSettings, identifiable: .constant(nil))
+    }
+}
+
+class SettingsViewModel: ObservableObject {
+    @Binding private var showSettingsBool: Bool
+    @Binding private var showSettingsIdentifable: AnyObject?
+    
+    init(bool: Binding<Bool>, identifiable: Binding<AnyObject?>?) {
+        self._showSettingsBool = bool
+        self._showSettingsIdentifable = identifiable ?? .constant(nil)
+    }
+    
+    func dismiss() {
+        self.showSettingsBool = false
+        self.showSettingsIdentifable = nil
     }
 }
 

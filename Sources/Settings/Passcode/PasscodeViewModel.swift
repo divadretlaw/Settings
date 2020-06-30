@@ -96,8 +96,10 @@ extension Passcode {
             
             guard let newCode = newCode else {
                 self.newCode = text
-                self.text = ""
-                self.hasNewCode = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.text = ""
+                    self.hasNewCode = true
+                }
                 return
             }
             
@@ -112,6 +114,7 @@ extension Passcode {
         }
         
         private func dismiss(success: Bool) {
+            Passcode.shared.inProgress = false
             DispatchQueue.main.async { [weak self] in
                 self?.completion(success)
                 self?.host.dismiss(animated: true, completion: nil)

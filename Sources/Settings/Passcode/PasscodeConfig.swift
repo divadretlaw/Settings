@@ -21,6 +21,8 @@ extension Passcode {
         static let useBiometrics = "Biometrics"
         static let code = "Code"
         private init() {}
+        
+        static let all = [Key.useBiometrics, Key.code]
     }
     
     enum Value {

@@ -37,6 +37,7 @@ public struct Settings {
     
     public static func apply(on window: UIWindow?) {
         Settings.Appearance.apply(on: window)
+        Passcode.shared.authenticate()
     }
     
     public static func apply() {

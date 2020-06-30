@@ -19,11 +19,13 @@ public class Passcode {
     var biometrics: LABiometryType
     let keychain = KeychainSwift(keyPrefix: "[Passcode] ")
     var foreground: Bool
+    var inProgress: Bool
     
     weak var current: ViewModel?
     
     init() {
         self.foreground = true
+        self.inProgress = false
         
         let context = LAContext()
         var error: NSError?
@@ -58,8 +60,9 @@ public class Passcode {
     
     // MARK: -
     
-    public func authenticate() {
-        guard getCode() != nil else { return }
+    public func authenticate(animated: Bool = true) {
+        guard inProgress == false, getCode() != nil else { return }
+        self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
         host.view.backgroundColor = .clear
@@ -74,12 +77,13 @@ public class Passcode {
         Settings.Appearance.apply(on: window)
         Settings.Appearance.apply(on: host)
         window?.rootViewController?.present(host,
-                                            animated: true,
+                                            animated: animated,
                                             completion: nil)
     }
     
-    public func askCode(completion: @escaping (Bool) -> Void) {
-        guard getCode() != nil else { return }
+    public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
+        guard inProgress == false, getCode() != nil else { return }
+        self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
         host.view.backgroundColor = .clear
@@ -91,12 +95,16 @@ public class Passcode {
         let window =  UIApplication.shared.windows.last
         Settings.Appearance.apply(on: window)
         Settings.Appearance.apply(on: host)
+        
         window?.rootViewController?.present(host,
-                                            animated: true,
+                                            animated: animated,
                                             completion: nil)
     }
     
-    public func changeCode(completion: @escaping (Bool) -> Void) {
+    public func changeCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
+        guard inProgress == false else { return }
+        self.inProgress = true
+        
         let host = UIHostingController(rootView: AnyView(EmptyView()))
         host.view.backgroundColor = .clear
         let viewModel = ViewModel(host: host,
@@ -108,7 +116,7 @@ public class Passcode {
         Settings.Appearance.apply(on: window)
         Settings.Appearance.apply(on: host)
         window?.rootViewController?.present(host,
-                                            animated: true,
+                                            animated: animated,
                                             completion: nil)
     }
     
