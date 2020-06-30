@@ -20,7 +20,10 @@ extension Settings {
                     if self.isOn {
                         Passcode.shared.askCode { self.showEdit = $0 }
                     } else {
-                        self.showEdit = true
+                        Passcode.shared.changeCode {
+                            self.isOn = $0
+                            self.showEdit = $0
+                        }
                     }
                 }, label: {
                     ZStack {
@@ -61,26 +64,34 @@ extension Settings {
     }
     
     struct PasscodeEditView: View {
+        @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
         @ObservedObject var viewModel: ViewModel
+        var onChange: (Bool) -> Void
         
         var body: some View {
             Form {
-                Toggle(isOn: $viewModel.isOn) {
-                    Text("Passcode".localized())
-                }
-                if viewModel.isOn {
-                    Group {
-                        Button(action: {
-                            self.viewModel.changeCode()
-                        }, label: {
-                            Text("Change Passcode")
-                        })
-                        if Passcode.shared.biometrics != .none {
-                            Toggle(isOn: $viewModel.isBiometricsOn) {
-                                Text(Passcode.shared.biometrics.description)
-                            }
+                Section {
+                    Button(action: {
+                        self.viewModel.changeCode()
+                    }, label: {
+                        Text("Change Passcode")
+                    })
+                    if Passcode.shared.biometrics != .none {
+                        Toggle(isOn: $viewModel.isBiometricsOn) {
+                            Text(Passcode.shared.biometrics.description)
                         }
-                    }.transition(.slide)
+                    }
+                }
+                Section {
+                    Button(action: {
+                        if self.viewModel.deleteCode() {
+                            self.onChange(false)
+                            self.presentationMode.wrappedValue.dismiss()
+                        }
+                    }, label: {
+                        Text("Remove Passcode".localized())
+                            .foregroundColor(.red)
+                    })
                 }
             }
             .environment(\.horizontalSizeClass, .regular)
@@ -92,26 +103,14 @@ extension Settings {
         }
         
         init(onChange: @escaping (Bool) -> Void) {
-            viewModel = ViewModel(onChange: onChange)
+            self.onChange = onChange
+            viewModel = ViewModel()
         }
     }
 }
 
 extension Settings.PasscodeEditView {
     class ViewModel: ObservableObject {
-        @Published var isOn: Bool {
-            didSet {
-                switch (oldValue, isOn) {
-                case (false, true):
-                    setCode()
-                case (true, false):
-                    deleteCode()
-                default:
-                    return
-                }
-                self.onChange(isOn)
-            }
-        }
         @Published var isBiometricsOn: Bool {
             didSet {
                 if !Passcode.shared.set(biometrics: isBiometricsOn) {
@@ -120,20 +119,8 @@ extension Settings.PasscodeEditView {
             }
         }
         
-        var onChange: (Bool) -> Void
-        
-        init(onChange: @escaping (Bool) -> Void) {
-            self.onChange = onChange
-            self.isOn = Passcode.shared.getCode() != nil
+        init() {
             self.isBiometricsOn = Passcode.shared.getBiometrics()
-        }
-        
-        func setCode() {
-            print("[Settings.Passcode] setting code...")
-            Passcode.shared.changeCode {
-                self.isOn = $0
-                print("[Settings.Passcode] didSet code? \($0)")
-            }
         }
         
         func changeCode() {
@@ -142,8 +129,8 @@ extension Settings.PasscodeEditView {
             }
         }
         
-        func deleteCode() {
-            self.isOn = !Passcode.shared.deleteCode()
+        func deleteCode() -> Bool{
+            return Passcode.shared.deleteCode()
         }
     }
 }
