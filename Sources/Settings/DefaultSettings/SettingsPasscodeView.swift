@@ -11,27 +11,35 @@ import SwiftUI
 extension Settings {
     public struct PasscodeView: View {
         private var showHeader: Bool
-        @State var isOn: Bool?
+        @State var isOn: Bool
+        @State var showEdit = false
         
         public var body: some View {
             Section(header: self.headerView) {
-                NavigationLink(destination: PasscodeEditView()) {
-                    HStack {
-                        Text("Passcode".localized())
-                        Spacer()
-                        if isOn == true {
-                            Text("On".localized())
-                                .foregroundColor(Color.secondary)
-                        } else if isOn == false {
-                            Text("Off".localized())
-                                .foregroundColor(Color.secondary)
-                        } else {
-                            EmptyView()
+                Button(action: {
+                    if self.isOn {
+                        Passcode.shared.askCode { self.showEdit = $0 }
+                    } else {
+                        self.showEdit = true
+                    }
+                }, label: {
+                    ZStack {
+                        NavigationLink(destination: PasscodeEditView(), isActive: $showEdit, label: { EmptyView() })
+                        HStack {
+                            Text("Passcode".localized())
+                            Spacer()
+                            if isOn == true {
+                                Text("On".localized())
+                                    .foregroundColor(Color.secondary)
+                            } else if isOn == false {
+                                Text("Off".localized())
+                                    .foregroundColor(Color.secondary)
+                            } else {
+                                EmptyView()
+                            }
                         }
                     }
-                }
-            }.onAppear {
-                self.isOn = Passcode.shared.getCode() != nil
+                })
             }
         }
         
@@ -47,6 +55,7 @@ extension Settings {
         
         public init(showHeader: Bool = true) {
             self.showHeader = showHeader
+            self._isOn = State(initialValue: Passcode.shared.getCode() != nil)
         }
         
     }
@@ -104,8 +113,13 @@ extension Settings.PasscodeEditView {
     class ViewModel: ObservableObject {
         @Published var isOn: Bool {
             didSet {
-                if oldValue == false {
+                switch (oldValue, isOn) {
+                case (false, true):
                     setCode()
+                case (true, false):
+                    deleteCode()
+                default:
+                    return
                 }
             }
         }
@@ -136,6 +150,10 @@ extension Settings.PasscodeEditView {
             Passcode.shared.changeCode { _ in
                 
             }
+        }
+        
+        func deleteCode() {
+            self.isOn = !Passcode.shared.deleteCode()
         }
     }
 }

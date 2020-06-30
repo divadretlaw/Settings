@@ -50,6 +50,10 @@ public class Passcode {
         return keychain.get(Key.code)
     }
     
+    func deleteCode() -> Bool {
+        return keychain.delete(Key.code)
+    }
+    
     func set(biometrics: Bool) -> Bool {
         return keychain.set(biometrics, forKey: Key.useBiometrics)
     }
