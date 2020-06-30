@@ -12,9 +12,9 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
     var title: String = "Settings".localized()
     var content: () -> Content
     
-//    @Binding private var showSettingsBool: Bool
-//    @Binding private var showSettingsIdentifable: T?
-    @ObservedObject private var viewModel: SettingsViewModel
+    @Binding private var showSettingsBool: Bool
+    @Binding private var showSettingsIdentifable: T?
+    @ObservedObject private var dismisser: Dismisser
     
     public var body: some View {
         NavigationView {
@@ -25,20 +25,25 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle(self.title)
             .navigationBarItems(trailing: NavBarButton(action: {
-                self.viewModel.dismiss()
-//                self.showSettingsBool = false
-//                self.showSettingsIdentifable = nil
+                self.showSettingsBool = false
+                self.showSettingsIdentifable = nil
             }, text: Text("Done".localized())))
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onReceive(dismisser.$shouldDismiss) { value in
+            if value {
+                self.showSettingsBool = false
+                self.showSettingsIdentifable = nil
+            }
+        }
     }
     
     public init(showSettings: Binding<T?>,
                 @ViewBuilder content: @escaping () -> Content) {
-//        self._showSettingsBool = .constant(false)
-//        self._showSettingsIdentifable = showSettings
+        self._showSettingsBool = .constant(false)
+        self._showSettingsIdentifable = showSettings
         self.content = content
-        self.viewModel = SettingsViewModel(bool: .constant(false), identifiable: showSettings as? Binding<AnyObject?>)
+        self.dismisser = Dismisser()
     }
 }
 
@@ -51,31 +56,25 @@ extension Bool: Identifiable {
 extension SettingsView where T == Bool {
     public init(showSettings: Binding<Bool>,
                 @ViewBuilder content: @escaping () -> Content) {
-//        self._showSettingsBool = showSettings
-//        self._showSettingsIdentifable = .constant(nil)
+        self._showSettingsBool = showSettings
+        self._showSettingsIdentifable = .constant(nil)
         self.content = content
-        self.viewModel = SettingsViewModel(bool: showSettings, identifiable: .constant(nil))
+        self.dismisser = Dismisser()
     }
 }
 
-class SettingsViewModel: ObservableObject {
-    static var shared: SettingsViewModel?
+class Dismisser: ObservableObject {
+    static var shared: Dismisser?
     
-    @Binding private var showSettingsBool: Bool
-    @Binding private var showSettingsIdentifable: AnyObject?
+    @Published var shouldDismiss: Bool = false
     
-    init(bool: Binding<Bool>, identifiable: Binding<AnyObject?>?) {
-        self._showSettingsBool = bool
-        self._showSettingsIdentifable = identifiable ?? .constant(nil)
-        
-        SettingsViewModel.shared = self
+    init() {
+        Dismisser.shared = self
     }
     
     func dismiss() {
-        self.showSettingsBool = false
-        self.showSettingsIdentifable = nil
-        
-        SettingsViewModel.shared = nil
+        shouldDismiss = true
+        Dismisser.shared = nil
     }
 }
 

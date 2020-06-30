@@ -98,7 +98,7 @@ extension Settings {
             .animation(.default)
             .navigationBarTitle("Passcode".localized())
             .navigationBarItems(trailing: NavBarButton(action: {
-                SettingsViewModel.shared?.dismiss()
+                Dismisser.shared?.dismiss()
             }, text: Text("Done".localized())))
         }
         
