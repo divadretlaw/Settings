@@ -14,6 +14,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
     
     @Binding private var showSettingsBool: Bool
     @Binding private var showSettingsIdentifable: T?
+    @ObservedObject private var dismisser: Dismisser
     
     public var body: some View {
         NavigationView {
@@ -29,6 +30,12 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
             }, text: Text("Done".localized())))
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .onReceive(dismisser.$shouldDismiss) { value in
+            if value {
+                self.showSettingsBool = false
+                self.showSettingsIdentifable = nil
+            }
+        }
     }
     
     public init(showSettings: Binding<T?>,
@@ -36,6 +43,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         self._showSettingsBool = .constant(false)
         self._showSettingsIdentifable = showSettings
         self.content = content
+        self.dismisser = Dismisser()
     }
 }
 
@@ -51,6 +59,22 @@ extension SettingsView where T == Bool {
         self._showSettingsBool = showSettings
         self._showSettingsIdentifable = .constant(nil)
         self.content = content
+        self.dismisser = Dismisser()
+    }
+}
+
+class Dismisser: ObservableObject {
+    static var shared: Dismisser?
+    
+    @Published var shouldDismiss: Bool = false
+    
+    init() {
+        Dismisser.shared = self
+    }
+    
+    func dismiss() {
+        shouldDismiss = true
+        Dismisser.shared = nil
     }
 }
 

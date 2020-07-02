@@ -11,6 +11,7 @@ import SwiftUI
 extension Settings {
     public struct ResetView: View {
         var showHeader: Bool
+        var reset: (() -> Void)?
         
         @ObservedObject var viewModel: ViewModel
         @State private var showResetAlert = false
@@ -26,6 +27,7 @@ extension Settings {
                           message: Text("All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action".localized()),
                           primaryButton: .destructive(Text("Reset all data".localized())) {
                             self.viewModel.resetAll()
+                            self.reset?()
                         },
                           secondaryButton: .cancel())
                 }
@@ -42,8 +44,9 @@ extension Settings {
             }
         }
         
-        public init(showHeader: Bool = true) {
+        public init(showHeader: Bool = true, reset: (() -> Void)? = nil) {
             self.showHeader = showHeader
+            self.reset = reset
             self.viewModel = ViewModel()
         }
     }
@@ -51,9 +54,19 @@ extension Settings {
 extension Settings.ResetView {
     class ViewModel: ObservableObject {
         func resetAll() {
+            deleteUserDefaults()
+            deletePasscode()
+        }
+        
+        func deletePasscode() {
+            Passcode.Key.all.forEach {
+                Passcode.shared.keychain.delete($0)
+            }
+        }
+        
+        func deleteUserDefaults() {
             guard let identifier = Bundle.main.bundleIdentifier else { return }
             UserDefaults.standard.removePersistentDomain(forName: identifier)
-            
         }
     }
     
