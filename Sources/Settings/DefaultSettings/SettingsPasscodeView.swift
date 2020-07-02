@@ -74,7 +74,7 @@ extension Settings {
                     Button(action: {
                         self.viewModel.changeCode()
                     }, label: {
-                        Text("Change Passcode")
+                        Text("Change Passcode".localized())
                     })
                     if Passcode.shared.biometrics != .none {
                         Toggle(isOn: $viewModel.isBiometricsOn) {

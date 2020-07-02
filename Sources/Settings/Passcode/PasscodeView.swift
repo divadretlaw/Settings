@@ -18,7 +18,7 @@ extension Passcode {
                 BlurView(style: Passcode.shared.config.backgroundBlur)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    Text(viewModel.mode == .changeCode ? "Enter New Passcode" : "Enter Passcode")
+                    Text(viewModel.mode == .changeCode ? "Enter New Passcode".localized() : "Enter Passcode".localized())
                         .font(.title)
                         .padding()
                     Spacer()
@@ -49,9 +49,9 @@ extension Passcode {
         var hint: some View {
             Group {
                 if viewModel.mode == .changeCode && viewModel.hasNewCode {
-                    Text("Re-enter your new passcode")
+                    Text("Re-enter your new passcode".localized())
                 } else {
-                    Text("Re-enter your new passcode").hidden()
+                    Text("Re-enter your new passcode".localized()).hidden()
                 }
             }
         }
@@ -79,7 +79,7 @@ extension Passcode {
             Button(action: {
                 self.viewModel.cancel()
             }, label: {
-                Text("Cancel")
+                Text("Cancel".localized())
                     .padding()
             }).foregroundColor(Color(Passcode.shared.config.color))
             
