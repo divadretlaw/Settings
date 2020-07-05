@@ -87,6 +87,7 @@ extension Passcode {
     }
 }
 
+#if DEBUG
 struct AuthenticateView_Previews: PreviewProvider {
     static var previews: some View {
         Passcode.PasscodeView(viewModel: Passcode.ViewModel(host: UIViewController(),
@@ -94,3 +95,4 @@ struct AuthenticateView_Previews: PreviewProvider {
                                                             completion: { _ in }))
     }
 }
+#endif

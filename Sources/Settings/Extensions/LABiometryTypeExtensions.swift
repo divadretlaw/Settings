@@ -24,9 +24,9 @@ extension LABiometryType {
     var reason: String {
         switch self {
         case .touchID:
-            return "biometricsReasonTouchID"
+            return "biometricsReasonTouchID".localized()
         case .faceID:
-            return "biometricsReasonFaceID"
+            return "biometricsReasonFaceID".localized()
         default:
             return ""
         }
