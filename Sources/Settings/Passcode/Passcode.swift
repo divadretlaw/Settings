@@ -75,7 +75,10 @@ public class Passcode {
     }
     
     public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
-        guard hasCode() else { return completion(true) }
+        guard hasCode() else {
+            completion(true)
+            return
+        }
         showPasscode(.askCode, animated: animated, completion: completion)
     }
     
@@ -94,7 +97,7 @@ public class Passcode {
         let viewModel = ViewModel(host: host, mode: mode, completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         
-        let window =  UIApplication.shared.windows.first { $0.isKeyWindow }
+        let window =  UIApplication.shared.windows.last { $0.isKeyWindow }
         
         Settings.Appearance.apply(on: host)
         Settings.Appearance.apply(on: window)
