@@ -33,6 +33,7 @@ extension Passcode {
     }
 }
 
+#if DEBUG
 struct CodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -45,3 +46,4 @@ struct CodeView_Previews: PreviewProvider {
         }
     }
 }
+#endif

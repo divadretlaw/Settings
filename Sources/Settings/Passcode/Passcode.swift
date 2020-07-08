@@ -51,7 +51,8 @@ public class Passcode {
     }
     
     func hasCode() -> Bool {
-        return getCode() != nil
+        guard let code = getCode() else { return false }
+        return !code.isEmpty
     }
     
     func deleteCode() -> Bool {
@@ -69,63 +70,39 @@ public class Passcode {
     // MARK: -
     
     public func authenticate(animated: Bool = true) {
-        guard inProgress == false, hasCode() else { return }
-        self.inProgress = true
-        
-        let host = UIHostingController(rootView: AnyView(EmptyView()))
-        host.view.backgroundColor = .clear
-        let viewModel = ViewModel(host: host,
-                                  mode: .authentication,
-                                  completion: { _ in })
-        self.current = viewModel
-        host.rootView = AnyView(PasscodeView(viewModel: viewModel))
-        host.modalPresentationStyle = .overFullScreen
-        
-        let window =  UIApplication.shared.windows.last
-        Settings.Appearance.apply(on: window)
-        Settings.Appearance.apply(on: host)
-        window?.rootViewController?.present(host,
-                                            animated: animated,
-                                            completion: nil)
+        guard hasCode() else { return }
+        showPasscode(.authentication, animated: animated, completion: { _ in })
     }
     
     public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
-        guard inProgress == false, hasCode() else { return }
-        self.inProgress = true
-        
-        let host = UIHostingController(rootView: AnyView(EmptyView()))
-        host.view.backgroundColor = .clear
-        let viewModel = ViewModel(host: host,
-                                  mode: .askCode,
-                                  completion: completion)
-        host.rootView = AnyView(PasscodeView(viewModel: viewModel))
-        host.modalPresentationStyle = .overFullScreen
-        let window =  UIApplication.shared.windows.last
-        Settings.Appearance.apply(on: window)
-        Settings.Appearance.apply(on: host)
-        
-        window?.rootViewController?.present(host,
-                                            animated: animated,
-                                            completion: nil)
+        guard hasCode() else {
+            completion(true)
+            return
+        }
+        showPasscode(.askCode, animated: animated, completion: completion)
     }
     
     public func changeCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
+        showPasscode(.changeCode, animated: animated, completion: completion)
+    }
+    
+    private func showPasscode(_ mode: Passcode.Mode, animated flag: Bool = true, completion: @escaping (Bool) -> Void) {
         guard inProgress == false else { return }
         self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
         host.view.backgroundColor = .clear
-        let viewModel = ViewModel(host: host,
-                                  mode: .changeCode,
-                                  completion: completion)
-        host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         host.modalPresentationStyle = .overFullScreen
-        let window =  UIApplication.shared.windows.last
-        Settings.Appearance.apply(on: window)
+        
+        let viewModel = ViewModel(host: host, mode: mode, completion: completion)
+        host.rootView = AnyView(PasscodeView(viewModel: viewModel))
+        
+        let window = UIApplication.shared.windows.last
+        
         Settings.Appearance.apply(on: host)
-        window?.rootViewController?.present(host,
-                                            animated: animated,
-                                            completion: nil)
+        Settings.Appearance.apply(on: window)
+        
+        window?.rootViewController?.present(host, animated: flag)
     }
     
     // MARK: - NofificationCenter

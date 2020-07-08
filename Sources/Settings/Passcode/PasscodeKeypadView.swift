@@ -80,6 +80,7 @@ fileprivate extension Passcode.Value {
     }
 }
 
+#if DEBUG
 struct KeypadView_Previews: PreviewProvider {
     static var previews: some View {
         Passcode.KeypadView(viewModel: Passcode.ViewModel(host: UIViewController(),
@@ -87,3 +88,4 @@ struct KeypadView_Previews: PreviewProvider {
                                                           completion: { _ in }))
     }
 }
+#endif
