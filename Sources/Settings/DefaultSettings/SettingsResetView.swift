@@ -28,6 +28,7 @@ extension Settings {
                           primaryButton: .destructive(Text("Reset all data".localized())) {
                             self.viewModel.resetAll()
                             self.reset?()
+                            Dismisser.shared?.dismiss()
                         },
                           secondaryButton: .cancel())
                 }
