@@ -70,10 +70,12 @@ public class Passcode {
     // MARK: -
     
     public func authenticate(animated: Bool = true) {
+        guard hasCode() else { return }
         showPasscode(.authentication, animated: animated, completion: { _ in })
     }
     
     public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
+        guard hasCode() else { return completion(true) }
         showPasscode(.askCode, animated: animated, completion: completion)
     }
     
