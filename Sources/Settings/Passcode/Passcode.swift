@@ -51,7 +51,8 @@ public class Passcode {
     }
     
     func hasCode() -> Bool {
-        return getCode() != nil
+        guard let code = getCode() else { return false }
+        return !code.isEmpty
     }
     
     func deleteCode() -> Bool {
