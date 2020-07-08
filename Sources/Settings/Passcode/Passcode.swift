@@ -97,7 +97,7 @@ public class Passcode {
         let viewModel = ViewModel(host: host, mode: mode, completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         
-        let window =  UIApplication.shared.windows.last { $0.isKeyWindow }
+        let window = UIApplication.shared.windows.last
         
         Settings.Appearance.apply(on: host)
         Settings.Appearance.apply(on: window)
