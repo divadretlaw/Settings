@@ -87,8 +87,8 @@ public class Passcode {
     }
     
     @discardableResult
-    private func showPasscode(_ mode: Passcode.Mode, animated flag: Bool = true, completion: @escaping (Bool) -> Void) -> ViewModel {
-        guard inProgress == false else { return }
+    private func showPasscode(_ mode: Passcode.Mode, animated flag: Bool = true, completion: @escaping (Bool) -> Void) -> ViewModel? {
+        guard inProgress == false else { return nil }
         self.inProgress = true
         
         let host = UIHostingController(rootView: AnyView(EmptyView()))
@@ -104,6 +104,7 @@ public class Passcode {
         Settings.Appearance.apply(on: window)
         
         window?.rootViewController?.present(host, animated: flag)
+        return viewModel
     }
     
     // MARK: - NofificationCenter
