@@ -98,12 +98,12 @@ public class Passcode {
         let viewModel = ViewModel(host: host, mode: mode, completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         
-        let window = UIApplication.shared.windows.last
+        let window = UIApplication.shared.rootWindow
         
         Settings.Appearance.apply(on: host)
         Settings.Appearance.apply(on: window)
         
-        window?.rootViewController?.present(host, animated: flag)
+        window?.rootViewController?.topViewController()?.present(host, animated: flag)
         return viewModel
     }
     
