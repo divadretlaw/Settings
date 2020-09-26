@@ -11,6 +11,10 @@ import Foundation
 import UIKit
 
 extension UIApplication {
+    var rootWindow: UIWindow? {
+        windows.first(where: { $0.isKeyWindow }) ?? windows.last
+    }
+    
     func updateAppearance() {
         self.windows.forEach {
             if !Settings.Appearance.matchSystemTheme {
