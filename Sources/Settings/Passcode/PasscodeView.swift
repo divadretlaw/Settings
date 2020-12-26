@@ -18,7 +18,9 @@ extension Passcode {
                 BlurView(style: Passcode.shared.config.backgroundBlur)
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    Text(viewModel.mode == .changeCode ? "Enter New Passcode".localized() : "Enter Passcode".localized())
+                    Text(viewModel.mode == .changeCode
+                            ? "Enter New Passcode".localized()
+                            : "Enter Passcode".localized())
                         .font(.title)
                         .padding()
                     Spacer()

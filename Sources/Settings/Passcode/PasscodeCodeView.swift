@@ -8,39 +8,38 @@
 
 import SwiftUI
 
-extension Passcode {
-    struct CodeView: View {
-        @ObservedObject var viewModel: Passcode.ViewModel
-        
-        var body: some View {
-            VStack {
-                HStack {
-                    ForEach(0..<viewModel.length) { index in
-                        CharacterView(isOn: index < self.viewModel.text.count)
-                            .padding()
-                    }
-                }.id(viewModel.text)
-            }
-        }
-    }
+struct CodeView: View {
+    @ObservedObject var viewModel: Passcode.ViewModel
     
-    fileprivate struct CharacterView: View {
-        @State var isOn: Bool
-        
-        var body: some View {
-            Image(systemName: isOn ? "circle.fill" : "circle")
+    var body: some View {
+        VStack {
+            HStack {
+                ForEach(0..<viewModel.length) { index in
+                    CharacterView(isOn: index < self.viewModel.text.count)
+                        .padding()
+                }
+            }.id(viewModel.text)
         }
     }
 }
+
+struct CharacterView: View {
+    @State var isOn: Bool
+    
+    var body: some View {
+        Image(systemName: isOn ? "circle.fill" : "circle")
+    }
+}
+
 
 #if DEBUG
 struct CodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            Passcode.CodeView(viewModel: Passcode.ViewModel(host: UIViewController(),
-                                                            mode: .authentication,
-                                                            completion: { _ in }))
+            CodeView(viewModel: Passcode.ViewModel(host: UIViewController(),
+                                                   mode: .authentication,
+                                                   completion: { _ in }))
             Spacer()
             Spacer()
         }

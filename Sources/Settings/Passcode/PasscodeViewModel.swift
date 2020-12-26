@@ -85,8 +85,8 @@ extension Passcode {
                 self.dismiss(success: true)
             } else {
                 wrongCodeCount += 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.text = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.text = ""
                 }
             }
         }
@@ -96,9 +96,9 @@ extension Passcode {
             
             guard let newCode = newCode else {
                 self.newCode = text
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.text = ""
-                    self.hasNewCode = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                    self?.text = ""
+                    self?.hasNewCode = true
                 }
                 return
             }
@@ -107,8 +107,8 @@ extension Passcode {
                 self.dismiss(success: Passcode.shared.set(code: newCode))
             } else {
                 wrongCodeCount += 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.text = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.text = ""
                 }
             }
         }

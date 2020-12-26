@@ -11,24 +11,6 @@ import SwiftUI
 import MessageUI
 
 public struct MFMailView: UIViewControllerRepresentable {
-    
-    public struct Options {
-        public init(toRecipients: [String]?, ccRecipients: [String]?, bccRecipients: [String]?, subject: String?, messageBody: String?) {
-            self.toRecipients = toRecipients
-            self.ccRecipients = ccRecipients
-            self.bccRecipients = bccRecipients
-            self.subject = subject
-            self.messageBody = messageBody
-        }
-        
-        let toRecipients: [String]?
-        let ccRecipients: [String]?
-        let bccRecipients: [String]?
-        let subject: String?
-        let messageBody: String?
-        let isHTML: Bool = false
-    }
-    
     var options: Options?
     @Binding var isShowing: Bool
     @Binding var result: Result<MFMailComposeResult, Error>?
@@ -49,12 +31,11 @@ public struct MFMailView: UIViewControllerRepresentable {
                 self.isShowing = false
             }
             
-            guard error == nil else {
-                self.result = .failure(error!)
-                return
+            if let error = error {
+                self.result = .failure(error)
+            } else {
+                self.result = .success(result)
             }
-            
-            self.result = .success(result)
         }
     }
 
@@ -82,24 +63,15 @@ public struct MFMailView: UIViewControllerRepresentable {
     }
 
     public func updateUIViewController(_ uiViewController: MFMailComposeViewController,
-                                context: UIViewControllerRepresentableContext<MFMailView>) {
+                                       context: UIViewControllerRepresentableContext<MFMailView>) {
     }
 }
+#endif
 
-public extension View {
-    func mailSheet(_ options: MFMailView.Options? = nil, result: Binding<Result<MFMailComposeResult, Error>?>, isPresented: Binding<Bool>, onDismiss: (() -> Void)? = nil) -> some View {
-        self.sheet(isPresented: isPresented, onDismiss: onDismiss) {
-            MFMailView(options: options, isShowing: isPresented, result: result)
-        }
-    }
-}
-
-#if DEBUG
+#if DEBUG && !os(macOS)
 struct MFMailView_Previews: PreviewProvider {
     static var previews: some View {
         MFMailView(options: nil, isShowing: .constant(true), result: .constant(nil))
     }
 }
-#endif
-
 #endif

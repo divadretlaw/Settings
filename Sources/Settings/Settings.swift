@@ -55,15 +55,13 @@ public extension Settings {
         public static var useDarkMode: Bool
         
         public static func apply(on viewController: UIViewController?) {
-            if !Settings.Appearance.matchSystemTheme {
-                viewController?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
-            }
+            guard Settings.Appearance.matchSystemTheme else { return }
+            viewController?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
         }
         
         public static func apply(on window: UIWindow?) {
-            if !Settings.Appearance.matchSystemTheme {
-                window?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
-            }
+            guard Settings.Appearance.matchSystemTheme else { return }
+            window?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
         }
         
         public static func apply() {

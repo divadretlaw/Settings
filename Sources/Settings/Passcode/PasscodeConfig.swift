@@ -25,7 +25,7 @@ extension Passcode {
         static let all = [Key.useBiometrics, Key.code]
     }
     
-    enum Value {
+    enum Value: Hashable {
         case text(String)
         case delete
         case blank
