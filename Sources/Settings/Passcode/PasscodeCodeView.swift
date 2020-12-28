@@ -31,13 +31,11 @@ struct CharacterView: View {
     }
 }
 
-
-#if DEBUG
 struct CodeView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            CodeView(viewModel: Passcode.ViewModel(host: UIViewController(),
+            CodeView(viewModel: Passcode.ViewModel(host: ViewController(),
                                                    mode: .authentication,
                                                    completion: { _ in }))
             Spacer()
@@ -45,4 +43,3 @@ struct CodeView_Previews: PreviewProvider {
         }
     }
 }
-#endif

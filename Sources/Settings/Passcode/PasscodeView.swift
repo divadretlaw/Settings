@@ -15,8 +15,12 @@ extension Passcode {
         
         var body: some View {
             ZStack {
+                #if os(iOS)
                 BlurView(style: Passcode.shared.config.backgroundBlur)
                     .edgesIgnoringSafeArea(.all)
+                #elseif os(macOS)
+                BlurView(mode: .withinWindow)
+                #endif
                 VStack {
                     Text(viewModel.mode == .changeCode
                             ? "Enter New Passcode".localized()
@@ -82,19 +86,16 @@ extension Passcode {
                 self.viewModel.cancel()
             }, label: {
                 Text("Cancel".localized())
-                    .padding()
             }).foregroundColor(Color(Passcode.shared.config.color))
-            
+            .padding()
         }
     }
 }
 
-#if DEBUG
 struct AuthenticateView_Previews: PreviewProvider {
     static var previews: some View {
-        Passcode.PasscodeView(viewModel: Passcode.ViewModel(host: UIViewController(),
+        Passcode.PasscodeView(viewModel: Passcode.ViewModel(host: ViewController(),
                                                             mode: .changeCode,
                                                             completion: { _ in }))
     }
 }
-#endif

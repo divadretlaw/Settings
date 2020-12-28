@@ -6,10 +6,14 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
-import UIKit
+
 import SwiftUI
 import LocalAuthentication
 import KeychainSwift
+
+#if canImport(UIKit)
+import UIKit
+#endif
 
 public class Passcode {
     public static var shared = Passcode()
@@ -36,8 +40,10 @@ public class Passcode {
             self.biometrics = .none
         }
         
+        #if canImport(UIKit)
         NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        #endif
     }
     
     // MARK: - Passcode management
@@ -68,7 +74,6 @@ public class Passcode {
     }
     
     // MARK: -
-    
     public func authenticate(animated: Bool = true) {
         guard hasCode() else { return }
         self.current = showPasscode(.authentication, animated: animated, completion: { _ in })
@@ -91,19 +96,24 @@ public class Passcode {
         guard inProgress == false else { return nil }
         self.inProgress = true
         
-        let host = UIHostingController(rootView: AnyView(EmptyView()))
+        let host = HostingController(rootView: AnyView(EmptyView()))
+        #if os(iOS)
         host.view.backgroundColor = .clear
         host.modalPresentationStyle = .overFullScreen
+        #endif
         
         let viewModel = ViewModel(host: host, mode: mode, completion: completion)
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
-        
-        let window = UIApplication.shared.rootWindow
+        let window = Application.shared.rootWindow
         
         Settings.Appearance.apply(on: host)
         Settings.Appearance.apply(on: window)
-        
+
+        #if os(iOS)
         window?.rootViewController?.topViewController()?.present(host, animated: flag)
+        #elseif os(macOS)
+        window?.contentViewController?.presentAsSheet(host)
+        #endif
         return viewModel
     }
     

@@ -18,7 +18,7 @@ struct NavBarButton: View {
         Button(action: action, label: {
             if image != nil {
                 self.image?
-                    .font(.system(size: UIFont.preferredFont(forTextStyle: .body).pointSize,
+                    .font(.system(size: Font.preferredFont(forTextStyle: .body).pointSize,
                                   weight: .semibold,
                                   design: .default))
                     .padding(.vertical)
@@ -26,7 +26,7 @@ struct NavBarButton: View {
                     .imageScale(.large)
             } else {
                 self.text?
-                    .font(.system(size: UIFont.preferredFont(forTextStyle: .body).pointSize,
+                    .font(.system(size: Font.preferredFont(forTextStyle: .body).pointSize,
                                   weight: .semibold,
                                   design: .default))
                     .padding(.vertical)

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  InfoPlistKey.swift
 //  
 //
 //  Created by David Walter on 26.12.20.
@@ -12,22 +12,7 @@ enum InfoPlistKey: Hashable {
     case buildNumber
     case appName
     case sdkVersion
-    case custom(title: String, key: String)
-    
-    var title: String {
-        switch self {
-        case .version:
-            return "Version"
-        case .buildNumber:
-            return "Build Number"
-        case .appName:
-            return "App Name"
-        case .sdkVersion:
-            return "SDK Version"
-        case .custom(let title, _):
-            return title
-        }
-    }
+    case custom(key: String)
     
     var rawValue: String {
         switch self {
@@ -39,7 +24,7 @@ enum InfoPlistKey: Hashable {
             return "CFBundleName"
         case .sdkVersion:
             return "DTSDKName"
-        case .custom(_, let key):
+        case .custom(let key):
             return key
         }
     }

@@ -6,8 +6,13 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
-import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
 import KeychainSwift
 
 extension Passcode {
@@ -40,8 +45,16 @@ extension Passcode {
         }()
         
         public var autoBiometrics = true
+        
+        #if os(iOS)
         public var color: UIColor = .systemBlue
+        #elseif os(macOS)
+        public var color: NSColor = .systemBlue
+        #endif
+        
+        #if canImport(UIKit)
         public var backgroundBlur: UIBlurEffect.Style = .systemUltraThinMaterial
         public var buttonBlur: UIBlurEffect.Style = .systemThinMaterial
+        #endif
     }
 }

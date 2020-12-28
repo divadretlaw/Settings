@@ -23,10 +23,10 @@ public struct MFMailView: UIViewControllerRepresentable {
             self._isShowing = isShowing
             self._result = result
         }
-
+        
         public func mailComposeController(_ controller: MFMailComposeViewController,
-                                   didFinishWith result: MFMailComposeResult,
-                                   error: Error?) {
+                                          didFinishWith result: MFMailComposeResult,
+                                          error: Error?) {
             defer {
                 self.isShowing = false
             }

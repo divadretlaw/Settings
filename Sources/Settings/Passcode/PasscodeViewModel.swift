@@ -6,8 +6,11 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
-import Foundation
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 import LocalAuthentication
 
 extension Passcode {
@@ -16,14 +19,14 @@ extension Passcode {
         var length: Int
         @Published var wrongCodeCount = 0
         
-        let host: UIViewController
+        let host: ViewController
         let mode: Passcode.Mode
         var completion: (Bool) -> Void
         
         var newCode: String?
         var hasNewCode = false
         
-        init(host: UIViewController, mode: Passcode.Mode, completion: @escaping (Bool) -> Void) {
+        init(host: ViewController, mode: Passcode.Mode, completion: @escaping (Bool) -> Void) {
             self.host = host
             self.mode = mode
             self.completion = completion
@@ -117,7 +120,11 @@ extension Passcode {
             Passcode.shared.inProgress = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.completion(success)
+                #if os(iOS)
                 self?.host.dismiss(animated: true, completion: nil)
+                #elseif os(macOS)
+                self?.host.dismiss(self)
+                #endif
             }
         }
     }

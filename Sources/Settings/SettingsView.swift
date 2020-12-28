@@ -16,6 +16,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
     @Binding private var showSettingsIdentifable: T?
     @ObservedObject private var dismisser: Dismisser
     
+    #if os(iOS)
     public var body: some View {
         NavigationView {
             Form {
@@ -37,6 +38,22 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
             }
         }
     }
+    #else
+    public var body: some View {
+        NavigationView {
+            Form {
+                content()
+            }
+            .navigationTitle(self.title)
+        }
+        .onReceive(dismisser.$shouldDismiss) { value in
+            if value {
+                self.showSettingsBool = false
+                self.showSettingsIdentifable = nil
+            }
+        }
+    }
+    #endif
     
     public init(showSettings: Binding<T?>,
                 @ViewBuilder content: @escaping () -> Content) {
@@ -78,14 +95,14 @@ class Dismisser: ObservableObject {
     }
 }
 
-#if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView(showSettings: .constant(true), content: {
             Settings.AppearanceView()
+            #if os(iOS)
             Settings.SupportView()
+            #endif
             Settings.ResetView()
         })
     }
 }
-#endif

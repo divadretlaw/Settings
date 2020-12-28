@@ -46,10 +46,15 @@ private struct NumberButton: View {
             self.viewModel.add(self.value)
         }, label: {
             ZStack {
+                #if os(iOS)
                 BlurView(style: Passcode.shared.config.buttonBlur)
+                #elseif os(macOS)
+                BlurView(mode: .behindWindow)
+                #endif
                 value.display
                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
-            }.clipShape(Circle())
+            }
+            .clipShape(Circle())
             .frame(maxWidth: 100, maxHeight: 100)
         })
     }
@@ -78,12 +83,11 @@ extension Passcode.Value {
     }
 }
 
-#if DEBUG
 struct KeypadView_Previews: PreviewProvider {
     static var previews: some View {
-        KeypadView(viewModel: Passcode.ViewModel(host: UIViewController(),
+        KeypadView(viewModel: Passcode.ViewModel(host: ViewController(),
                                                  mode: .authentication,
                                                  completion: { _ in }))
+            .previewLayout(.fixed(width: 800, height: 600))
     }
 }
-#endif
