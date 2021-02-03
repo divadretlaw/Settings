@@ -6,8 +6,7 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
-import Foundation
-#if !os(macOS)
+#if canImport(UIKit)
 import UIKit
 
 extension UIApplication {

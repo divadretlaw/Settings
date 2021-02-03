@@ -7,11 +7,8 @@
 //
 
 import Foundation
-#if !os(macOS)
-import UIKit
-#endif
 
-fileprivate class Localizable {
+private class Localizable {
     
 }
 

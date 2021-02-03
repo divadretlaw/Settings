@@ -42,47 +42,13 @@ extension Settings {
         }
     }
 }
-extension Settings.AppearanceView {
-    class ViewModel: ObservableObject {
-        @Published var matchSystemTheme: Bool {
-            didSet {
-                Settings.Appearance.matchSystemTheme = matchSystemTheme
-                UIApplication.shared.updateAppearance()
-            }
-        }
-        @Published var useDarkMode: Bool {
-            didSet {
-                Settings.Appearance.useDarkMode = useDarkMode
-                UIApplication.shared.updateAppearance()
-            }
-        }
-        
-        init() {
-            self.matchSystemTheme = Settings.Appearance.matchSystemTheme
-            self.useDarkMode = Settings.Appearance.useDarkMode
-            NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: self, queue: nil) { _ in
-                
-            }
-        }
-        
-        func resetAll() {
-            guard let identifier = Bundle.main.bundleIdentifier else { return }
-            UserDefaults.standard.removePersistentDomain(forName: identifier)
-            
-            self.matchSystemTheme = Settings.Appearance.matchSystemTheme
-            self.useDarkMode = Settings.Appearance.useDarkMode
-        }
-    }
-    
-}
 
 #if DEBUG
 struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Settings.AppearanceView()
-        }.listStyle(GroupedListStyle())
-            .environment(\.horizontalSizeClass, .regular)
+        }
     }
 }
 #endif

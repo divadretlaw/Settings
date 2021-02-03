@@ -21,7 +21,8 @@ extension Settings {
                 Button(action: {
                     self.showResetAlert = true
                 }, label: {
-                    Text("Reset all data".localized()).foregroundColor(.red)
+                    Text("Reset all data".localized())
+                        .foregroundColor(.red)
                 }).alert(isPresented: $showResetAlert) {
                     Alert(title: Text("Reset all data?".localized()),
                           message: Text("All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action".localized()),
@@ -29,7 +30,7 @@ extension Settings {
                             self.viewModel.resetAll()
                             self.reset?()
                             Dismisser.shared?.dismiss()
-                        },
+                          },
                           secondaryButton: .cancel())
                 }
             }
@@ -52,34 +53,13 @@ extension Settings {
         }
     }
 }
-extension Settings.ResetView {
-    class ViewModel: ObservableObject {
-        func resetAll() {
-            deleteUserDefaults()
-            deletePasscode()
-        }
-        
-        func deletePasscode() {
-            Passcode.Key.all.forEach {
-                Passcode.shared.keychain.delete($0)
-            }
-        }
-        
-        func deleteUserDefaults() {
-            guard let identifier = Bundle.main.bundleIdentifier else { return }
-            UserDefaults.standard.removePersistentDomain(forName: identifier)
-        }
-    }
-    
-}
 
 #if DEBUG
 struct SettingsResetView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Settings.ResetView()
-        }.listStyle(GroupedListStyle())
-            .environment(\.horizontalSizeClass, .regular)
+        }
     }
 }
 #endif

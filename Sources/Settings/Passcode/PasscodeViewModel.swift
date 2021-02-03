@@ -6,8 +6,11 @@
 //  Copyright © 2020 David Walter. All rights reserved.
 //
 
-import Foundation
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 import LocalAuthentication
 
 extension Passcode {
@@ -16,14 +19,14 @@ extension Passcode {
         var length: Int
         @Published var wrongCodeCount = 0
         
-        let host: UIViewController
+        let host: ViewController
         let mode: Passcode.Mode
         var completion: (Bool) -> Void
         
         var newCode: String?
         var hasNewCode = false
         
-        init(host: UIViewController, mode: Passcode.Mode, completion: @escaping (Bool) -> Void) {
+        init(host: ViewController, mode: Passcode.Mode, completion: @escaping (Bool) -> Void) {
             self.host = host
             self.mode = mode
             self.completion = completion
@@ -85,8 +88,8 @@ extension Passcode {
                 self.dismiss(success: true)
             } else {
                 wrongCodeCount += 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.text = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.text = ""
                 }
             }
         }
@@ -96,9 +99,9 @@ extension Passcode {
             
             guard let newCode = newCode else {
                 self.newCode = text
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                    self.text = ""
-                    self.hasNewCode = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                    self?.text = ""
+                    self?.hasNewCode = true
                 }
                 return
             }
@@ -107,8 +110,8 @@ extension Passcode {
                 self.dismiss(success: Passcode.shared.set(code: newCode))
             } else {
                 wrongCodeCount += 1
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.text = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                    self?.text = ""
                 }
             }
         }
@@ -117,7 +120,11 @@ extension Passcode {
             Passcode.shared.inProgress = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 self?.completion(success)
+                #if os(iOS)
                 self?.host.dismiss(animated: true, completion: nil)
+                #elseif os(macOS)
+                self?.host.dismiss(self)
+                #endif
             }
         }
     }
