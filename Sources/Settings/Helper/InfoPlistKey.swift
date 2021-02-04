@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum InfoPlistKey: Hashable {
+public enum InfoPlistKey: Hashable {
     case version
     case buildNumber
     case appName

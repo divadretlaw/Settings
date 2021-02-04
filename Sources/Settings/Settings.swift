@@ -13,7 +13,9 @@ import AppKit
 #endif
 
 public struct Settings {
-   @propertyWrapper public struct Entry<Value> {
+    static var userDefaults: UserDefaults = .standard
+    
+    @propertyWrapper public struct Entry<Value> {
         let key: String
         let `default`: Value
         
@@ -24,28 +26,42 @@ public struct Settings {
         
         public var wrappedValue: Value {
             get {
-                UserDefaults.standard.object(forKey: key) as? Value ?? self.default
+                Settings.userDefaults.object(forKey: key) as? Value ?? self.default
             }
             set {
-                UserDefaults.standard.set(newValue, forKey: key)
+                Settings.userDefaults.set(newValue, forKey: key)
             }
         }
     }
     
     public struct Configuration {
         #if os(iOS)
-        public static var shared = Configuration(mailOptions: MFMailView.Options(toRecipients: nil,
-                                                                                 ccRecipients: nil,
-                                                                                 bccRecipients: nil,
-                                                                                 subject: nil,
-                                                                                 messageBody: nil))
+        public static var shared: Configuration = Configuration(mailOptions: MFMailView.Options(toRecipients: nil,
+                                                                                                ccRecipients: nil,
+                                                                                                bccRecipients: nil,
+                                                                                                subject: nil,
+                                                                                                messageBody: nil))
         
         public var mailOptions: MFMailView.Options
         
         public init(mailOptions: MFMailView.Options) {
             self.mailOptions = mailOptions
         }
+        #else
+        public static var shared: Configuration = Configuration()
+        
+        public init() {
+            
+        }
         #endif
+    }
+    
+    static func set(userDefaults: UserDefaults = .standard) {
+        Self.userDefaults = userDefaults
+    }
+    
+    static func set(configuration: Configuration) {
+        Settings.Configuration.shared = configuration
     }
     
     #if os(iOS)

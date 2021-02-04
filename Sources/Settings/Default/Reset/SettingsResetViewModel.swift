@@ -22,7 +22,7 @@ extension Settings.ResetView {
         
         func deleteUserDefaults() {
             guard let identifier = Bundle.main.bundleIdentifier else { return }
-            UserDefaults.standard.removePersistentDomain(forName: identifier)
+            Settings.userDefaults.removePersistentDomain(forName: identifier)
         }
     }
 }

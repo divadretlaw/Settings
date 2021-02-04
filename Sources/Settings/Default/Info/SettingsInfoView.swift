@@ -8,13 +8,13 @@
 import SwiftUI
 
 extension Settings {
-    struct InfoView: View {
+    public struct InfoView: View {
         @ObservedObject var viewModel: ViewModel
         
         var infos: [InfoPlistKey]
         var showHeader: Bool
         
-        var body: some View {
+        public var body: some View {
             Section(header: self.headerView) {
                 ForEach(infos, id: \.self) { info in
                     HStack {

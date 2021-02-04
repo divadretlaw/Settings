@@ -36,7 +36,7 @@ extension Settings.AppearanceView {
         
         func resetAll() {
             guard let identifier = Bundle.main.bundleIdentifier else { return }
-            UserDefaults.standard.removePersistentDomain(forName: identifier)
+            Settings.userDefaults.removePersistentDomain(forName: identifier)
             
             self.matchSystemTheme = Settings.Appearance.matchSystemTheme
             self.useDarkMode = Settings.Appearance.useDarkMode
