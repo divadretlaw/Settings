@@ -8,10 +8,10 @@
 import SwiftUI
 
 extension Settings {
-    struct AdvancedAppearanceView: View {
+    public struct AdvancedAppearanceView: View {
         @ObservedObject var viewModel: Appearance.ViewModel
         
-        var body: some View {
+        public var body: some View {
             Section {
                 Toggle(isOn: self.$viewModel.matchSystemTheme) {
                     Text("Match System Theme".localized())
@@ -111,7 +111,7 @@ extension Settings {
             
         }
         
-        init() {
+        public init() {
             self.viewModel = Appearance.ViewModel()
         }
     }
