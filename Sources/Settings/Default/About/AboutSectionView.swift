@@ -50,9 +50,9 @@ extension Settings {
 struct AboutSectionView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Section(footer: AboutSectionView()) {
+            Section(footer: Settings.AboutSectionView()) {
                 Text("Test")
-                AboutSectionView(additional: ["by David Walter"])
+                Settings.AboutSectionView(additional: ["by David Walter"])
             }
         }.listStyle(GroupedListStyle())
     }
