@@ -64,12 +64,18 @@ extension Settings.Appearance {
         
         #if os(iOS)
         public func apply(on viewController: UIViewController?) {
-            guard !Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else {
+                viewController?.overrideUserInterfaceStyle = .unspecified
+                return
+            }
             viewController?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
         }
         
         public func apply(on window: UIWindow?) {
-            guard !Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else {
+                window?.overrideUserInterfaceStyle = .unspecified
+                return
+            }
             window?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
             
         }
@@ -79,12 +85,18 @@ extension Settings.Appearance {
         }
         #elseif os(macOS)
         public func apply(on viewController: NSViewController?) {
-            guard !Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else {
+                viewController?.view.appearance = nil
+                return
+            }
             viewController?.view.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
         }
         
         public func apply(on window: NSWindow?) {
-            guard !Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else {
+                window?.appearance = nil
+                return
+            }
             window?.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
         }
         
