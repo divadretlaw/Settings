@@ -93,10 +93,12 @@ public extension Settings {
         @Entry("Settings:Appearance-mode", default: 0)
         public static var mode: Int
         
-        @Entry("Settings:Appearance-scheduledLight", default: Date())
+        // 1970-1-1 9:00
+        @Entry("Settings:Appearance-scheduledLight", default: Date(timeIntervalSince1970: 32400))
         public static var scheduleLight: Date
         
-        @Entry("Settings:Appearance-scheduledDark", default: Date())
+        // 1970-1-1 17:00
+        @Entry("Settings:Appearance-scheduledDark", default: Date(timeIntervalSince1970: 61200))
         public static var scheduledDark: Date
         
         @Entry("Settings:Appearance-brightnessThreshold", default: 0.25)

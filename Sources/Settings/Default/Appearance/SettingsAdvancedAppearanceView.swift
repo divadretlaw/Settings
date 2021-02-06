@@ -11,7 +11,28 @@ extension Settings {
     public struct AdvancedAppearanceView: View {
         @ObservedObject var viewModel: Appearance.ViewModel
         
+        #if os(iOS)
         public var body: some View {
+            List {
+                self.content
+            }
+            .listStyle(GroupedListStyle())
+            .navigationBarTitle("Appearance".localized())
+            .navigationBarItems(trailing: NavBarButton(action: {
+                Dismisser.shared?.dismiss()
+            }, text: Text("Done".localized())))
+        }
+        #elseif os(macOS)
+        public var body: some View {
+            List {
+                self.content
+            }
+            .navigationTitle("Appearance".localized())
+        }
+        #endif
+        
+        @ViewBuilder
+        var content: some View {
             Section {
                 Toggle(isOn: self.$viewModel.matchSystemTheme) {
                     Text("Match System Theme".localized())
@@ -34,19 +55,19 @@ extension Settings {
                         }
                     }).toggleStyle(CheckmarkToggleStyle())
                     
-                    Toggle(isOn: Binding(get: {
-                        viewModel.mode == .scheduled
-                    }, set: { value in
-                        guard value else { return }
-                        viewModel.mode = .scheduled
-                    }), label: {
-                        VStack(alignment: .leading) {
-                            Text("Scheduled")
-                                .font(.body)
-                            Text("At specific times")
-                                .font(.caption)
-                        }
-                    }).toggleStyle(CheckmarkToggleStyle())
+//                    Toggle(isOn: Binding(get: {
+//                        viewModel.mode == .scheduled
+//                    }, set: { value in
+//                        guard value else { return }
+//                        viewModel.mode = .scheduled
+//                    }), label: {
+//                        VStack(alignment: .leading) {
+//                            Text("Scheduled")
+//                                .font(.body)
+//                            Text("At specific times")
+//                                .font(.caption)
+//                        }
+//                    }).toggleStyle(CheckmarkToggleStyle())
                     
                     Toggle(isOn: Binding(get: {
                         viewModel.mode == .automatically
@@ -97,7 +118,7 @@ extension Settings {
                 }
                 
                 if viewModel.mode == .automatically {
-                    Section(header: Text("Brightness")) {
+                    Section(header: Text("Brightness"), footer: brightnessThreshold) {
                         Slider(value: $viewModel.threshold,
                                in: 0...1,
                                minimumValueLabel: Image(systemName: "sun.min"),
@@ -111,6 +132,10 @@ extension Settings {
             
         }
         
+        var brightnessThreshold: some View {
+            Text("Will switch to dark mode when \(Int(viewModel.threshold * 100)) % brightness or less.")
+        }
+        
         public init() {
             self.viewModel = Appearance.ViewModel()
         }
@@ -120,8 +145,14 @@ extension Settings {
 #if DEBUG
 struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            Settings.AdvancedAppearanceView()
+        NavigationView {
+            NavigationLink(
+                destination: Settings.AdvancedAppearanceView(),
+                isActive: .constant(true),
+                label: {
+                    Text("Appearance")
+                })
+            
         }
     }
 }

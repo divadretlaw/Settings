@@ -34,6 +34,7 @@ extension Settings.Appearance {
                                                    selector: #selector(brightnessDidChange),
                                                    name: UIScreen.brightnessDidChangeNotification,
                                                    object: nil)
+            
             #endif
         }
         
