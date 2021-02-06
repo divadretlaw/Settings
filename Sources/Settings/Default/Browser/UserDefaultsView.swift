@@ -61,6 +61,10 @@ public struct UserDefaultsView: View {
             default: return false
         }
     }
+    
+    public init() {
+        
+    }
 }
 
 struct UserDefaultsView_Previews: PreviewProvider {
