@@ -66,12 +66,12 @@ public struct Settings {
     
     #if os(iOS)
     public static func apply(on window: UIWindow?) {
-        Settings.Appearance.apply(on: window)
+        Settings.Appearance.Manager.shared.apply(on: window)
         Passcode.shared.authenticate(animated: false)
     }
     #elseif os(macOS)
     public static func apply(on window: NSWindow?) {
-        Settings.Appearance.apply(on: window)
+        Settings.Appearance.Manager.shared.apply(on: window)
         Passcode.shared.authenticate(animated: false)
     }
     #endif
@@ -93,34 +93,13 @@ public extension Settings {
         @Entry("Settings:Appearance-mode", default: 0)
         public static var mode: Int
         
-        #if os(iOS)
-        public static func apply(on viewController: UIViewController?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
-            viewController?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
-        }
+        @Entry("Settings:Appearance-scheduledLight", default: Date())
+        public static var scheduleLight: Date
         
-        public static func apply(on window: UIWindow?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
-            window?.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
-        }
+        @Entry("Settings:Appearance-scheduledDark", default: Date())
+        public static var scheduledDark: Date
         
-        public static func apply() {
-            UIApplication.shared.windows.forEach { apply(on: $0) }
-        }
-        #elseif os(macOS)
-        public static func apply(on viewController: NSViewController?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
-            viewController?.view.appearance = NSAppearance(named: Settings.Appearance.useDarkMode ? .darkAqua : .aqua)
-        }
-        
-        public static func apply(on window: NSWindow?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
-            window?.appearance = NSAppearance(named: Settings.Appearance.useDarkMode ? .darkAqua : .aqua)
-        }
-        
-        public static func apply() {
-            NSApplication.shared.windows.forEach { apply(on: $0) }
-        }
-        #endif
+        @Entry("Settings:Appearance-brightnessThreshold", default: 0.25)
+        public static var threshold: CGFloat
     }
 }

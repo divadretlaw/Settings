@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Settings {
     struct AdvancedAppearanceView: View {
-        @ObservedObject var viewModel: AppearanceView.ViewModel
+        @ObservedObject var viewModel: Appearance.ViewModel
         
         var body: some View {
             Section {
@@ -98,7 +98,10 @@ extension Settings {
                 
                 if viewModel.mode == .automatically {
                     Section(header: Text("Brightness")) {
-                        Slider(value: .constant(0.5), in: 0...1, minimumValueLabel: Image(systemName: "sun.min"), maximumValueLabel: Image(systemName: "sun.max")) {
+                        Slider(value: $viewModel.threshold,
+                               in: 0...1,
+                               minimumValueLabel: Image(systemName: "sun.min"),
+                               maximumValueLabel: Image(systemName: "sun.max")) {
                             Text("Brightness slider")
                         }.accentColor(.gray)
                     }
@@ -109,7 +112,7 @@ extension Settings {
         }
         
         init() {
-            self.viewModel = AppearanceView.ViewModel()
+            self.viewModel = Appearance.ViewModel()
         }
     }
 }
@@ -119,7 +122,7 @@ struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Settings.AdvancedAppearanceView()
-        }.listStyle(GroupedListStyle())
+        }
     }
 }
 #endif

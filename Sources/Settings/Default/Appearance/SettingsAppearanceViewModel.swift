@@ -11,34 +11,33 @@ import UIKit
 import AppKit
 #endif
 
-extension Settings.AppearanceView {
+extension Settings.Appearance {
     class ViewModel: ObservableObject {
-        enum Mode: Int, Identifiable {
-            case manual
-            case scheduled
-            case automatically
-            
-            var id: Int { self.rawValue }
-        }
-        
         @Published var matchSystemTheme: Bool {
             didSet {
                 Settings.Appearance.matchSystemTheme = matchSystemTheme
-                Application.shared.updateAppearance()
+                Settings.Appearance.Manager.shared.apply()
             }
         }
         
         @Published var useDarkMode: Bool {
             didSet {
                 Settings.Appearance.useDarkMode = useDarkMode
-                Application.shared.updateAppearance()
+                Settings.Appearance.Manager.shared.apply()
             }
         }
         
         @Published var mode: Mode {
             didSet {
                 Settings.Appearance.mode = mode.rawValue
-                Application.shared.updateAppearance()
+                Settings.Appearance.Manager.shared.apply()
+            }
+        }
+        
+        @Published var threshold: CGFloat {
+            didSet {
+                Settings.Appearance.threshold = threshold
+                Settings.Appearance.Manager.shared.apply()
             }
         }
         
@@ -46,6 +45,7 @@ extension Settings.AppearanceView {
             self.matchSystemTheme = Settings.Appearance.matchSystemTheme
             self.useDarkMode = Settings.Appearance.useDarkMode
             self.mode = Mode(rawValue: Settings.Appearance.mode) ?? .manual
+            self.threshold = Settings.Appearance.threshold
         }
         
         func resetAll() {

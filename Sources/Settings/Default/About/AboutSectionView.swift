@@ -5,6 +5,7 @@
 //  Created by David Walter on 06.02.21.
 //
 
+#if os(iOS)
 import SwiftUI
 
 extension Settings {
@@ -57,4 +58,6 @@ struct AboutSectionView_Previews: PreviewProvider {
         }.listStyle(GroupedListStyle())
     }
 }
+#endif
+
 #endif
