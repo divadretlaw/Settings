@@ -48,7 +48,7 @@ struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Settings.AppearanceView()
-        }
+        }.listStyle(GroupedListStyle())
     }
 }
 #endif

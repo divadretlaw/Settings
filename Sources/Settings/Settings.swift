@@ -90,6 +90,9 @@ public extension Settings {
         @Entry("Settings:Appearance-useDarkMode", default: false)
         public static var useDarkMode: Bool
         
+        @Entry("Settings:Appearance-mode", default: 0)
+        public static var mode: Int
+        
         #if os(iOS)
         public static func apply(on viewController: UIViewController?) {
             guard Settings.Appearance.matchSystemTheme else { return }

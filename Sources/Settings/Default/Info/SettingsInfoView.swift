@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Settings {
     public struct InfoView: View {
-        @ObservedObject var viewModel: ViewModel
+        @ObservedObject var viewModel: InfoPlistViewModel
         
         var infos: [InfoPlistKey]
         var showHeader: Bool
@@ -40,7 +40,7 @@ extension Settings {
                     showHeader: Bool = true,
                     bundle: Bundle = Bundle.main) {
             self.infos = infos
-            self.viewModel = ViewModel(bundle: bundle)
+            self.viewModel = InfoPlistViewModel(bundle: bundle)
             self.showHeader = showHeader
         }
     }

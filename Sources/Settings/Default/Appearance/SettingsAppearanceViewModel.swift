@@ -13,12 +13,21 @@ import AppKit
 
 extension Settings.AppearanceView {
     class ViewModel: ObservableObject {
+        enum Mode: Int, Identifiable {
+            case manual
+            case scheduled
+            case automatically
+            
+            var id: Int { self.rawValue }
+        }
+        
         @Published var matchSystemTheme: Bool {
             didSet {
                 Settings.Appearance.matchSystemTheme = matchSystemTheme
                 Application.shared.updateAppearance()
             }
         }
+        
         @Published var useDarkMode: Bool {
             didSet {
                 Settings.Appearance.useDarkMode = useDarkMode
@@ -26,12 +35,17 @@ extension Settings.AppearanceView {
             }
         }
         
+        @Published var mode: Mode {
+            didSet {
+                Settings.Appearance.mode = mode.rawValue
+                Application.shared.updateAppearance()
+            }
+        }
+        
         init() {
             self.matchSystemTheme = Settings.Appearance.matchSystemTheme
             self.useDarkMode = Settings.Appearance.useDarkMode
-            NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: self, queue: nil) { _ in
-                
-            }
+            self.mode = Mode(rawValue: Settings.Appearance.mode) ?? .manual
         }
         
         func resetAll() {
@@ -40,6 +54,7 @@ extension Settings.AppearanceView {
             
             self.matchSystemTheme = Settings.Appearance.matchSystemTheme
             self.useDarkMode = Settings.Appearance.useDarkMode
+            self.mode = Mode(rawValue: Settings.Appearance.mode) ?? .manual
         }
     }
 }
