@@ -30,11 +30,16 @@ extension Settings.Appearance {
             }
             
             #if os(iOS)
-            _ = NotificationCenter.default.addObserver(forName: UIScreen.brightnessDidChangeNotification, object: self, queue: nil) { _ in
-                guard self.mode == .automatically else { return }
-                self.apply()
-            }
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(brightnessDidChange),
+                                                   name: UIScreen.brightnessDidChangeNotification,
+                                                   object: nil)
             #endif
+        }
+        
+        @objc func brightnessDidChange() {
+            guard self.mode == .automatically else { return }
+            self.apply()
         }
         
         var mode: Mode {
@@ -58,12 +63,12 @@ extension Settings.Appearance {
         
         #if os(iOS)
         public func apply(on viewController: UIViewController?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else { return }
             viewController?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
         }
         
         public func apply(on window: UIWindow?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else { return }
             window?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
             
         }
@@ -73,12 +78,12 @@ extension Settings.Appearance {
         }
         #elseif os(macOS)
         public func apply(on viewController: NSViewController?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else { return }
             viewController?.view.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
         }
         
         public func apply(on window: NSWindow?) {
-            guard Settings.Appearance.matchSystemTheme else { return }
+            guard !Settings.Appearance.matchSystemTheme else { return }
             window?.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
         }
         
