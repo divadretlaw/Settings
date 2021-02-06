@@ -29,13 +29,21 @@ struct CheckmarkToggleStyle: ToggleStyle {
                     } else {
                         Image(systemName: "circle")
                             .font(SwiftUI.Font.headline.weight(.light))
-                            .foregroundColor(Color(.systemGray2))
+                            .foregroundColor(self.offColor)
                             .accessibility(removeTraits: .isImage)
                             .accessibility(addTraits: .isButton)
                     }
                 }
             })
         }
+    }
+    
+    var offColor: Color {
+        #if os(iOS)
+        return Color(.systemGray2)
+        #else
+        return Color(.systemGray)
+        #endif
     }
 }
 
