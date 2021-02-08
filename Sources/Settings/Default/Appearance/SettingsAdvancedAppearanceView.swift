@@ -13,7 +13,7 @@ extension Settings {
         
         #if os(iOS)
         public var body: some View {
-            List {
+            Form {
                 self.content
             }
             .listStyle(GroupedListStyle())
