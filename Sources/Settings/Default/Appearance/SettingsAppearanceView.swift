@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Settings {
     public struct AppearanceView: View {
-        @ObservedObject var viewModel: ViewModel
+        @ObservedObject var viewModel: Appearance.ViewModel
         private var showHeader: Bool
         
         public var body: some View {
@@ -38,7 +38,7 @@ extension Settings {
         
         public init(showHeader: Bool = true) {
             self.showHeader = showHeader
-            self.viewModel = ViewModel()
+            self.viewModel = Appearance.ViewModel()
         }
     }
 }
@@ -48,7 +48,7 @@ struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Settings.AppearanceView()
-        }.listStyle(GroupedListStyle())
+        }
     }
 }
 #endif

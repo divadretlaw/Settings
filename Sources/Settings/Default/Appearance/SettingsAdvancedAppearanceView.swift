@@ -8,10 +8,31 @@
 import SwiftUI
 
 extension Settings {
-    struct AdvancedAppearanceView: View {
-        @ObservedObject var viewModel: AppearanceView.ViewModel
+    public struct AdvancedAppearanceView: View {
+        @ObservedObject var viewModel: Appearance.ViewModel
         
-        var body: some View {
+        #if os(iOS)
+        public var body: some View {
+            Form {
+                self.content
+            }
+            .listStyle(GroupedListStyle())
+            .navigationBarTitle("Appearance".localized())
+            .navigationBarItems(trailing: NavBarButton(action: {
+                Dismisser.shared?.dismiss()
+            }, text: Text("Done".localized())))
+        }
+        #elseif os(macOS)
+        public var body: some View {
+            List {
+                self.content
+            }
+            .navigationTitle("Appearance".localized())
+        }
+        #endif
+        
+        @ViewBuilder
+        var content: some View {
             Section {
                 Toggle(isOn: self.$viewModel.matchSystemTheme) {
                     Text("Match System Theme".localized())
@@ -34,19 +55,19 @@ extension Settings {
                         }
                     }).toggleStyle(CheckmarkToggleStyle())
                     
-                    Toggle(isOn: Binding(get: {
-                        viewModel.mode == .scheduled
-                    }, set: { value in
-                        guard value else { return }
-                        viewModel.mode = .scheduled
-                    }), label: {
-                        VStack(alignment: .leading) {
-                            Text("Scheduled")
-                                .font(.body)
-                            Text("At specific times")
-                                .font(.caption)
-                        }
-                    }).toggleStyle(CheckmarkToggleStyle())
+//                    Toggle(isOn: Binding(get: {
+//                        viewModel.mode == .scheduled
+//                    }, set: { value in
+//                        guard value else { return }
+//                        viewModel.mode = .scheduled
+//                    }), label: {
+//                        VStack(alignment: .leading) {
+//                            Text("Scheduled")
+//                                .font(.body)
+//                            Text("At specific times")
+//                                .font(.caption)
+//                        }
+//                    }).toggleStyle(CheckmarkToggleStyle())
                     
                     Toggle(isOn: Binding(get: {
                         viewModel.mode == .automatically
@@ -97,8 +118,11 @@ extension Settings {
                 }
                 
                 if viewModel.mode == .automatically {
-                    Section(header: Text("Brightness")) {
-                        Slider(value: .constant(0.5), in: 0...1, minimumValueLabel: Image(systemName: "sun.min"), maximumValueLabel: Image(systemName: "sun.max")) {
+                    Section(header: Text("Brightness"), footer: brightnessThreshold) {
+                        Slider(value: $viewModel.threshold,
+                               in: 0...1,
+                               minimumValueLabel: Image(systemName: "sun.min"),
+                               maximumValueLabel: Image(systemName: "sun.max")) {
                             Text("Brightness slider")
                         }.accentColor(.gray)
                     }
@@ -108,8 +132,12 @@ extension Settings {
             
         }
         
-        init() {
-            self.viewModel = AppearanceView.ViewModel()
+        var brightnessThreshold: some View {
+            Text("Will switch to dark mode when \(Int(viewModel.threshold * 100)) % brightness or less.")
+        }
+        
+        public init() {
+            self.viewModel = Appearance.ViewModel()
         }
     }
 }
@@ -117,9 +145,15 @@ extension Settings {
 #if DEBUG
 struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            Settings.AdvancedAppearanceView()
-        }.listStyle(GroupedListStyle())
+        NavigationView {
+            NavigationLink(
+                destination: Settings.AdvancedAppearanceView(),
+                isActive: .constant(true),
+                label: {
+                    Text("Appearance")
+                })
+            
+        }
     }
 }
 #endif

@@ -17,7 +17,7 @@ extension NSApplication {
     func updateAppearance() {
         self.windows.forEach {
             if !Settings.Appearance.matchSystemTheme {
-                $0.appearance = NSAppearance(named: Settings.Appearance.useDarkMode ? .darkAqua : .aqua)
+                Settings.Appearance.Manager.shared.apply()
             } else {
                 $0.appearance = nil
             }

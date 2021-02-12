@@ -28,7 +28,7 @@ extension Settings {
                     }
                 }, label: {
                     ZStack {
-                        NavigationLink(destination: PasscodeEditView { self.isOn = $0 }, isActive: $showEdit, label: { EmptyView() })
+                        NavigationLink(destination: PasscodeEditView { self.isOn = $0 }, isActive: $showEdit, label: { EmptyView() }).hidden()
                         HStack {
                             Text("Passcode".localized())
                             Spacer()
@@ -66,8 +66,10 @@ extension Settings {
 
 struct SettingsPasscodeView_Previews: PreviewProvider {
     static var previews: some View {
-        List {
-            Settings.PasscodeView()
+        NavigationView {
+            List {
+                Settings.PasscodeView()
+            }
         }
     }
 }

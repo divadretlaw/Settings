@@ -17,7 +17,7 @@ extension UIApplication {
     func updateAppearance() {
         self.windows.forEach {
             if !Settings.Appearance.matchSystemTheme {
-                $0.overrideUserInterfaceStyle = Settings.Appearance.useDarkMode ? .dark : .light
+                Settings.Appearance.Manager.shared.apply()
             } else {
                 $0.overrideUserInterfaceStyle = .unspecified
             }

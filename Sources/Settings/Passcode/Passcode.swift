@@ -106,8 +106,8 @@ public class Passcode {
         host.rootView = AnyView(PasscodeView(viewModel: viewModel))
         let window = Application.shared.rootWindow
         
-        Settings.Appearance.apply(on: host)
-        Settings.Appearance.apply(on: window)
+        Settings.Appearance.Manager.shared.apply(on: host)
+        Settings.Appearance.Manager.shared.apply(on: window)
 
         #if os(iOS)
         window?.rootViewController?.topViewController()?.present(host, animated: flag)

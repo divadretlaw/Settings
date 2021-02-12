@@ -9,6 +9,7 @@ struct UserDefaultsEntryView: View {
     @State var showConfirmationDialog: Bool = false
     @Environment(\.presentationMode) var presentationMode
 
+    #if os(iOS)
     var body: some View {
         List {
             view(for: viewModel.entry)
@@ -19,6 +20,15 @@ struct UserDefaultsEntryView: View {
             Dismisser.shared?.dismiss()
         }, text: Text("Done".localized())))
     }
+    #else
+    var body: some View {
+        List {
+            view(for: viewModel.entry)
+            rawData(for: viewModel.entry)
+        }
+        .navigationTitle(viewModel.entry.key)
+    }
+    #endif
 
     func view(for entry: UserDefaultsViewModel.UserDefaultEntry) -> some View {
         let mirror: Mirror

@@ -5,6 +5,7 @@
 //  Created by David Walter on 06.02.21.
 //
 
+#if os(iOS)
 import Foundation
 import SwiftUI
 
@@ -19,3 +20,4 @@ extension Bundle {
         return UIImage(named: highestResolution)
     }
 }
+#endif
