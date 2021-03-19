@@ -43,9 +43,7 @@ extension Settings {
             .environment(\.horizontalSizeClass, .regular)
             .animation(.default)
             .navigationBarTitle("Passcode".localized())
-            .navigationBarItems(trailing: NavBarButton(action: {
-                Dismisser.shared?.dismiss()
-            }, text: Text("Done".localized())))
+            .dismissable()
         }
         
         init(onChange: @escaping (Bool) -> Void) {

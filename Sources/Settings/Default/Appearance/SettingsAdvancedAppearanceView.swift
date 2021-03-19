@@ -1,16 +1,16 @@
 //
 //  SettingsAdvancedAppearanceView.swift
-//  
+//
 //
 //  Created by David Walter on 06.02.21.
 //
 
 import SwiftUI
 
-extension Settings {
-    public struct AdvancedAppearanceView: View {
+public extension Settings {
+    struct AdvancedAppearanceView: View {
         @ObservedObject var viewModel: Appearance.ViewModel
-        
+
         #if os(iOS)
         public var body: some View {
             Form {
@@ -18,9 +18,7 @@ extension Settings {
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Appearance".localized())
-            .navigationBarItems(trailing: NavBarButton(action: {
-                Dismisser.shared?.dismiss()
-            }, text: Text("Done".localized())))
+            .dismissable()
         }
         #elseif os(macOS)
         public var body: some View {
@@ -30,7 +28,7 @@ extension Settings {
             .navigationTitle("Appearance".localized())
         }
         #endif
-        
+
         @ViewBuilder
         var content: some View {
             Section {
@@ -38,7 +36,7 @@ extension Settings {
                     Text("Match System Theme".localized())
                 }
             }.animation(.default)
-            
+
             if !viewModel.matchSystemTheme {
                 Section(header: Text("Switch")) {
                     Toggle(isOn: Binding(get: {
@@ -54,7 +52,7 @@ extension Settings {
                                 .font(.caption)
                         }
                     }).toggleStyle(CheckmarkToggleStyle())
-                    
+
 //                    Toggle(isOn: Binding(get: {
 //                        viewModel.mode == .scheduled
 //                    }, set: { value in
@@ -68,7 +66,7 @@ extension Settings {
 //                                .font(.caption)
 //                        }
 //                    }).toggleStyle(CheckmarkToggleStyle())
-                    
+
                     Toggle(isOn: Binding(get: {
                         viewModel.mode == .automatically
                     }, set: { value in
@@ -83,7 +81,7 @@ extension Settings {
                         }
                     }).toggleStyle(CheckmarkToggleStyle())
                 }
-                
+
                 if viewModel.mode == .manual {
                     Section(header: Text("Theme")) {
                         Toggle(isOn: Binding(get: {
@@ -94,7 +92,7 @@ extension Settings {
                         }), label: {
                             Text("Light")
                         }).toggleStyle(CheckmarkToggleStyle())
-                        
+
                         Toggle(isOn: Binding(get: {
                             viewModel.useDarkMode
                         }, set: { value in
@@ -105,7 +103,7 @@ extension Settings {
                         }).toggleStyle(CheckmarkToggleStyle())
                     }
                 }
-                
+
                 if viewModel.mode == .scheduled {
                     Section(header: Text("Scheduled")) {
                         DatePicker("Light mode starts",
@@ -116,28 +114,28 @@ extension Settings {
                                    displayedComponents: .hourAndMinute)
                     }
                 }
-                
+
                 if viewModel.mode == .automatically {
                     Section(header: Text("Brightness"), footer: brightnessThreshold) {
                         Slider(value: $viewModel.threshold,
-                               in: 0...1,
+                               in: 0 ... 1,
                                minimumValueLabel: Image(systemName: "sun.min"),
                                maximumValueLabel: Image(systemName: "sun.max")) {
                             Text("Brightness slider")
                         }.accentColor(.gray)
                     }
                 }
-                
+
             }
-            
+
         }
-        
+
         var brightnessThreshold: some View {
             Text("Will switch to dark mode when \(Int(viewModel.threshold * 100)) % brightness or less.")
         }
-        
+
         public init() {
-            self.viewModel = Appearance.ViewModel()
+            viewModel = Appearance.ViewModel()
         }
     }
 }
@@ -151,8 +149,9 @@ struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
                 isActive: .constant(true),
                 label: {
                     Text("Appearance")
-                })
-            
+                }
+            )
+
         }
     }
 }

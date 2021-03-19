@@ -11,11 +11,10 @@ import SwiftUI
 public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
     var title: String = "Settings".localized()
     var content: () -> Content
-    
-    @Binding private var showSettingsBool: Bool
-    @Binding private var showSettingsIdentifable: T?
+
+    private var showSettings: BindingWrapper<T>
     @ObservedObject private var dismisser: Dismisser
-    
+
     #if os(iOS)
     public var body: some View {
         NavigationView {
@@ -25,16 +24,12 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
             .navigationBarTitle(self.title)
-            .navigationBarItems(trailing: NavBarButton(action: {
-                self.showSettingsBool = false
-                self.showSettingsIdentifable = nil
-            }, text: Text("Done".localized())))
+            .dismissable()
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onReceive(dismisser.$shouldDismiss) { value in
             if value {
-                self.showSettingsBool = false
-                self.showSettingsIdentifable = nil
+                self.showSettings.dismiss()
             }
         }
     }
@@ -48,50 +43,46 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         }
         .onReceive(dismisser.$shouldDismiss) { value in
             if value {
-                self.showSettingsBool = false
-                self.showSettingsIdentifable = nil
+                self.showSettings.dismiss()
             }
         }
     }
     #endif
-    
+
     public init(showSettings: Binding<T?>,
                 @ViewBuilder content: @escaping () -> Content) {
-        self._showSettingsBool = .constant(false)
-        self._showSettingsIdentifable = showSettings
+        self.showSettings = BindingWrapper(showSettings)
         self.content = content
         self.dismisser = Dismisser()
     }
-}
 
-extension Bool: Identifiable {
-    public var id: String {
-        return self ? "true" : "false"
+    public init(@ViewBuilder content: @escaping () -> Content) {
+        self.showSettings = BindingWrapper()
+        self.content = content
+        self.dismisser = Dismisser(empty: true)
+    }
+
+    func show(showSettings: Binding<T?>) -> Self {
+        var view = self
+        view.showSettings = BindingWrapper(showSettings)
+        view.dismisser = Dismisser()
+        return view
+    }
+
+    func show(showSettings: Binding<Bool>) -> Self {
+        var view = self
+        view.showSettings = BindingWrapper(showSettings)
+        view.dismisser = Dismisser()
+        return view
     }
 }
 
-extension SettingsView where T == Bool {
-    public init(showSettings: Binding<Bool>,
-                @ViewBuilder content: @escaping () -> Content) {
-        self._showSettingsBool = showSettings
-        self._showSettingsIdentifable = .constant(nil)
+public extension SettingsView where T == Bool {
+    init(showSettings: Binding<Bool>,
+         @ViewBuilder content: @escaping () -> Content) {
+        self.showSettings = BindingWrapper(showSettings)
         self.content = content
         self.dismisser = Dismisser()
-    }
-}
-
-class Dismisser: ObservableObject {
-    static var shared: Dismisser?
-    
-    @Published var shouldDismiss: Bool = false
-    
-    init() {
-        Dismisser.shared = self
-    }
-    
-    func dismiss() {
-        shouldDismiss = true
-        Dismisser.shared = nil
     }
 }
 
