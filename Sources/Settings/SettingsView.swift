@@ -80,7 +80,7 @@ public extension SettingsView where T == Bool {
     }
     
     init(@ViewBuilder content: @escaping () -> Content) {
-        self.showSettings = BindingWrapper()
+        self.showSettings = BindingWrapper<Bool>()
         self.content = content
         self.dismisser = Dismisser(empty: true)
     }
