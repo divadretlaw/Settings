@@ -25,12 +25,6 @@ struct BindingWrapper<T> {
         self._identifable = .constant(nil)
     }
     
-    init() {
-        self.hasBinding = false
-        self._bool = .constant(false)
-        self._identifable = .constant(nil)
-    }
-    
     func dismiss() {
         self.bool = false
         self.identifable = nil
@@ -41,4 +35,12 @@ extension Bool: Identifiable {
    public var id: String {
        return self ? "true" : "false"
    }
+}
+
+extension BindingWrapper where T == Bool {
+    init() {
+        self.hasBinding = false
+        self._bool = .constant(false)
+        self._identifable = .constant(nil)
+    }
 }

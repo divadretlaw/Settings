@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+#if os(iOS)
 extension View {
     @ViewBuilder
     public func conditionalNavigationBarItems<L, T>(hasLeading: Bool = true,
@@ -15,7 +16,8 @@ extension View {
                                                     trailing: T) -> some View where L: View, T: View {
         switch (hasLeading, hasTrailing) {
         case (true, true):
-            self.navigationBarItems(leading: leading, trailing: trailing)
+            self.navigationBarItems(leading: leading,
+                                    trailing: trailing)
         case (true, false):
             self.navigationBarItems(leading: leading)
         case (false, true):
@@ -54,7 +56,8 @@ extension View {
                                                     trailing: () -> T) -> some View where L: View, T: View {
         switch (hasLeading, hasTrailing) {
         case (true, true):
-            self.navigationBarItems(leading: leading(), trailing: trailing())
+            self.navigationBarItems(leading: leading(),
+                                    trailing: trailing())
         case (true, false):
             self.navigationBarItems(leading: leading())
         case (false, true):
@@ -86,3 +89,4 @@ extension View {
         }
     }
 }
+#endif
