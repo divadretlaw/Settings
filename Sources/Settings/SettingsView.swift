@@ -20,6 +20,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         NavigationView {
             Form {
                 content()
+                    .animation(nil)
             }
             .listStyle(GroupedListStyle())
             .environment(\.horizontalSizeClass, .regular)
@@ -38,6 +39,7 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         NavigationView {
             Form {
                 content()
+                    .animation(nil)
             }
             .navigationTitle(self.title)
         }
