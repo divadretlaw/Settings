@@ -17,7 +17,7 @@ protocol HeaderView {
 }
 
 extension HeaderView {
-    func hideHeader(_ value: Bool) -> Self {
+    public func hideHeader(_ value: Bool) -> Self {
         var view = self
         view.header.show = !value
         return view
