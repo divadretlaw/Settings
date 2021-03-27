@@ -36,6 +36,7 @@ extension Settings {
                             .font(.subheadline)
                     }
                 }
+                
                 Spacer()
             }
         }

@@ -18,17 +18,15 @@ extension Settings {
         @State private var showMFMailView = false
         
         public var body: some View {
-            Group {
-                Section(header: self.headerView) {
-                    Button(action: {
-                        self.showMFMailView = true
-                    }, label: {
-                        Text("Email Developer".localized())
-                    }).disabled(!MFMailComposeViewController.canSendMail())
-                    .mailSheet(Settings.Configuration.shared.mailOptions,
-                               result: self.$result,
-                               isPresented: self.$showMFMailView)
-                }
+            Section(header: self.headerView) {
+                Button(action: {
+                    self.showMFMailView = true
+                }, label: {
+                    Text("Email Developer".localized())
+                }).disabled(!MFMailComposeViewController.canSendMail())
+                .mailSheet(Settings.Configuration.shared.mailOptions,
+                           result: self.$result,
+                           isPresented: self.$showMFMailView)
             }
         }
         

@@ -10,24 +10,24 @@ import SwiftUI
 struct BindingWrapper<T> {
     let hasBinding: Bool
     
-    @Binding private var bool: Bool
-    @Binding private var identifable: T?
+    private var bool: Binding<Bool>
+    private var identifable: Binding<T?>
     
     init(_ value: Binding<T?>) {
         self.hasBinding = true
-        self._bool = .constant(false)
-        self._identifable = value
+        self.bool = .constant(false)
+        self.identifable = value
     }
     
     init(_ value: Binding<Bool>) {
         self.hasBinding = true
-        self._bool = value
-        self._identifable = .constant(nil)
+        self.bool = value
+        self.identifable = .constant(nil)
     }
     
     func dismiss() {
-        self.bool = false
-        self.identifable = nil
+        self.bool.wrappedValue = false
+        self.identifable.wrappedValue = nil
     }
 }
 
@@ -40,7 +40,7 @@ extension Bool: Identifiable {
 extension BindingWrapper where T == Bool {
     init() {
         self.hasBinding = false
-        self._bool = .constant(false)
-        self._identifable = .constant(nil)
+        self.bool = .constant(false)
+        self.identifable = .constant(nil)
     }
 }

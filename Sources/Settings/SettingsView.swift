@@ -57,20 +57,6 @@ public struct SettingsView<T, Content>: View where T: Identifiable, Content: Vie
         self.content = content
         self.dismisser = Dismisser()
     }
-
-    func show(showSettings: Binding<T?>) -> Self {
-        var view = self
-        view.showSettings = BindingWrapper(showSettings)
-        view.dismisser = Dismisser()
-        return view
-    }
-
-    func show(showSettings: Binding<Bool>) -> Self {
-        var view = self
-        view.showSettings = BindingWrapper(showSettings)
-        view.dismisser = Dismisser()
-        return view
-    }
 }
 
 public extension SettingsView where T == Bool {
