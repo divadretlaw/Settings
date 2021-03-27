@@ -19,7 +19,6 @@ extension Settings {
     }
 }
 
-#if DEBUG
 struct SettingsDeviceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -27,4 +26,3 @@ struct SettingsDeviceView_Previews: PreviewProvider {
         }
     }
 }
-#endif

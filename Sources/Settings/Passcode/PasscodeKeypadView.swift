@@ -61,24 +61,19 @@ private struct NumberButton: View {
 }
 
 extension Passcode.Value {
+    @ViewBuilder
     var display: some View {
         switch self {
         case .text(let value):
-            return AnyView(
-                Text(value)
-                    .font(.title)
-                    .foregroundColor(Color(.label))
-            )
+            Text(value)
+                .font(.title)
+                .foregroundColor(Color(.label))
         case .delete:
-            return AnyView(
-                Image(systemName: "delete.left")
-                    .imageScale(.large)
-                    .foregroundColor(Color(.label))
-            )
+            Image(systemName: "delete.left")
+                .imageScale(.large)
+                .foregroundColor(Color(.label))
         default:
-            return AnyView(
-                EmptyView()
-            )
+            EmptyView()
         }
     }
 }
@@ -88,6 +83,5 @@ struct KeypadView_Previews: PreviewProvider {
         KeypadView(viewModel: Passcode.ViewModel(host: ViewController(),
                                                  mode: .authentication,
                                                  completion: { _ in }))
-            .previewLayout(.fixed(width: 800, height: 600))
     }
 }

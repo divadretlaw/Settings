@@ -16,9 +16,7 @@ struct UserDefaultsEntryView: View {
             rawData(for: viewModel.entry)
         }
         .navigationBarTitle(viewModel.entry.key)
-        .navigationBarItems(trailing: NavBarButton(action: {
-            Dismisser.shared?.dismiss()
-        }, text: Text("Done".localized())))
+        .dismissable()
     }
     #else
     var body: some View {

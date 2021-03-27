@@ -27,9 +27,7 @@ public struct UserDefaultsView: View {
         }
         .listStyle(PlainListStyle())
         .navigationBarTitle("UserDefaults Browser".localized())
-        .navigationBarItems(trailing: NavBarButton(action: {
-            Dismisser.shared?.dismiss()
-        }, text: Text("Done".localized())))
+        .dismissable()
         .onAppear {
             self.viewModel.loadAllUserDefaults()
         }

@@ -11,44 +11,31 @@ import SwiftUI
 import MessageUI
 
 extension Settings {
-    public struct SupportView: View {
-        private var showHeader: Bool
+    public struct SupportView: View, HeaderView {
+        public var header = (title: "Support", show: true)
         
         @State private var result: Result<MFMailComposeResult, Error>?
         @State private var showMFMailView = false
         
         public var body: some View {
-            Group {
-                Section(header: self.headerView) {
-                    Button(action: {
-                        self.showMFMailView = true
-                    }, label: {
-                        Text("Email Developer".localized())
-                    }).disabled(!MFMailComposeViewController.canSendMail())
-                    .mailSheet(Settings.Configuration.shared.mailOptions,
-                               result: self.$result,
-                               isPresented: self.$showMFMailView)
-                }
+            Section(header: self.headerView) {
+                Button(action: {
+                    self.showMFMailView = true
+                }, label: {
+                    Text("Email Developer".localized())
+                }).disabled(!MFMailComposeViewController.canSendMail())
+                .mailSheet(Settings.Configuration.shared.mailOptions,
+                           result: self.$result,
+                           isPresented: self.$showMFMailView)
             }
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Support".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true) {
-            self.showHeader = showHeader
+        public init() {
+            
         }
     }
 }
 
-#if DEBUG
 struct SettingsSupportView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -56,5 +43,4 @@ struct SettingsSupportView_Previews: PreviewProvider {
         }
     }
 }
-#endif
 #endif

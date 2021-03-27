@@ -66,9 +66,7 @@ public struct MFMailView: UIViewControllerRepresentable {
                                        context: UIViewControllerRepresentableContext<MFMailView>) {
     }
 }
-#endif
 
-#if DEBUG && !os(macOS)
 struct MFMailView_Previews: PreviewProvider {
     static var previews: some View {
         MFMailView(options: nil, isShowing: .constant(true), result: .constant(nil))

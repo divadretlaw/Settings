@@ -47,7 +47,6 @@ struct CheckmarkToggleStyle: ToggleStyle {
     }
 }
 
-#if DEBUG
 struct CheckmarkToggleStyle_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -62,4 +61,3 @@ struct CheckmarkToggleStyle_Previews: PreviewProvider {
         }
     }
 }
-#endif
