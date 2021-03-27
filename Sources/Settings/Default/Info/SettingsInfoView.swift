@@ -8,11 +8,11 @@
 import SwiftUI
 
 extension Settings {
-    public struct InfoView: View {
+    public struct InfoView: View, HeaderView {
+        var header = (title: "Information", show: true)
         @ObservedObject var viewModel: InfoPlistViewModel
         
         var infos: [InfoPlistKey]
-        var showHeader: Bool
         
         public var body: some View {
             Section(header: self.headerView) {
@@ -26,22 +26,10 @@ extension Settings {
             }
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Information".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
         public init(infos: [InfoPlistKey],
-                    showHeader: Bool = true,
                     bundle: Bundle = Bundle.main) {
             self.infos = infos
             self.viewModel = InfoPlistViewModel(bundle: bundle)
-            self.showHeader = showHeader
         }
     }
 }
@@ -63,7 +51,6 @@ private extension InfoPlistKey {
     }
 }
 
-#if DEBUG
 struct SettingsInfoView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -74,4 +61,3 @@ struct SettingsInfoView_Previews: PreviewProvider {
         }
     }
 }
-#endif

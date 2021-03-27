@@ -31,6 +31,14 @@ class Dismisser: ObservableObject {
 
 extension View {
     func dismissable() -> some View {
+        #if os(iOS)
         return conditionalNavigationBarItems(hasTrailing: Dismisser.shared != nil, trailing: Dismisser.navigationBarButton())
+        #else
+        return self.toolbar {
+            if Dismisser.shared != nil {
+                Dismisser.navigationBarButton()
+            }
+        }
+        #endif
     }
 }

@@ -45,7 +45,6 @@ struct NavBarButton: View {
     }
 }
 
-#if DEBUG
 struct NavBarButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -58,4 +57,3 @@ struct NavBarButton_Previews: PreviewProvider {
         }
     }
 }
-#endif

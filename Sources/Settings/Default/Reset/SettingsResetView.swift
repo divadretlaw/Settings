@@ -9,8 +9,8 @@
 import SwiftUI
 
 extension Settings {
-    public struct ResetView: View {
-        var showHeader: Bool
+    public struct ResetView: View, HeaderView {
+        var header = (title: "Reset", show: true)
         var reset: (() -> Void)?
         
         @ObservedObject var viewModel: ViewModel
@@ -36,25 +36,13 @@ extension Settings {
             }
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Reset".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true, reset: (() -> Void)? = nil) {
-            self.showHeader = showHeader
+        public init(reset: (() -> Void)? = nil) {
             self.reset = reset
             self.viewModel = ViewModel()
         }
     }
 }
 
-#if DEBUG
 struct SettingsResetView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -62,4 +50,3 @@ struct SettingsResetView_Previews: PreviewProvider {
         }
     }
 }
-#endif

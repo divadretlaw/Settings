@@ -140,7 +140,6 @@ public extension Settings {
     }
 }
 
-#if DEBUG
 struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -155,4 +154,3 @@ struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
         }
     }
 }
-#endif

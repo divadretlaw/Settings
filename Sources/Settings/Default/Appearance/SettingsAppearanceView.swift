@@ -9,9 +9,9 @@
 import SwiftUI
 
 extension Settings {
-    public struct AppearanceView: View {
+    public struct AppearanceView: View, HeaderView {
+        var header = (title: "Appearance", show: true)
         @ObservedObject var viewModel: Appearance.ViewModel
-        private var showHeader: Bool
         
         public var body: some View {
             Section(header: self.headerView) {
@@ -26,24 +26,12 @@ extension Settings {
             }.animation(.default)
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Appearance".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true) {
-            self.showHeader = showHeader
+        public init() {
             self.viewModel = Appearance.ViewModel()
         }
     }
 }
 
-#if DEBUG
 struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -51,4 +39,3 @@ struct SettingsAppearanceView_Previews: PreviewProvider {
         }
     }
 }
-#endif

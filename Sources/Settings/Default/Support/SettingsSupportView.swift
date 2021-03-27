@@ -11,8 +11,8 @@ import SwiftUI
 import MessageUI
 
 extension Settings {
-    public struct SupportView: View {
-        private var showHeader: Bool
+    public struct SupportView: View, HeaderView {
+        var header = (title: "Support", show: true)
         
         @State private var result: Result<MFMailComposeResult, Error>?
         @State private var showMFMailView = false
@@ -32,23 +32,12 @@ extension Settings {
             }
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Support".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true) {
-            self.showHeader = showHeader
+        public init() {
+            
         }
     }
 }
 
-#if DEBUG
 struct SettingsSupportView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -56,5 +45,4 @@ struct SettingsSupportView_Previews: PreviewProvider {
         }
     }
 }
-#endif
 #endif

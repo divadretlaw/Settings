@@ -10,8 +10,8 @@
 import SwiftUI
 
 extension Settings {
-    public struct PasscodeView: View {
-        private var showHeader: Bool
+    public struct PasscodeView: View, HeaderView {
+        var header = (title: "Passcode", show: true)
         @State var isOn: Bool
         @State var showEdit = false
         
@@ -47,18 +47,7 @@ extension Settings {
             }
         }
         
-        var headerView: some View {
-            Group {
-                if showHeader {
-                    Text("Passcode".localized())
-                } else {
-                    EmptyView()
-                }
-            }
-        }
-        
-        public init(showHeader: Bool = true) {
-            self.showHeader = showHeader
+        public init() {
             self._isOn = State(initialValue: Passcode.shared.hasCode())
         }
     }

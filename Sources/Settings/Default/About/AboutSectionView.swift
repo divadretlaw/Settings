@@ -47,7 +47,6 @@ extension Settings {
     }
 }
 
-#if DEBUG
 struct AboutSectionView_Previews: PreviewProvider {
     static var previews: some View {
         List {
@@ -58,6 +57,5 @@ struct AboutSectionView_Previews: PreviewProvider {
         }.listStyle(GroupedListStyle())
     }
 }
-#endif
 
 #endif
