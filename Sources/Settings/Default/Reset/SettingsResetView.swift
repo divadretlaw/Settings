@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Settings {
     public struct ResetView: View, HeaderView {
-        var header = (title: "Reset", show: true)
+        public var header = (title: "Reset", show: true)
         var reset: (() -> Void)?
         
         @ObservedObject var viewModel: ViewModel

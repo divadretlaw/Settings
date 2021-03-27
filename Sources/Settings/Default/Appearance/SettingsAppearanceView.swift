@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Settings {
     public struct AppearanceView: View, HeaderView {
-        var header = (title: "Appearance", show: true)
+        public var header = (title: "Appearance", show: true)
         @ObservedObject var viewModel: Appearance.ViewModel
         
         public var body: some View {

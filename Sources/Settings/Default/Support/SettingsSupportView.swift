@@ -12,7 +12,7 @@ import MessageUI
 
 extension Settings {
     public struct SupportView: View, HeaderView {
-        var header = (title: "Support", show: true)
+        public var header = (title: "Support", show: true)
         
         @State private var result: Result<MFMailComposeResult, Error>?
         @State private var showMFMailView = false

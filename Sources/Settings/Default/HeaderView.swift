@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-protocol HeaderView {
+public protocol HeaderView {
     var header: (title: String, show: Bool) { get set }
     
     associatedtype Content: View
@@ -24,7 +24,7 @@ extension HeaderView {
     }
     
     @ViewBuilder
-    var headerView: some View {
+    public var headerView: some View {
         if header.show {
             Text(header.title.localized())
         } else {

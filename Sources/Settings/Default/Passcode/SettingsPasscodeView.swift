@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Settings {
     public struct PasscodeView: View, HeaderView {
-        var header = (title: "Passcode", show: true)
+        public var header = (title: "Passcode", show: true)
         @State var isOn: Bool
         @State var showEdit = false
         
