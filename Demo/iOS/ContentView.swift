@@ -1,12 +1,12 @@
 //
-//  Demo.swift
-//  Settings
+//  ContentView.swift
+//  Demo - iOS
 //
-//  Created by David Walter on 27.03.21.
+//  Created by David Walter on 19.03.21.
 //
 
-#if DEBUG
 import SwiftUI
+import Settings
 
 struct ContentView: View {
     enum Sheet: String, Identifiable {
@@ -37,9 +37,11 @@ struct ContentView: View {
                     Text("Some sheet")
                 }
             })
+            .sheet(isPresented: $showSettings) {
+                self.settingsSheet
+            }
             .tabItem {
-                Image(systemName: "gearshape.2.fill")
-                Text("Home")
+                Label("Home", systemImage: "gearshape.2.fill")
             }
             
             self.settingsView
@@ -48,24 +50,30 @@ struct ContentView: View {
     
     var settingsView: some View {
         SettingsView {
+            Settings.AppearanceView()
+            
             NavigationLink(destination: Settings.AdvancedAppearanceView()) {
-                Text("Appearance")
+                Text("Advanced Appearance")
             }
 
             Settings.ResetView()
             
             Section(footer: Settings.AboutSectionView()) {}
         }.tabItem {
-            Image(systemName: "gear")
-            Text("Settings")
+            Label("Settings", systemImage: "gear")
         }
     }
     
     var settingsSheet: some View {
         SettingsView(showSettings: $showSettings) {
+            Settings.AppearanceView()
+            
             NavigationLink(destination: Settings.AdvancedAppearanceView()) {
-                Text("Appearance")
+                Text("Advanced Appearance")
             }
+            
+            Settings.ResetView()
+                .hideHeader(true)
 
             Section(footer: Settings.AboutSectionView()) {}
         }
@@ -77,4 +85,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-#endif
