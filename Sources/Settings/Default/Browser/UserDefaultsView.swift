@@ -8,7 +8,7 @@
 import SwiftUI
 
 public struct UserDefaultsView: View {
-    @ObservedObject var viewModel: UserDefaultsViewModel = UserDefaultsViewModel()
+    @StateObject var viewModel: UserDefaultsViewModel = UserDefaultsViewModel()
 
     #if os(iOS)
     public var body: some View {
