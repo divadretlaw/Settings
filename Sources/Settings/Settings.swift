@@ -56,11 +56,11 @@ public struct Settings {
         #endif
     }
     
-    static func set(userDefaults: UserDefaults = .standard) {
+    public static func set(userDefaults: UserDefaults = .standard) {
         Self.userDefaults = userDefaults
     }
     
-    static func set(configuration: Configuration) {
+    public static func set(configuration: Configuration) {
         Settings.Configuration.shared = configuration
     }
     
