@@ -20,7 +20,7 @@ public struct UserDefaultsView: View {
                             self.viewModel.delete(entry: entry)
                         }, label: {
                             Image(systemName: "trash")
-                            Text("Delete".localized())
+                            Text("common.delete".localized())
                         })
                     })
             }
@@ -42,7 +42,7 @@ public struct UserDefaultsView: View {
                             self.viewModel.delete(entry: entry)
                         }, label: {
                             Image(systemName: "trash")
-                            Text("Delete".localized())
+                            Text("common.delete".localized())
                         })
                     })
             }

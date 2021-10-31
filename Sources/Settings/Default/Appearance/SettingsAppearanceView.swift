@@ -10,17 +10,17 @@ import SwiftUI
 
 extension Settings {
     public struct AppearanceView: View, HeaderView {
-        public var header = (title: "Appearance", show: true)
+        public var header = (title: "appearance.title", show: true)
         @ObservedObject var viewModel: Appearance.ViewModel
         
         public var body: some View {
             Section(header: self.headerView) {
                 Toggle(isOn: self.$viewModel.matchSystemTheme) {
-                    Text("Match System Theme".localized())
+                    Text("appearance.simple.system".localized())
                 }
                 if !viewModel.matchSystemTheme {
                     Toggle(isOn: self.$viewModel.useDarkMode) {
-                        Text("Dark Mode".localized())
+                        Text("appearance.simple.dark".localized())
                     }.transition(.slide)
                 }
             }.animation(.default)

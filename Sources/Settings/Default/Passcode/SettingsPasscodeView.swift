@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Settings {
     public struct PasscodeView: View, HeaderView {
-        public var header = (title: "Passcode", show: true)
+        public var header = (title: "passcode.title", show: true)
         @State var isOn: Bool
         @State var showEdit = false
         
@@ -30,13 +30,13 @@ extension Settings {
                     ZStack {
                         NavigationLink(destination: PasscodeEditView { self.isOn = $0 }, isActive: $showEdit, label: { EmptyView() }).hidden()
                         HStack {
-                            Text("Passcode".localized())
+                            Text("passcode.title".localized())
                             Spacer()
                             if isOn == true {
-                                Text("On".localized())
+                                Text("passcode.on".localized())
                                     .foregroundColor(Color.secondary)
                             } else if isOn == false {
-                                Text("Off".localized())
+                                Text("passcode.off".localized())
                                     .foregroundColor(Color.secondary)
                             } else {
                                 EmptyView()

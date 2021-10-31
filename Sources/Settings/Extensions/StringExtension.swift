@@ -14,8 +14,7 @@ private class Localizable {
 
 extension String {
     func localized(comment: String = "") -> String {
-        let bundle = Bundle.main.path(forResource: "Settings", ofType: "strings") != nil
-            ? Bundle.main : Bundle(for: Localizable.self)
+        let bundle = Bundle.main.path(forResource: "Settings", ofType: "strings") != nil ? Bundle.main : Bundle.module
         
         return NSLocalizedString(self, tableName: "Settings", bundle: bundle, comment: comment)
     }

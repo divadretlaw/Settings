@@ -17,7 +17,7 @@ public extension Settings {
                 self.content
             }
             .listStyle(GroupedListStyle())
-            .navigationBarTitle("Appearance".localized())
+            .navigationBarTitle("appearance.title".localized())
             .dismissable()
         }
 #elseif os(macOS)
@@ -25,7 +25,7 @@ public extension Settings {
             List {
                 self.content
             }
-            .navigationTitle("Appearance".localized())
+            .navigationTitle("appearance.title".localized())
         }
 #endif
         
@@ -38,9 +38,9 @@ public extension Settings {
                     viewModel.matchSystemTheme = $0
                 }), label: {
                     VStack(alignment: .leading) {
-                        Text("System")
+                        Text("appearance.option.system".localized())
                             .font(.body)
-                        Text("Matches the system theme")
+                        Text("appearance.option.system.hint".localized())
                             .font(.caption)
                     }
                 })
@@ -55,9 +55,9 @@ public extension Settings {
                     viewModel.mode = .manual
                 }), label: {
                     VStack(alignment: .leading) {
-                        Text("Manually")
+                        Text("appearance.option.manually".localized())
                             .font(.body)
-                        Text("Only switch when you want")
+                        Text("appearance.option.manually.hint".localized())
                             .font(.caption)
                     }
                 })
@@ -72,9 +72,9 @@ public extension Settings {
                 //     viewModel.mode = .scheduled
                 // }), label: {
                 //     VStack(alignment: .leading) {
-                //         Text("Scheduled")
+                //         Text("appearance.option.scheduled")
                 //             .font(.body)
-                //         Text("At specific times")
+                //         Text("appearance.option.scheduled.hint")
                 //             .font(.caption)
                 //     }
                 // })
@@ -89,9 +89,9 @@ public extension Settings {
                     viewModel.mode = .automatically
                 }), label: {
                     VStack(alignment: .leading) {
-                        Text("Automatically")
+                        Text("appearance.option.automatically".localized())
                             .font(.body)
-                        Text("Based on screen brightness")
+                        Text("appearance.option.automatically.hint".localized())
                             .font(.caption)
                     }
                 })
@@ -100,14 +100,14 @@ public extension Settings {
             
             if !viewModel.matchSystemTheme {
                 if viewModel.mode == .manual {
-                    Section(header: Text("Theme")) {
+                    Section(header: Text("appearance.option.manually.theme".localized())) {
                         Toggle(isOn: Binding(get: {
                             !viewModel.useDarkMode
                         }, set: { value in
                             guard value else { return }
                             viewModel.useDarkMode = false
                         }), label: {
-                            Text("Light")
+                            Text("appearance.option.manually.light".localized())
                         }).toggleStyle(CheckmarkToggleStyle())
                         
                         Toggle(isOn: Binding(get: {
@@ -116,29 +116,29 @@ public extension Settings {
                             guard value else { return }
                             viewModel.useDarkMode = true
                         }), label: {
-                            Text("Dark")
+                            Text("appearance.option.manually.dark".localized())
                         }).toggleStyle(CheckmarkToggleStyle())
                     }
                 }
                 
                 if viewModel.mode == .scheduled {
-                    Section(header: Text("Scheduled")) {
-                        DatePicker("Light mode starts",
+                    Section(header: Text("appearance.option.scheduled.dates".localized())) {
+                        DatePicker("appearance.option.scheduled.light".localized(),
                                    selection: .constant(Date()),
                                    displayedComponents: .hourAndMinute)
-                        DatePicker("Dark mode starts",
+                        DatePicker("appearance.option.scheduled.dark".localized(),
                                    selection: .constant(Date()),
                                    displayedComponents: .hourAndMinute)
                     }
                 }
                 
                 if viewModel.mode == .automatically {
-                    Section(header: Text("Brightness"), footer: brightnessThreshold) {
+                    Section(header: Text("appearance.option.automatically.slider".localized()), footer: brightnessThreshold) {
                         Slider(value: $viewModel.threshold,
                                in: 0 ... 1,
                                minimumValueLabel: Image(systemName: "sun.min"),
                                maximumValueLabel: Image(systemName: "sun.max")) {
-                            Text("Brightness slider")
+                            Text("appearance.option.automatically.slider".localized())
                         }.accentColor(.gray)
                     }
                 }
@@ -146,7 +146,7 @@ public extension Settings {
         }
         
         var brightnessThreshold: some View {
-            Text("Will switch to dark mode when \(Int(viewModel.threshold * 100)) % brightness or less.")
+            Text(String(format: "appearance.option.automatically.slider.hint".localized(), Int(viewModel.threshold * 100)))
         }
         
         public init() {

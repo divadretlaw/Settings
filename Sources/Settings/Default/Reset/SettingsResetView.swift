@@ -10,7 +10,7 @@ import SwiftUI
 
 extension Settings {
     public struct ResetView: View, HeaderView {
-        public var header = (title: "Reset", show: true)
+        public var header = (title: "reset.title".localized(), show: true)
         var reset: (() -> Void)?
         
         @ObservedObject var viewModel: ViewModel
@@ -21,12 +21,12 @@ extension Settings {
                 Button(action: {
                     self.showResetAlert = true
                 }, label: {
-                    Text("Reset all data".localized())
+                    Text("reset.button".localized())
                         .foregroundColor(.red)
                 }).alert(isPresented: $showResetAlert) {
-                    Alert(title: Text("Reset all data?".localized()),
-                          message: Text("All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action".localized()),
-                          primaryButton: .destructive(Text("Reset all data".localized())) {
+                    Alert(title: Text("reset.alert.title".localized()),
+                          message: Text("reset.alert.message".localized()),
+                          primaryButton: .destructive(Text("reset.alert.destructive".localized())) {
                             self.viewModel.resetAll()
                             self.reset?()
                             Dismisser.shared?.dismiss()

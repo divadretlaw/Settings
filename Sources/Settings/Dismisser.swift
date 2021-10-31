@@ -25,7 +25,7 @@ class Dismisser: ObservableObject {
     static func navigationBarButton() -> some View {
         return NavBarButton(action: {
             Dismisser.shared?.dismiss()
-        }, text: Text("Done".localized()))
+        }, text: Text("common.done".localized()))
     }
 }
 

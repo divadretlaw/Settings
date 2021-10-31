@@ -1,0 +1,54 @@
+// Generic
+"settings.title" = "Settings";
+
+// Common
+"common.done" = "Done";
+"common.cancel" = "Cancel";
+"common.delete" = "Delete";
+
+// Appearance
+"appearance.title" = "Appearance";
+"appearance.simple.system" = "Match System theme";
+"appearance.simple.dark" = "Dark Mode";
+
+"appearance.option.system" = "System";
+"appearance.option.system.hint" = "Matches the system theme";
+
+"appearance.option.manually" = "Manually";
+"appearance.option.manually.hint" = "Force a specific theme";
+"appearance.option.manually.theme" = "Theme";
+"appearance.option.manually.light" = "Light"; 
+"appearance.option.manually.dark" = "Dark"; 
+
+"appearance.option.automatically" = "Automatically";
+"appearance.option.automatically.hint" = "Based on screen brightness";
+
+"appearance.option.automatically.slider" = "Brightness";
+"appearance.option.automatically.slider.hint" = "Will switch to dark mode when %d %% brightness or less.";
+
+// Info
+"info.title" = "Information";
+
+"info.version" = "Version";
+"info.buildnumber" = "Build number";
+"info.appname" = "App name";
+"info.sdk" = "SDK";
+
+// Passcode
+"passcode.title" = "Passcode";
+
+"passcode.change" = "Change Passcode";
+"passcode.delete" = "Delete Passcode";
+"passcode.on" = "On";
+"passcode.off" = "Off";
+
+// Reset
+"reset.title" = "Reset";
+"reset.button" = "Reset all data";
+"reset.alert.title" = "Reset all data?";
+"reset.alert.message" = "All data on this device will be deleted, and all settings will be reset to default, you won't be able to undo this action";
+"reset.alert.destructive" = "Reset all data";
+
+// Support
+"support.title" = "Support";
+"support.email" = "Email Developer";

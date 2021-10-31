@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Settings",
+    defaultLocalization: "en",
     platforms: [.iOS(.v14), .macOS(.v11)],
     products: [
         .library(
@@ -17,7 +18,10 @@ let package = Package(
     targets: [
         .target(
             name: "Settings",
-            dependencies: ["KeychainSwift"]),
+            dependencies: ["KeychainSwift"],
+            resources: [
+                .process("Resources")
+            ]),
         .testTarget(
             name: "SettingsTests",
             dependencies: ["Settings"]),

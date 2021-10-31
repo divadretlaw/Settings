@@ -20,7 +20,7 @@ extension Settings {
                     Button(action: {
                         self.viewModel.changeCode()
                     }, label: {
-                        Text("Change Passcode".localized())
+                        Text("passcode.change".localized())
                     })
                     if Passcode.shared.biometrics != .none {
                         Toggle(isOn: $viewModel.isBiometricsOn) {
@@ -35,14 +35,14 @@ extension Settings {
                             self.presentationMode.wrappedValue.dismiss()
                         }
                     }, label: {
-                        Text("Remove Passcode".localized())
+                        Text("passcode.delete".localized())
                             .foregroundColor(.red)
                     })
                 }
             }
             .environment(\.horizontalSizeClass, .regular)
             .animation(.default)
-            .navigationBarTitle("Passcode".localized())
+            .navigationBarTitle("passcode.title".localized())
             .dismissable()
         }
         

@@ -12,7 +12,7 @@ public typealias SettingsView = Settings.SettingsView
 
 extension Settings {
     public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
-        var title: String = "Settings".localized()
+        var title: String = "settings.title".localized()
         var content: () -> Content
         
         private var showSettings: BindingWrapper<T>
