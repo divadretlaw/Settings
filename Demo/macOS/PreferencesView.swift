@@ -15,15 +15,13 @@ struct PreferencesView: View {
                 Settings.AppearanceView()
                 
                 Settings.ResetView()
-                    .hideHeader(true)
             }
             .padding()
             .tabItem { Label("General", systemImage: "gearshape") }
             
-            VStack {
-                Settings.AdvancedAppearanceView()
-                    .frame(minWidth: 500, minHeight: 500)
-            }.tabItem { Label("Appearance", systemImage: "paintbrush") }
+            Settings.AdvancedAppearanceView()
+                .frame(minWidth: 500, minHeight: 500)
+                .tabItem { Label("Appearance", systemImage: "paintbrush") }
         }
     }
 }
