@@ -9,36 +9,48 @@
 import SwiftUI
 
 extension Settings {
-    public struct ResetView: View, HeaderView {
-        public var header = (title: "reset.title".localized(), show: true)
+    public struct ResetSection: View, HeaderView {
+        public var header = (title: "reset.title", show: true)
         var reset: (() -> Void)?
-        
-        @ObservedObject var viewModel: ViewModel
-        @State private var showResetAlert = false
         
         public var body: some View {
             Section(header: self.headerView) {
-                Button(action: {
-                    self.showResetAlert = true
-                }, label: {
-                    Text("reset.button".localized())
-                        .foregroundColor(.red)
-                }).alert(isPresented: $showResetAlert) {
-                    Alert(title: Text("reset.alert.title".localized()),
-                          message: Text("reset.alert.message".localized()),
-                          primaryButton: .destructive(Text("reset.alert.destructive".localized())) {
-                            self.viewModel.resetAll()
-                            self.reset?()
-                            Dismisser.shared?.dismiss()
-                          },
-                          secondaryButton: .cancel())
-                }
+                ResetView(reset: reset)
             }
         }
         
         public init(reset: (() -> Void)? = nil) {
             self.reset = reset
-            self.viewModel = ViewModel()
+        }
+    }
+    
+    public struct ResetView: View {
+        var reset: (() -> Void)?
+        
+        @StateObject private var viewModel = ViewModel()
+        @State private var showResetAlert = false
+        
+        public var body: some View {
+            Button(action: {
+                self.showResetAlert = true
+            }, label: {
+                Text("reset.button".localized())
+                    .foregroundColor(.red)
+            })
+            .alert(isPresented: $showResetAlert) {
+                Alert(title: Text("reset.alert.title".localized()),
+                      message: Text("reset.alert.message".localized()),
+                      primaryButton: .destructive(Text("reset.alert.destructive".localized())) {
+                          self.viewModel.resetAll()
+                          self.reset?()
+                          Dismisser.shared?.dismiss()
+                      },
+                      secondaryButton: .cancel())
+            }
+        }
+        
+        public init(reset: (() -> Void)? = nil) {
+            self.reset = reset
         }
     }
 }
@@ -46,7 +58,7 @@ extension Settings {
 struct SettingsResetView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Settings.ResetView()
+            Settings.ResetSection()
         }
     }
 }

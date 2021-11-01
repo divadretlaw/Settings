@@ -26,7 +26,7 @@ public struct UserDefaultsView: View {
             }
         }
         .listStyle(PlainListStyle())
-        .navigationBarTitle("UserDefaults Browser".localized())
+        .navigationBarTitle("userdefaults.title".localized())
         .dismissable()
         .onAppear {
             self.viewModel.loadAllUserDefaults()
@@ -48,7 +48,7 @@ public struct UserDefaultsView: View {
             }
         }
         .listStyle(PlainListStyle())
-        .navigationTitle("UserDefaults Browser".localized())
+        .navigationTitle("userdefaults.title".localized())
         .onAppear {
             self.viewModel.loadAllUserDefaults()
         }

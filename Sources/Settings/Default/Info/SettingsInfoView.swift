@@ -8,28 +8,48 @@
 import SwiftUI
 
 extension Settings {
-    public struct InfoView: View, HeaderView {
-        public var header = (title: "info.title".localized(), show: true)
-        @ObservedObject var viewModel: InfoPlistViewModel
-        
+    public struct InfoSection: View, HeaderView {
+        public var header = (title: "info.title", show: true)
         var infos: [InfoPlistKey]
+        var bundle: Bundle
         
         public var body: some View {
             Section(header: self.headerView) {
-                ForEach(infos, id: \.self) { info in
-                    HStack {
-                        Text(info.title.localized())
-                        Spacer()
-                        Text(viewModel.value(for: info))
-                    }
+                InfoView(infos: infos, bundle: bundle)
+            }
+        }
+        
+        public init(infos: [InfoPlistKey], bundle: Bundle = Bundle.main) {
+            self.infos = infos
+            self.bundle = bundle
+        }
+    }
+    
+    public struct InfoView: View {
+        var infos: [InfoPlistKey]
+        var bundle: Bundle
+
+        public var body: some View {
+            ForEach(infos, id: \.self) { info in
+                HStack {
+                    Text(info.title.localized())
+                    Spacer()
+                    Text(value(for: info))
                 }
             }
         }
         
-        public init(infos: [InfoPlistKey],
-                    bundle: Bundle = Bundle.main) {
+        public init(infos: [InfoPlistKey], bundle: Bundle = Bundle.main) {
             self.infos = infos
-            self.viewModel = InfoPlistViewModel(bundle: bundle)
+            self.bundle = bundle
+        }
+        
+        func value(for key: InfoPlistKey) -> String {
+            guard let infoDict = bundle.infoDictionary,
+                  let value = infoDict[key.rawValue] as? String else {
+                return ""
+            }
+            return value
         }
     }
 }
@@ -54,10 +74,10 @@ private extension InfoPlistKey {
 struct SettingsInfoView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Settings.InfoView(infos: [.version,
-                                      .buildNumber,
-                                      .appName,
-                                      .sdkVersion])
+            Settings.InfoSection(infos: [.version,
+                                         .buildNumber,
+                                         .appName,
+                                         .sdkVersion])
         }
     }
 }

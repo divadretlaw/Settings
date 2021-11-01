@@ -9,9 +9,9 @@ import SwiftUI
 
 public extension Settings {
     struct AdvancedAppearanceView: View {
-        @ObservedObject var viewModel: Appearance.ViewModel
+        @StateObject var viewModel = Appearance.ViewModel()
         
-#if os(iOS)
+        #if os(iOS)
         public var body: some View {
             Form {
                 self.content
@@ -20,14 +20,14 @@ public extension Settings {
             .navigationBarTitle("appearance.title".localized())
             .dismissable()
         }
-#elseif os(macOS)
+        #elseif os(macOS)
         public var body: some View {
             List {
                 self.content
             }
             .navigationTitle("appearance.title".localized())
         }
-#endif
+        #endif
         
         @ViewBuilder
         var content: some View {
@@ -108,7 +108,8 @@ public extension Settings {
                             viewModel.useDarkMode = false
                         }), label: {
                             Text("appearance.option.manually.light".localized())
-                        }).toggleStyle(CheckmarkToggleStyle())
+                        })
+                        .toggleStyle(CheckmarkToggleStyle())
                         
                         Toggle(isOn: Binding(get: {
                             viewModel.useDarkMode
@@ -117,7 +118,8 @@ public extension Settings {
                             viewModel.useDarkMode = true
                         }), label: {
                             Text("appearance.option.manually.dark".localized())
-                        }).toggleStyle(CheckmarkToggleStyle())
+                        })
+                        .toggleStyle(CheckmarkToggleStyle())
                     }
                 }
                 
@@ -139,7 +141,8 @@ public extension Settings {
                                minimumValueLabel: Image(systemName: "sun.min"),
                                maximumValueLabel: Image(systemName: "sun.max")) {
                             Text("appearance.option.automatically.slider".localized())
-                        }.accentColor(.gray)
+                        }
+                        .accentColor(.gray)
                     }
                 }
             }
@@ -150,7 +153,7 @@ public extension Settings {
         }
         
         public init() {
-            viewModel = Appearance.ViewModel()
+            
         }
     }
 }

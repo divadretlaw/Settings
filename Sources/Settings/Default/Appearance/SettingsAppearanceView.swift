@@ -9,25 +9,39 @@
 import SwiftUI
 
 extension Settings {
-    public struct AppearanceView: View, HeaderView {
+    public struct AppearanceSection: View, HeaderView {
         public var header = (title: "appearance.title", show: true)
-        @ObservedObject var viewModel: Appearance.ViewModel
         
         public var body: some View {
             Section(header: self.headerView) {
-                Toggle(isOn: self.$viewModel.matchSystemTheme) {
-                    Text("appearance.simple.system".localized())
-                }
-                if !viewModel.matchSystemTheme {
-                    Toggle(isOn: self.$viewModel.useDarkMode) {
-                        Text("appearance.simple.dark".localized())
-                    }.transition(.slide)
-                }
-            }.animation(.default)
+                AppearanceView()
+            }
+            .animation(.default)
         }
         
         public init() {
-            self.viewModel = Appearance.ViewModel()
+            
+        }
+    }
+        
+    public struct AppearanceView: View {
+        @StateObject private var viewModel = Appearance.ViewModel()
+        
+        public var body: some View {
+            Toggle(isOn: self.$viewModel.matchSystemTheme) {
+                Text("appearance.simple.system".localized())
+            }
+            
+            if !viewModel.matchSystemTheme {
+                Toggle(isOn: self.$viewModel.useDarkMode) {
+                    Text("appearance.simple.dark".localized())
+                }
+                .transition(.slide)
+            }
+        }
+        
+        public init() {
+            
         }
     }
 }
@@ -35,7 +49,7 @@ extension Settings {
 struct SettingsAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Settings.AppearanceView()
+            Settings.AppearanceSection()
         }
     }
 }

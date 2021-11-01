@@ -42,6 +42,9 @@
 "passcode.on" = "On";
 "passcode.off" = "Off";
 
+// UserDefaults
+"userdefaults.title" = "UserDefaults Browser";
+
 // Reset
 "reset.title" = "Reset";
 "reset.button" = "Reset all data";

@@ -10,7 +10,6 @@ import SwiftUI
 
 extension Settings {
     public struct AboutSectionView: View {
-        @ObservedObject var viewModel: InfoPlistViewModel
         var additional: [String]
         
         public var body: some View {
@@ -26,11 +25,12 @@ extension Settings {
                 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(alignment: .center) {
-                        Text(viewModel.value(for: .appName))
+                        Text(value(for: .appName))
                             .font(.headline)
-                        Text(viewModel.value(for: .version))
+                        Text(value(for: .version))
                             .font(.headline)
                     }
+                    
                     ForEach(additional, id: \.self) { text in
                         Text(text)
                             .font(.subheadline)
@@ -42,8 +42,15 @@ extension Settings {
         }
         
         public init(additional: [String] = []) {
-            self.viewModel = InfoPlistViewModel(bundle: Bundle.main)
             self.additional = additional
+        }
+        
+        func value(for key: InfoPlistKey) -> String {
+            guard let infoDict = Bundle.main.infoDictionary, let value = infoDict[key.rawValue] as? String else {
+                return ""
+            }
+            
+            return value
         }
     }
 }
@@ -55,7 +62,8 @@ struct AboutSectionView_Previews: PreviewProvider {
                 Text("Test")
                 Settings.AboutSectionView(additional: ["by David Walter"])
             }
-        }.listStyle(GroupedListStyle())
+        }
+        .listStyle(GroupedListStyle())
     }
 }
 
