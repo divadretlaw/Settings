@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Settings {
     public struct InfoView: View, HeaderView {
-        public var header = (title: "information.title".localized(), show: true)
+        public var header = (title: "info.title".localized(), show: true)
         @ObservedObject var viewModel: InfoPlistViewModel
         
         var infos: [InfoPlistKey]

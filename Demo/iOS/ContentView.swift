@@ -9,34 +9,17 @@ import SwiftUI
 import Settings
 
 struct ContentView: View {
-    enum Sheet: String, Identifiable {
-        case settings
-        case other
-        
-        var id: String { self.rawValue }
-    }
-    
-    @State var sheet: Sheet?
     @State var showSettings = false
     
     var body: some View {
         TabView {
             NavigationView {
                 Button(action: {
-                    self.sheet = .settings
                     self.showSettings = true
                 }, label: {
                     Text("Show Settings as a Sheet")
                 })
             }
-            .sheet(item: $sheet, content: { sheet in
-                switch sheet {
-                case .settings:
-                    self.settingsSheet
-                case .other:
-                    Text("Some sheet")
-                }
-            })
             .sheet(isPresented: $showSettings) {
                 self.settingsSheet
             }
