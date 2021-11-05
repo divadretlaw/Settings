@@ -55,3 +55,6 @@
 // Support
 "support.title" = "Support";
 "support.email" = "Email Developer";
+
+// Alternative App Icon
+"appicon.title" = "Alternative App Icon";

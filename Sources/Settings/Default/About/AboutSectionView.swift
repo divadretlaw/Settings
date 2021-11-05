@@ -1,6 +1,6 @@
 //
-//  SwiftUIView.swift
-//  
+//  AboutSectionView.swift
+//  Settings
 //
 //  Created by David Walter on 06.02.21.
 //
