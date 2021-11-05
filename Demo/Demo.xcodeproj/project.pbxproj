@@ -17,6 +17,7 @@
 		635BFAFB2627004900D0099B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635BFAF92627004900D0099B /* ContentView.swift */; };
 		635BFB072627009F00D0099B /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635BFB062627009F00D0099B /* PreferencesView.swift */; };
 		635BFB082627009F00D0099B /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635BFB062627009F00D0099B /* PreferencesView.swift */; };
+		63F16AC427356B1F0001A34A /* AlternativeAppIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F16AC327356B1F0001A34A /* AlternativeAppIcons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		635BFAF02626FE9D00D0099B /* Settings */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Settings; path = ..; sourceTree = "<group>"; };
 		635BFAF92627004900D0099B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		635BFB062627009F00D0099B /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		63F16AC327356B1F0001A34A /* AlternativeAppIcons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeAppIcons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 			children = (
 				635BFAB92626FD5300D0099B /* ContentView.swift */,
 				635BFAC22626FD5300D0099B /* Info.plist */,
+				63F16AC327356B1F0001A34A /* AlternativeAppIcons.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63F16AC427356B1F0001A34A /* AlternativeAppIcons.swift in Sources */,
 				635BFB072627009F00D0099B /* PreferencesView.swift in Sources */,
 				635BFACD2626FD5300D0099B /* ContentView.swift in Sources */,
 				635BFACB2626FD5300D0099B /* DemoApp.swift in Sources */,
@@ -238,6 +242,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = Blue;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -297,6 +303,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES = Blue;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

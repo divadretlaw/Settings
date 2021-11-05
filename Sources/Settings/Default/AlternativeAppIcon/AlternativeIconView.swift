@@ -5,7 +5,9 @@
 //  Created by David Walter on 05.11.21.
 //
 
+#if os(iOS)
 import SwiftUI
+import UIKit
 
 public protocol AlternateIcon: Identifiable, CaseIterable, Equatable {
     static var `default`: Self { get }
@@ -17,24 +19,22 @@ public protocol AlternateIcon: Identifiable, CaseIterable, Equatable {
     var subtitle: String? { get }
 }
 
-extension AlternateIcon {
-    static var current: Self {
-        Self.allCases.first { $0.alternateIconName == UIApplication.shared.alternateIconName } ?? .default
-    }
-}
-
 extension Settings {
     public struct AlternativeIconView<Icon: AlternateIcon>: View {
         var icons: [Icon]
-        @State private var current = Icon.current
+        
+        @State private var checkmark = UUID()
         
         public var body: some View {
             List {
                 ForEach(icons) { item in
                     Button {
                         UIApplication.shared.setAlternateIconName(item.alternateIconName) { error in
-                            guard error != nil else { return }
-                            current = item
+                            guard error == nil else {
+                                return
+                            }
+                            
+                            checkmark = UUID()
                         }
                     } label: {
                         HStack {
@@ -58,7 +58,8 @@ extension Settings {
                             
                             Image(systemName: "checkmark")
                                 .font(.body.weight(.bold))
-                                .opacity(item == current ? 1 : 0)
+                                .opacity(UIApplication.shared.alternateIconName == item.alternateIconName ? 1 : 0)
+                                .id(checkmark)
                         }
                         .padding(.vertical, 4)
                     }
@@ -135,4 +136,5 @@ struct SettingsAlternativeIconView_Previews: PreviewProvider {
         }
     }
 }
+#endif
 #endif

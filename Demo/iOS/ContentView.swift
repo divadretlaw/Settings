@@ -59,6 +59,12 @@ struct ContentView: View {
             }
         }
         
+        NavigationLink {
+            Settings.AlternativeIconView(icons: AlternativeAppIcon.allCases)
+        } label: {
+            Text("Alternative App Icons")
+        }
+        
         Settings.PasscodeSection()
 
         Settings.AppearanceSection()
