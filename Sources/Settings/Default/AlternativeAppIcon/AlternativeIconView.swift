@@ -66,7 +66,7 @@ extension Settings {
                 }
             }
             .listStyle(.grouped)
-            .navigationTitle("appicon.title".localized())
+            .navigationBarTitle("appicon.title".localized())
             .settingsDismissable()
         }
         

@@ -34,17 +34,24 @@ extension View {
        return dismissable()
     }
     
+    @ViewBuilder
     func dismissable() -> some View {
         #if os(iOS)
-        return self.toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                if Dismisser.shared != nil {
-                    Dismisser.navigationBarButton()
+        if #available(iOS 14, *) {
+            self.toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    if Dismisser.shared != nil {
+                        Dismisser.navigationBarButton()
+                    }
                 }
             }
+        } else if Dismisser.shared != nil {
+            self.navigationBarItems(trailing: Dismisser.navigationBarButton())
+        } else {
+            self
         }
         #else
-        return self.toolbar {
+        self.toolbar {
             if Dismisser.shared != nil {
                 Dismisser.navigationBarButton()
             }

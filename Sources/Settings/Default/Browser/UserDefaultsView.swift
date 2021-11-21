@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 14.0, macOS 11, *)
 public struct UserDefaultsView: View {
     @StateObject var viewModel: UserDefaultsViewModel = UserDefaultsViewModel()
 
@@ -88,6 +89,8 @@ public struct UserDefaultsView: View {
     }
 }
 
+#if DEBUG
+@available(iOS 14.0, macOS 11.0, *)
 struct UserDefaultsView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -95,3 +98,4 @@ struct UserDefaultsView_Previews: PreviewProvider {
         }
     }
 }
+#endif
