@@ -1,6 +1,6 @@
 //
 //  SettingsPasscodeEditView.swift
-//  
+//  Settings
 //
 //  Created by David Walter on 28.12.20.
 //

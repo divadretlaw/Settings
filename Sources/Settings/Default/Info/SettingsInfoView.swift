@@ -1,6 +1,6 @@
 //
-//  SwiftUIView.swift
-//  
+//  InfoSection.swift
+//  Settings
 //
 //  Created by David Walter on 26.12.20.
 //

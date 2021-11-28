@@ -1,6 +1,6 @@
 //
 //  MFMailView.Options.swift
-//  
+//  Settings
 //
 //  Created by David Walter on 25.12.20.
 //

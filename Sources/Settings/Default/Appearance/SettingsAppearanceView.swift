@@ -3,7 +3,6 @@
 //  Settings
 //
 //  Created by David Walter on 11.06.20.
-//  Copyright © 2020 David Walter. All rights reserved.
 //
 
 import SwiftUI

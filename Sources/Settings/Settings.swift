@@ -8,11 +8,14 @@
 
 #if os(iOS)
 import UIKit
+import SwiftUI
 #elseif os(macOS)
 import AppKit
 #endif
 
 public struct Settings {
+    public static let schemeDidChange = NSNotification.Name("Settings.schemeDidChange")
+    
     static var userDefaults: UserDefaults = .standard
     
     @propertyWrapper public struct Entry<Value> {
@@ -65,11 +68,23 @@ public struct Settings {
     }
     
     #if os(iOS)
+    public static var userInterfaceStyle: UIUserInterfaceStyle {
+        return Settings.Appearance.Manager.shared.userInterfaceStyle
+    }
+    
+    public static var colorScheme: ColorScheme? {
+        return Settings.Appearance.Manager.shared.colorScheme
+    }
+    
     public static func apply(on window: UIWindow?) {
         Settings.Appearance.Manager.shared.apply(on: window)
         Passcode.shared.authenticate(animated: false)
     }
     #elseif os(macOS)
+    public static var appearance: NSAppearance? {
+        return Settings.Appearance.Manager.shared.appearance
+    }
+    
     public static func apply(on window: NSWindow?) {
         Settings.Appearance.Manager.shared.apply(on: window)
         Passcode.shared.authenticate(animated: false)

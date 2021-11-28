@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  SettingsApperanceManager.swift
+//  Settings
 //
 //  Created by David Walter on 06.02.21.
 //
@@ -8,6 +8,7 @@
 import Foundation
 #if os(iOS)
 import UIKit
+import SwiftUI
 #elseif os(macOS)
 import AppKit
 #endif
@@ -34,7 +35,6 @@ extension Settings.Appearance {
                                                    selector: #selector(brightnessDidChange),
                                                    name: UIScreen.brightnessDidChangeNotification,
                                                    object: nil)
-            
             #endif
         }
         
@@ -63,45 +63,56 @@ extension Settings.Appearance {
         }
         
         #if os(iOS)
-        public func apply(on viewController: UIViewController?) {
+        
+        #elseif os(macOS)
+        #endif
+        
+        #if os(iOS)
+        var userInterfaceStyle: UIUserInterfaceStyle {
             guard !Settings.Appearance.matchSystemTheme else {
-                viewController?.overrideUserInterfaceStyle = .unspecified
-                return
+                return .unspecified
             }
-            viewController?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
+            return useDarkMode ? .dark : .light
         }
         
-        public func apply(on window: UIWindow?) {
+        var colorScheme: ColorScheme? {
             guard !Settings.Appearance.matchSystemTheme else {
-                window?.overrideUserInterfaceStyle = .unspecified
-                return
+                return nil
             }
-            window?.overrideUserInterfaceStyle = useDarkMode ? .dark : .light
-            
+            return useDarkMode ? .dark : .light
         }
         
-        public func apply() {
+        func apply(on viewController: UIViewController?) {
+            viewController?.overrideUserInterfaceStyle = userInterfaceStyle
+        }
+        
+        func apply(on window: UIWindow?) {
+            window?.overrideUserInterfaceStyle = userInterfaceStyle
+        }
+        
+        func apply() {
             UIApplication.shared.windows.forEach { apply(on: $0) }
+            NotificationCenter.default.post(name: Settings.schemeDidChange, object: self)
         }
         #elseif os(macOS)
-        public func apply(on viewController: NSViewController?) {
+        var appearance: NSAppearance? {
             guard !Settings.Appearance.matchSystemTheme else {
-                viewController?.view.appearance = nil
-                return
+                return nil
             }
-            viewController?.view.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
+            return NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
         }
         
-        public func apply(on window: NSWindow?) {
-            guard !Settings.Appearance.matchSystemTheme else {
-                window?.appearance = nil
-                return
-            }
-            window?.appearance = NSAppearance(named: useDarkMode ? .darkAqua : .aqua)
+        func apply(on viewController: NSViewController?) {
+            viewController?.view.appearance = appearance
         }
         
-        public func apply() {
+        func apply(on window: NSWindow?) {
+            window?.appearance = appearance
+        }
+        
+        func apply() {
             NSApplication.shared.windows.forEach { apply(on: $0) }
+            NotificationCenter.default.post(name: Settings.schemeDidChange, object: self)
         }
         #endif
     }

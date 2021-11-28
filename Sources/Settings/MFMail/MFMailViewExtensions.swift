@@ -1,6 +1,6 @@
 //
 //  MFMailViewExtensions.swift
-//  
+//  Settings
 //
 //  Created by David Walter on 25.12.20.
 //

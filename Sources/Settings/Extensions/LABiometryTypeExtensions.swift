@@ -1,6 +1,6 @@
 //
 //  LABiometryTypeExtensions.swift
-//  Passcode
+//  Settings
 //
 //  Created by David Walter on 28.06.20.
 //  Copyright © 2020 David Walter. All rights reserved.
