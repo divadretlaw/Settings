@@ -40,7 +40,12 @@ extension Settings {
                 }
             }, label: {
                 ZStack {
-                    NavigationLink(destination: PasscodeEditView { self.isOn = $0 }, isActive: $showEdit, label: { EmptyView() }).hidden()
+                    NavigationLink(destination: PasscodeEditView { self.isOn = $0 },
+                                   isActive: $showEdit) {
+                        EmptyView()
+                    }
+                    .hidden()
+                    
                     HStack {
                         Text("passcode.title".localized())
                         

@@ -161,14 +161,7 @@ public extension Settings {
 struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            NavigationLink(
-                destination: Settings.AdvancedAppearanceView(),
-                isActive: .constant(true),
-                label: {
-                    Text("Appearance")
-                }
-            )
-            
+            Settings.AdvancedAppearanceView()
         }
     }
 }

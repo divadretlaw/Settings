@@ -12,6 +12,9 @@ extension Settings {
     public struct AboutSectionView: View {
         var additional: [String]
         
+        var titleColor = Color.primary
+        var additionalColor = Color.primary
+        
         public var body: some View {
             HStack(alignment: .center, spacing: 10) {
                 Spacer()
@@ -24,16 +27,18 @@ extension Settings {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    HStack(alignment: .center) {
+                    HStack(alignment: .center, spacing: 4) {
                         Text(value(for: .appName))
                             .font(.headline)
                         Text(value(for: .version))
                             .font(.headline)
                     }
+                    .foregroundColor(titleColor)
                     
                     ForEach(additional, id: \.self) { text in
                         Text(text)
                             .font(.subheadline)
+                            .foregroundColor(additionalColor)
                     }
                 }
                 
@@ -52,15 +57,29 @@ extension Settings {
             
             return value
         }
+        
+        public func titleColor(_ color: Color) -> Self {
+            var view = self
+            view.titleColor = color
+            return view
+        }
+        
+        public func additionalColor(_ color: Color) -> Self {
+            var view = self
+            view.additionalColor = color
+            return view
+        }
     }
 }
 
 struct AboutSectionView_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Section(footer: Settings.AboutSectionView()) {
+            Section {
                 Text("Test")
-                Settings.AboutSectionView(additional: ["by David Walter"])
+                Settings.AboutSectionView(additional: ["by David Walter", "some longer text for testing"])
+            } footer: {
+                Settings.AboutSectionView()
             }
         }
         .listStyle(GroupedListStyle())

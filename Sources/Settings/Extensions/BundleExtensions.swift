@@ -17,6 +17,7 @@ extension Bundle {
               let highestResolution = iconFiles.last else {
             return nil
         }
+        
         return UIImage(named: highestResolution)
     }
 }

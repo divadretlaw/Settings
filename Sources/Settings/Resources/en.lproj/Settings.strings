@@ -42,6 +42,9 @@
 "passcode.on" = "On";
 "passcode.off" = "Off";
 
+"biometricsReasonTouchID" = "Touch ID is used to unlock the app";
+"biometricsReasonFaceID" = "Face ID is used to unlock the app";
+
 // UserDefaults
 "userdefaults.title" = "UserDefaults Browser";
 
@@ -57,4 +60,4 @@
 "support.email" = "Email Developer";
 
 // Alternative App Icon
-"appicon.title" = "Alternative App Icon";
+"appicon.title" = "App Icon";

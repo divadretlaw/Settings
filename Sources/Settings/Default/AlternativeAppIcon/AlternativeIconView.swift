@@ -37,10 +37,13 @@ extension Settings {
                             checkmark = UUID()
                         }
                     } label: {
-                        HStack {
+                        HStack(spacing: 0) {
                             item.preview
+                                .resizable()
+                                .scaledToFit()
                                 .frame(width: 60, height: 60, alignment: .center)
                                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .padding(.trailing, 16)
                             
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(item.title)
@@ -98,7 +101,7 @@ enum PreviewAlternateIcon: String, AlternateIcon {
     var preview: Image {
         switch self {
         case .dark:
-            return Image(systemName: "app")
+            return Image(systemName: "app.dashed")
         case .long:
             return Image(systemName: "app.fill")
         default:

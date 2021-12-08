@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
-//import UIKit
+// import UIKit
 
 extension Settings {
     struct DeviceView: View {
-//        let device = UIDevice.current
+        // let device = UIDevice.current
         var infos: [Any]
         
         var body: some View {
