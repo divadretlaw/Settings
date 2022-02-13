@@ -63,11 +63,6 @@ extension Settings.Appearance {
         }
         
         #if os(iOS)
-        
-        #elseif os(macOS)
-        #endif
-        
-        #if os(iOS)
         var userInterfaceStyle: UIUserInterfaceStyle {
             guard !Settings.Appearance.matchSystemTheme else {
                 return .unspecified

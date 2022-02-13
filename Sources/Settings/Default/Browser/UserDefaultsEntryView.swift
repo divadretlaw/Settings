@@ -47,7 +47,7 @@ struct UserDefaultsEntryView: View {
                     .font(.system(.body, design: .monospaced))
             }
         }
-        return ForEach(0 ..< views.count) { index in views[index] }
+        return ForEach(0 ..< views.count, id: \.self) { index in views[index] }
     }
 
     func rawData(for entry: UserDefaultsViewModel.UserDefaultEntry) -> AnyView? {
