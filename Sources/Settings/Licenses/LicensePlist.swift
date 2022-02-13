@@ -24,7 +24,16 @@ public struct LicensePlist: Hashable {
             self.title = title
             
             do {
-                self.license = try String(contentsOf: url)
+                let dictionary = try NSDictionary(contentsOf: url, error: ())
+                guard let dict = dictionary["PreferenceSpecifiers"] as? NSArray, let license = dict.firstObject as? NSDictionary else {
+                    return nil
+                }
+                
+                guard let string = license["FooterText"] as? String else {
+                    return nil
+                }
+                
+                self.license = string
             } catch {
                 return nil
             }
