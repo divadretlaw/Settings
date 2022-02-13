@@ -61,3 +61,6 @@
 
 // Alternative App Icon
 "appicon.title" = "App Icon";
+
+// Licenses
+"licenses.title" = "Licenses";
