@@ -39,12 +39,6 @@ struct ContentView: View {
         }
     }
     
-    var settingsView: some View {
-        SettingsView(showSettings: $showSettings) {
-            settingsContent
-        }
-    }
-    
     @ViewBuilder
     var settingsContent: some View {
         Section {
@@ -89,6 +83,7 @@ struct ContentView: View {
             Settings.ResetView()
         } footer: {
             Settings.AboutSectionView()
+                .padding()
         }
     }
     

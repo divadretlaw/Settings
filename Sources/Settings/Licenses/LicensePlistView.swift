@@ -5,6 +5,7 @@
 //  Created by David Walter on 13.02.22.
 //
 
+#if os(iOS)
 import SwiftUI
 
 extension Settings {
@@ -36,6 +37,7 @@ extension Settings {
         }
     }
 }
+
 #if DEBUG
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
@@ -44,4 +46,5 @@ struct SwiftUIView_Previews: PreviewProvider {
         }
     }
 }
+#endif
 #endif
