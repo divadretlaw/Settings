@@ -18,7 +18,25 @@ extension Settings {
                     NavigationLink {
                         List {
                             Section {
-                                
+                                if let source = entry.source {
+                                    let sourceRow = {
+                                        HStack {
+                                            Text("license.source".localized())
+                                                .foregroundColor(.primary)
+                                            Spacer()
+                                            Text(source)
+                                                .multilineTextAlignment(.trailing)
+                                        }
+                                    }
+                                    
+                                    if #available(iOS 14.0, *), let url = URL(string: source) {
+                                        Link(destination: url) {
+                                            sourceRow()
+                                        }
+                                    } else {
+                                        sourceRow()
+                                    }
+                                }
                             } footer: {
                                 Text(entry.license)
                             }
