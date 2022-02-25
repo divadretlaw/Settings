@@ -38,7 +38,9 @@ public struct LicensePlist: Hashable {
                 
                 for element in array {
                     if let dict = element as? NSDictionary {
-                        self.source = dict["DefaultValue"] as? String
+                        if let source = dict["DefaultValue"] as? String {
+                            self.source = source
+                        }
                     }
                 }
             } catch {
