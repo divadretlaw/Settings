@@ -23,8 +23,8 @@ extension Passcode {
                 #endif
                 VStack {
                     Text(viewModel.mode == .changeCode
-                            ? "Enter New Passcode".localized()
-                            : "Enter Passcode".localized())
+                        ? "Enter New Passcode".localized()
+                        : "Enter Passcode".localized())
                         .font(.title)
                         .padding()
                     Spacer()
@@ -54,7 +54,7 @@ extension Passcode {
         
         var hint: some View {
             Group {
-                if viewModel.mode == .changeCode && viewModel.hasNewCode {
+                if viewModel.mode == .changeCode, viewModel.hasNewCode {
                     Text("Re-enter your new passcode".localized())
                 } else {
                     Text("Re-enter your new passcode".localized()).hidden()
@@ -87,7 +87,7 @@ extension Passcode {
             }, label: {
                 Text("Cancel".localized())
             }).foregroundColor(Color(Passcode.shared.config.color))
-            .padding()
+                .padding()
         }
     }
 }

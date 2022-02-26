@@ -10,13 +10,13 @@ import SwiftUI
 struct CheckmarkToggleStyle: ToggleStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         HStack {
-            Button(action: {
+            Button {
                 withAnimation {
                     if !configuration.isOn {
                         configuration.$isOn.wrappedValue.toggle()
                     }
                 }
-            }, label: {
+            } label: {
                 HStack {
                     configuration.label
                         .foregroundColor(Color(.label))
@@ -34,7 +34,8 @@ struct CheckmarkToggleStyle: ToggleStyle {
                             .accessibility(addTraits: .isButton)
                     }
                 }
-            })
+            }
+            .buttonStyle(.plain)
         }
     }
     
@@ -47,17 +48,23 @@ struct CheckmarkToggleStyle: ToggleStyle {
     }
 }
 
+extension ToggleStyle where Self == CheckmarkToggleStyle {
+    static var checkmark: CheckmarkToggleStyle {
+        CheckmarkToggleStyle()
+    }
+}
+
 struct CheckmarkToggleStyle_Previews: PreviewProvider {
     static var previews: some View {
         List {
             Toggle(isOn: .constant(true), label: {
                 Text("True")
             })
-            .toggleStyle(CheckmarkToggleStyle())
+                .toggleStyle(CheckmarkToggleStyle())
             Toggle(isOn: .constant(false), label: {
                 Text("False")
             })
-            .toggleStyle(CheckmarkToggleStyle())
+                .toggleStyle(CheckmarkToggleStyle())
         }
     }
 }

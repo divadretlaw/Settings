@@ -25,7 +25,8 @@ extension Passcode {
     struct Key {
         static let useBiometrics = "Biometrics"
         static let code = "Code"
-        private init() {}
+        private init() {
+        }
         
         static let all = [Key.useBiometrics, Key.code]
     }

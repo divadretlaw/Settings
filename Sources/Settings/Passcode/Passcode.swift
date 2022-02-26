@@ -5,9 +5,9 @@
 //  Created by David Walter on 28.06.20.
 //
 
-import SwiftUI
-import LocalAuthentication
 import KeychainSwift
+import LocalAuthentication
+import SwiftUI
 
 #if canImport(UIKit)
 import UIKit
@@ -39,19 +39,19 @@ public class Passcode {
         }
         
         #if canImport(UIKit)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         #endif
     }
     
     // MARK: - Passcode management
     
     func set(code: String) -> Bool {
-        return keychain.set(code, forKey: Key.code)
+        keychain.set(code, forKey: Key.code)
     }
     
     func getCode() -> String? {
-        return keychain.get(Key.code)
+        keychain.get(Key.code)
     }
     
     func hasCode() -> Bool {
@@ -60,21 +60,22 @@ public class Passcode {
     }
     
     func deleteCode() -> Bool {
-        return keychain.delete(Key.code)
+        keychain.delete(Key.code)
     }
     
     func set(biometrics: Bool) -> Bool {
-        return keychain.set(biometrics, forKey: Key.useBiometrics)
+        keychain.set(biometrics, forKey: Key.useBiometrics)
     }
     
     func getBiometrics() -> Bool {
-        return keychain.getBool(Key.useBiometrics) == true
+        keychain.getBool(Key.useBiometrics) == true
     }
     
     // MARK: -
+
     public func authenticate(animated: Bool = true) {
         guard hasCode() else { return }
-        self.current = showPasscode(.authentication, animated: animated, completion: { _ in })
+        current = showPasscode(.authentication, animated: animated, completion: { _ in })
     }
     
     public func askCode(animated: Bool = true, completion: @escaping (Bool) -> Void) {
@@ -92,7 +93,7 @@ public class Passcode {
     @discardableResult
     private func showPasscode(_ mode: Passcode.Mode, animated flag: Bool = true, completion: @escaping (Bool) -> Void) -> ViewModel? {
         guard inProgress == false else { return nil }
-        self.inProgress = true
+        inProgress = true
         
         let host = HostingController(rootView: AnyView(EmptyView()))
         #if os(iOS)
@@ -118,16 +119,16 @@ public class Passcode {
     // MARK: - NofificationCenter
     
     @objc func willEnterForeground() {
-        self.foreground = true
+        foreground = true
         guard hasCode() else { return }
         if config.autoBiometrics, getBiometrics() {
-            self.current?.biometrics()
+            current?.biometrics()
         }
     }
     
     @objc func didEnterBackground() {
-        self.foreground = false
+        foreground = false
         guard hasCode() else { return }
-        self.authenticate(animated: false)
+        authenticate(animated: false)
     }
 }

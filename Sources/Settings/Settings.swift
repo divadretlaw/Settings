@@ -7,13 +7,13 @@
 //
 
 #if os(iOS)
-import UIKit
 import SwiftUI
+import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
 
-public struct Settings {
+public enum Settings {
     public static let schemeDidChange = NSNotification.Name("Settings.schemeDidChange")
     
     static var userDefaults: UserDefaults = .standard
@@ -39,11 +39,11 @@ public struct Settings {
     
     public struct Configuration {
         #if os(iOS)
-        public static var shared: Configuration = Configuration(mailOptions: MFMailView.Options(toRecipients: nil,
-                                                                                                ccRecipients: nil,
-                                                                                                bccRecipients: nil,
-                                                                                                subject: nil,
-                                                                                                messageBody: nil))
+        public static var shared = Configuration(mailOptions: MFMailView.Options(toRecipients: nil,
+                                                                                 ccRecipients: nil,
+                                                                                 bccRecipients: nil,
+                                                                                 subject: nil,
+                                                                                 messageBody: nil))
         
         public var mailOptions: MFMailView.Options
         
@@ -51,10 +51,9 @@ public struct Settings {
             self.mailOptions = mailOptions
         }
         #else
-        public static var shared: Configuration = Configuration()
+        public static var shared = Configuration()
         
         public init() {
-            
         }
         #endif
     }
@@ -69,20 +68,21 @@ public struct Settings {
     
     #if os(iOS)
     public static var userInterfaceStyle: UIUserInterfaceStyle {
-        return Settings.Appearance.Manager.shared.userInterfaceStyle
+        Settings.Appearance.Manager.shared.userInterfaceStyle
     }
     
     public static var colorScheme: ColorScheme? {
-        return Settings.Appearance.Manager.shared.colorScheme
+        Settings.Appearance.Manager.shared.colorScheme
     }
     
     public static func apply(on window: UIWindow?) {
         Settings.Appearance.Manager.shared.apply(on: window)
         Passcode.shared.authenticate(animated: false)
     }
+
     #elseif os(macOS)
     public static var appearance: NSAppearance? {
-        return Settings.Appearance.Manager.shared.appearance
+        Settings.Appearance.Manager.shared.appearance
     }
     
     public static func apply(on window: NSWindow?) {
@@ -97,8 +97,8 @@ public struct Settings {
     }
 }
 
-public extension Settings {
-    struct Appearance {
+extension Settings {
+    public enum Appearance {
         @Entry("Settings:Appearance-matchSystemTheme", default: true)
         public static var matchSystemTheme: Bool
         

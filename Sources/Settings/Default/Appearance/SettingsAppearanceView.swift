@@ -19,7 +19,6 @@ extension Settings {
         }
         
         public init() {
-            
         }
     }
         
@@ -40,7 +39,6 @@ extension Settings {
         }
         
         public init() {
-            
         }
     }
 }

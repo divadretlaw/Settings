@@ -14,7 +14,7 @@ extension UIViewController {
             return nvc.visibleViewController?.topViewController()
         } else if let tbc = self as? UITabBarController, let selected = tbc.selectedViewController {
             return selected.topViewController()
-        } else if let presented = self.presentedViewController {
+        } else if let presented = presentedViewController {
             return presented.topViewController()
         }
         return self

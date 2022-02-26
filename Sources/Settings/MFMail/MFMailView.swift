@@ -7,8 +7,8 @@
 //
 
 #if !os(macOS)
-import SwiftUI
 import MessageUI
+import SwiftUI
 
 public struct MFMailView: UIViewControllerRepresentable {
     var options: Options?
@@ -40,13 +40,13 @@ public struct MFMailView: UIViewControllerRepresentable {
     }
 
     public func makeCoordinator() -> Coordinator {
-        return Coordinator(isShowing: $isShowing, result: $result)
+        Coordinator(isShowing: $isShowing, result: $result)
     }
 
     public func makeUIViewController(context: UIViewControllerRepresentableContext<MFMailView>) -> MFMailComposeViewController {
         let mail = MFMailComposeViewController()
         mail.mailComposeDelegate = context.coordinator
-        if let options = self.options {
+        if let options = options {
             mail.setToRecipients(options.toRecipients)
             mail.setCcRecipients(options.ccRecipients)
             mail.setBccRecipients(options.bccRecipients)

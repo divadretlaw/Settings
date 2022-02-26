@@ -29,9 +29,9 @@ struct BlurView: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIView,
                       context: UIViewRepresentableContext<BlurView>) {
-        
     }
 }
+
 #elseif os(macOS)
 import AppKit
 
@@ -55,7 +55,6 @@ struct BlurView: NSViewRepresentable {
     
     func updateNSView(_ nsView: NSView,
                       context: NSViewRepresentableContext<BlurView>) {
-        
     }
 }
 #endif

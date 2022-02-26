@@ -6,8 +6,8 @@
 //
 
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
-import Foundation
 import AppKit
+import Foundation
 
 extension NSApplication {
     var rootWindow: NSWindow? {
@@ -15,7 +15,7 @@ extension NSApplication {
     }
     
     func updateAppearance() {
-        self.windows.forEach {
+        windows.forEach {
             if !Settings.Appearance.matchSystemTheme {
                 Settings.Appearance.Manager.shared.apply()
             } else {

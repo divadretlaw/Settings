@@ -15,7 +15,7 @@ extension UIApplication {
     }
     
     func updateAppearance() {
-        self.windows.forEach {
+        windows.forEach {
             if !Settings.Appearance.matchSystemTheme {
                 Settings.Appearance.Manager.shared.apply()
             } else {

@@ -48,10 +48,12 @@ struct NavBarButton: View {
 struct NavBarButton_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavBarButton(action: {},
+            NavBarButton(action: {
+                         },
                          text: Text("Done"))
                 .previewLayout(PreviewLayout.fixed(width: 150, height: 50))
-            NavBarButton(action: {},
+            NavBarButton(action: {
+                         },
                          image: Image(systemName: "heart.fill"))
                 .previewLayout(PreviewLayout.fixed(width: 150, height: 50))
         }

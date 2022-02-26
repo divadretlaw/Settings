@@ -24,7 +24,7 @@ public enum InfoPlistKey: Hashable {
             return "CFBundleName"
         case .sdkVersion:
             return "DTSDKName"
-        case .custom(let key):
+        case let .custom(key):
             return key
         }
     }

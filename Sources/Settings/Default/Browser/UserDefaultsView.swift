@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(iOS 14.0, macOS 11, *)
 public struct UserDefaultsView: View {
-    @StateObject var viewModel: UserDefaultsViewModel = UserDefaultsViewModel()
+    @StateObject var viewModel = UserDefaultsViewModel()
 
     #if os(iOS)
     public var body: some View {
@@ -17,16 +17,16 @@ public struct UserDefaultsView: View {
             ForEach(viewModel.entries, id: \.id) { entry in
                 self.row(for: entry)
                     .contextMenu(menuItems: {
-                        Button(action: {
+                        Button {
                             self.viewModel.delete(entry: entry)
-                        }, label: {
+                        } label: {
                             Image(systemName: "trash")
                             Text("common.delete".localized())
-                        })
+                        }
                     })
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
         .navigationBarTitle("userdefaults.title".localized())
         .dismissable()
         .onAppear {
@@ -39,16 +39,16 @@ public struct UserDefaultsView: View {
             ForEach(viewModel.entries, id: \.id) { entry in
                 self.row(for: entry)
                     .contextMenu(menuItems: {
-                        Button(action: {
+                        Button {
                             self.viewModel.delete(entry: entry)
-                        }, label: {
+                        } label: {
                             Image(systemName: "trash")
                             Text("common.delete".localized())
-                        })
+                        }
                     })
             }
         }
-        .listStyle(PlainListStyle())
+        .listStyle(.plain)
         .navigationTitle("userdefaults.title".localized())
         .onAppear {
             self.viewModel.loadAllUserDefaults()
@@ -79,13 +79,12 @@ public struct UserDefaultsView: View {
     
     func isSimpleType<T>(_ object: T) -> Bool {
         switch object {
-            case is Bool, is Int, is Float, is Double, is String, is Date: return true
-            default: return false
+        case is Bool, is Date, is Double, is Float, is Int, is String: return true
+        default: return false
         }
     }
     
     public init() {
-        
     }
 }
 

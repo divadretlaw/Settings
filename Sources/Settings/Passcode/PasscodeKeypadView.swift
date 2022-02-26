@@ -64,7 +64,7 @@ extension Passcode.Value {
     @ViewBuilder
     var display: some View {
         switch self {
-        case .text(let value):
+        case let .text(value):
             Text(value)
                 .font(.title)
                 .foregroundColor(Color(.label))

@@ -27,7 +27,7 @@ extension MFMailView {
         let bccRecipients: [String]?
         let subject: String?
         let messageBody: String?
-        let isHTML: Bool = false
+        let isHTML = false
     }
 }
 #endif

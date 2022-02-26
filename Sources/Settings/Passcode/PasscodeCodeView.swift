@@ -14,11 +14,12 @@ struct CodeView: View {
     var body: some View {
         VStack {
             HStack {
-                ForEach(0..<viewModel.length) { index in
+                ForEach(0 ..< viewModel.length) { index in
                     CharacterView(isOn: index < self.viewModel.text.count)
                         .padding()
                 }
-            }.id(viewModel.text)
+            }
+            .id(viewModel.text)
         }
     }
 }

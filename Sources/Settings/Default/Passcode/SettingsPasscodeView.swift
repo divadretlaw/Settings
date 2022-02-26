@@ -20,7 +20,6 @@ extension Settings {
         }
         
         public init() {
-            
         }
     }
     
@@ -29,7 +28,7 @@ extension Settings {
         @State private var showEdit = false
         
         public var body: some View {
-            Button(action: {
+            Button {
                 if self.isOn {
                     Passcode.shared.askCode { self.showEdit = $0 }
                 } else {
@@ -38,7 +37,7 @@ extension Settings {
                         self.showEdit = $0
                     }
                 }
-            }, label: {
+            } label: {
                 ZStack {
                     NavigationLink(destination: PasscodeEditView { self.isOn = $0 },
                                    isActive: $showEdit) {
@@ -62,11 +61,10 @@ extension Settings {
                         }
                     }
                 }
-            })
+            }
         }
         
         public init() {
-            
         }
     }
 }

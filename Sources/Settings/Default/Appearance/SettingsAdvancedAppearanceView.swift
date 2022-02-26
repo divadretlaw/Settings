@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-public extension Settings {
-    struct AdvancedAppearanceView: View {
+extension Settings {
+    public struct AdvancedAppearanceView: View {
         @StateObject var viewModel = Appearance.ViewModel()
         
         #if os(iOS)
@@ -16,10 +16,11 @@ public extension Settings {
             Form {
                 self.content
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(.grouped)
             .navigationBarTitle("appearance.title".localized())
             .dismissable()
         }
+
         #elseif os(macOS)
         public var body: some View {
             List {
@@ -33,7 +34,7 @@ public extension Settings {
         var content: some View {
             Section {
                 Toggle(isOn: Binding(get: {
-                    return viewModel.matchSystemTheme
+                    viewModel.matchSystemTheme
                 }, set: {
                     viewModel.matchSystemTheme = $0
                 }), label: {
@@ -44,7 +45,7 @@ public extension Settings {
                             .font(.caption)
                     }
                 })
-                .toggleStyle(CheckmarkToggleStyle())
+                .toggleStyle(.checkmark)
                 
                 Toggle(isOn: Binding(get: {
                     guard !viewModel.matchSystemTheme else { return false }
@@ -61,7 +62,7 @@ public extension Settings {
                             .font(.caption)
                     }
                 })
-                .toggleStyle(CheckmarkToggleStyle())
+                    .toggleStyle(.checkmark)
                 
                 // Toggle(isOn: Binding(get: {
                 //     guard !viewModel.matchSystemTheme else { return false }
@@ -78,7 +79,7 @@ public extension Settings {
                 //             .font(.caption)
                 //     }
                 // })
-                // .toggleStyle(CheckmarkToggleStyle())
+                // .toggleStyle(.checkmark)
                 
                 Toggle(isOn: Binding(get: {
                     guard !viewModel.matchSystemTheme else { return false }
@@ -95,12 +96,12 @@ public extension Settings {
                             .font(.caption)
                     }
                 })
-                .toggleStyle(CheckmarkToggleStyle())
+                    .toggleStyle(.checkmark)
             }
             
             if !viewModel.matchSystemTheme {
                 if viewModel.mode == .manual {
-                    Section(header: Text("appearance.option.manually.theme".localized())) {
+                    Section {
                         Toggle(isOn: Binding(get: {
                             !viewModel.useDarkMode
                         }, set: { value in
@@ -109,7 +110,7 @@ public extension Settings {
                         }), label: {
                             Text("appearance.option.manually.light".localized())
                         })
-                        .toggleStyle(CheckmarkToggleStyle())
+                            .toggleStyle(.checkmark)
                         
                         Toggle(isOn: Binding(get: {
                             viewModel.useDarkMode
@@ -119,23 +120,27 @@ public extension Settings {
                         }), label: {
                             Text("appearance.option.manually.dark".localized())
                         })
-                        .toggleStyle(CheckmarkToggleStyle())
+                            .toggleStyle(.checkmark)
+                    } header: {
+                        Text("appearance.option.manually.theme".localized())
                     }
                 }
                 
                 if viewModel.mode == .scheduled {
-                    Section(header: Text("appearance.option.scheduled.dates".localized())) {
+                    Section {
                         DatePicker("appearance.option.scheduled.light".localized(),
                                    selection: .constant(Date()),
                                    displayedComponents: .hourAndMinute)
                         DatePicker("appearance.option.scheduled.dark".localized(),
                                    selection: .constant(Date()),
                                    displayedComponents: .hourAndMinute)
+                    } header: {
+                        Text("appearance.option.scheduled.dates".localized())
                     }
                 }
                 
                 if viewModel.mode == .automatically {
-                    Section(header: Text("appearance.option.automatically.slider".localized()), footer: brightnessThreshold) {
+                    Section {
                         Slider(value: $viewModel.threshold,
                                in: 0 ... 1,
                                minimumValueLabel: Image(systemName: "sun.min"),
@@ -143,6 +148,10 @@ public extension Settings {
                             Text("appearance.option.automatically.slider".localized())
                         }
                         .accentColor(.gray)
+                    } header: {
+                        Text("appearance.option.automatically.slider".localized())
+                    } footer: {
+                        brightnessThreshold
                     }
                 }
             }
@@ -153,15 +162,26 @@ public extension Settings {
         }
         
         public init() {
-            
         }
     }
 }
 
 struct SettingsAdvancedAppearanceView_Previews: PreviewProvider {
+    #if os(iOS)
     static var previews: some View {
         NavigationView {
             Settings.AdvancedAppearanceView()
         }
     }
+    #else
+    static var previews: some View {
+        SettingsView {
+            Settings.AdvancedAppearanceView()
+                .tabItem {
+                    Text("Appearance")
+                }
+        }
+        .padding()
+    }
+    #endif
 }

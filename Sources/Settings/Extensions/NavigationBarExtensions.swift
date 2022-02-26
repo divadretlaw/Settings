@@ -16,12 +16,12 @@ extension View {
                                                     trailing: T) -> some View where L: View, T: View {
         switch (hasLeading, hasTrailing) {
         case (true, true):
-            self.navigationBarItems(leading: leading,
-                                    trailing: trailing)
+            navigationBarItems(leading: leading,
+                               trailing: trailing)
         case (true, false):
-            self.navigationBarItems(leading: leading)
+            navigationBarItems(leading: leading)
         case (false, true):
-            self.navigationBarItems(trailing: trailing)
+            navigationBarItems(trailing: trailing)
         default:
             self
         }
@@ -32,7 +32,7 @@ extension View {
                                                  trailing: T) -> some View where T: View {
         switch hasTrailing {
         case true:
-            self.navigationBarItems(trailing: trailing)
+            navigationBarItems(trailing: trailing)
         default:
             self
         }
@@ -43,7 +43,7 @@ extension View {
                                                  leading: L) -> some View where L: View {
         switch hasLeading {
         case true:
-            self.navigationBarItems(leading: leading)
+            navigationBarItems(leading: leading)
         default:
             self
         }
@@ -56,12 +56,12 @@ extension View {
                                                     trailing: () -> T) -> some View where L: View, T: View {
         switch (hasLeading, hasTrailing) {
         case (true, true):
-            self.navigationBarItems(leading: leading(),
-                                    trailing: trailing())
+            navigationBarItems(leading: leading(),
+                               trailing: trailing())
         case (true, false):
-            self.navigationBarItems(leading: leading())
+            navigationBarItems(leading: leading())
         case (false, true):
-            self.navigationBarItems(trailing: trailing())
+            navigationBarItems(trailing: trailing())
         default:
             self
         }
@@ -72,7 +72,7 @@ extension View {
                                                  trailing: () -> T) -> some View where T: View {
         switch hasTrailing {
         case true:
-            self.navigationBarItems(trailing: trailing())
+            navigationBarItems(trailing: trailing())
         default:
             self
         }
@@ -83,7 +83,7 @@ extension View {
                                                  leading: () -> L) -> some View where L: View {
         switch hasLeading {
         case true:
-            self.navigationBarItems(leading: leading())
+            navigationBarItems(leading: leading())
         default:
             self
         }

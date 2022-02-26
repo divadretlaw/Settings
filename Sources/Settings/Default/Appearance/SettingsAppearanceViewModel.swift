@@ -52,9 +52,9 @@ extension Settings.Appearance {
             guard let identifier = Bundle.main.bundleIdentifier else { return }
             Settings.userDefaults.removePersistentDomain(forName: identifier)
             
-            self.matchSystemTheme = Settings.Appearance.matchSystemTheme
-            self.useDarkMode = Settings.Appearance.useDarkMode
-            self.mode = Mode(rawValue: Settings.Appearance.mode) ?? .manual
+            matchSystemTheme = Settings.Appearance.matchSystemTheme
+            useDarkMode = Settings.Appearance.useDarkMode
+            mode = Mode(rawValue: Settings.Appearance.mode) ?? .manual
         }
     }
 }

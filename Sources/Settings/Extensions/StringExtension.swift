@@ -9,7 +9,6 @@
 import Foundation
 
 private class Localizable {
-    
 }
 
 extension String {

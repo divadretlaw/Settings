@@ -54,8 +54,8 @@ extension Settings {
     }
 }
 
-private extension InfoPlistKey {
-    var title: String {
+extension InfoPlistKey {
+    fileprivate var title: String {
         switch self {
         case .version:
             return "info.version".localized()
@@ -65,7 +65,7 @@ private extension InfoPlistKey {
             return "info.appname".localized()
         case .sdkVersion:
             return "info.sdk".localized()
-        case .custom(let title):
+        case let .custom(title):
             return title
         }
     }

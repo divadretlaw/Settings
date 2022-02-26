@@ -6,16 +6,16 @@
 //
 
 #if !os(macOS)
-import SwiftUI
 import MessageUI
+import SwiftUI
 
-public extension View {
-    func mailSheet(_ options: MFMailView.Options? = nil,
-                   result: Binding<Result<MFMailComposeResult, Error>?>,
-                   isPresented: Binding<Bool>,
-                   onDismiss: (() -> Void)? = nil) -> some View {
-        self.sheet(isPresented: isPresented,
-                   onDismiss: onDismiss) {
+extension View {
+    public func mailSheet(_ options: MFMailView.Options? = nil,
+                          result: Binding<Result<MFMailComposeResult, Error>?>,
+                          isPresented: Binding<Bool>,
+                          onDismiss: (() -> Void)? = nil) -> some View {
+        sheet(isPresented: isPresented,
+              onDismiss: onDismiss) {
             MFMailView(options: options, isShowing: isPresented, result: result)
         }
     }

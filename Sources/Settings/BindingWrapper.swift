@@ -26,15 +26,15 @@ struct BindingWrapper<T> {
     }
     
     func dismiss() {
-        self.bool.wrappedValue = false
-        self.identifable.wrappedValue = nil
+        bool.wrappedValue = false
+        identifable.wrappedValue = nil
     }
 }
 
 extension Bool: Identifiable {
-   public var id: String {
-       return self ? "true" : "false"
-   }
+    public var id: String {
+        self ? "true" : "false"
+    }
 }
 
 extension BindingWrapper where T == Bool {

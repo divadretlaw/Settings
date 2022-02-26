@@ -17,11 +17,12 @@ extension Settings {
         var body: some View {
             Form {
                 Section {
-                    Button(action: {
+                    Button {
                         self.viewModel.changeCode()
-                    }, label: {
+                    } label: {
                         Text("passcode.change".localized())
-                    })
+                    }
+                    
                     if Passcode.shared.biometrics != .none {
                         Toggle(isOn: $viewModel.isBiometricsOn) {
                             Text(Passcode.shared.biometrics.description)
@@ -29,15 +30,15 @@ extension Settings {
                     }
                 }
                 Section {
-                    Button(action: {
+                    Button {
                         if self.viewModel.deleteCode() {
                             self.onChange(false)
                             self.presentationMode.wrappedValue.dismiss()
                         }
-                    }, label: {
+                    } label: {
                         Text("passcode.delete".localized())
                             .foregroundColor(.red)
-                    })
+                    }
                 }
             }
             .environment(\.horizontalSizeClass, .regular)
@@ -48,7 +49,7 @@ extension Settings {
         
         init(onChange: @escaping (Bool) -> Void) {
             self.onChange = onChange
-            viewModel = ViewModel()
+            self.viewModel = ViewModel()
         }
     }
 }

@@ -10,7 +10,7 @@ import SwiftUI
 class Dismisser: ObservableObject {
     static var shared: Dismisser?
 
-    @Published var shouldDismiss: Bool = false
+    @Published var shouldDismiss = false
 
     init(empty: Bool = false) {
         guard !empty else { return }
@@ -23,7 +23,7 @@ class Dismisser: ObservableObject {
     }
 
     static func navigationBarButton() -> some View {
-        return NavBarButton(action: {
+        NavBarButton(action: {
             Dismisser.shared?.dismiss()
         }, text: Text("common.done".localized()))
     }
@@ -31,7 +31,7 @@ class Dismisser: ObservableObject {
 
 extension View {
     public func settingsDismissable() -> some View {
-       return dismissable()
+        dismissable()
     }
     
     @ViewBuilder
@@ -46,12 +46,12 @@ extension View {
                 }
             }
         } else if Dismisser.shared != nil {
-            self.navigationBarItems(trailing: Dismisser.navigationBarButton())
+            navigationBarItems(trailing: Dismisser.navigationBarButton())
         } else {
             self
         }
         #else
-        self.toolbar {
+        toolbar {
             if Dismisser.shared != nil {
                 Dismisser.navigationBarButton()
             }

@@ -7,8 +7,8 @@
 
 import Foundation
 #if os(iOS)
-import UIKit
 import SwiftUI
+import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
@@ -19,7 +19,7 @@ extension Settings.Appearance {
         case scheduled
         case automatically
         
-        var id: Int { self.rawValue }
+        var id: Int { rawValue }
     }
     
     class Manager {
@@ -39,8 +39,8 @@ extension Settings.Appearance {
         }
         
         @objc func brightnessDidChange() {
-            guard self.mode == .automatically else { return }
-            self.apply()
+            guard mode == .automatically else { return }
+            apply()
         }
         
         var mode: Mode {
@@ -89,6 +89,7 @@ extension Settings.Appearance {
             UIApplication.shared.windows.forEach { apply(on: $0) }
             NotificationCenter.default.post(name: Settings.schemeDidChange, object: self)
         }
+
         #elseif os(macOS)
         var appearance: NSAppearance? {
             guard !Settings.Appearance.matchSystemTheme else {

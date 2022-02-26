@@ -12,7 +12,7 @@ public typealias SettingsView = Settings.SettingsView
 
 extension Settings {
     public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
-        var title: String = "settings.title".localized()
+        var title = "settings.title".localized()
         var content: () -> Content
         
         private var showSettings: BindingWrapper<T>
@@ -60,15 +60,15 @@ extension Settings {
     }
 }
 
-public extension Settings.SettingsView where T == Bool {
-    init(showSettings: Binding<Bool>,
-         @ViewBuilder content: @escaping () -> Content) {
+extension Settings.SettingsView where T == Bool {
+    public init(showSettings: Binding<Bool>,
+                @ViewBuilder content: @escaping () -> Content) {
         self.showSettings = BindingWrapper(showSettings)
         self.content = content
         self.dismisser = Dismisser()
     }
     
-    init(@ViewBuilder content: @escaping () -> Content) {
+    public init(@ViewBuilder content: @escaping () -> Content) {
         self.showSettings = BindingWrapper<Bool>()
         self.content = content
         self.dismisser = Dismisser(empty: true)
@@ -76,13 +76,26 @@ public extension Settings.SettingsView where T == Bool {
 }
 
 struct SettingsView_Previews: PreviewProvider {
+    #if os(iOS)
     static var previews: some View {
-        SettingsView(showSettings: .constant(true), content: {
+        SettingsView(showSettings: .constant(true)) {
             Settings.AppearanceView()
-            #if os(iOS)
             Settings.SupportView()
-            #endif
             Settings.ResetView()
-        })
+        }
     }
+    #else
+    static var previews: some View {
+        SettingsView(showSettings: .constant(true)) {
+            VStack {
+                Settings.AppearanceView()
+                Settings.ResetView()
+            }
+            .tabItem {
+                Text("General")
+            }
+        }
+        .padding()
+    }
+    #endif
 }

@@ -7,8 +7,8 @@
 //
 
 #if os(iOS)
-import SwiftUI
 import MessageUI
+import SwiftUI
 
 extension Settings {
     public struct SupportSection: View, HeaderView {
@@ -24,7 +24,6 @@ extension Settings {
         }
         
         public init() {
-            
         }
     }
     
@@ -33,11 +32,11 @@ extension Settings {
         @State private var showMFMailView = false
         
         public var body: some View {
-            Button(action: {
+            Button {
                 self.showMFMailView = true
-            }, label: {
+            } label: {
                 Text("support.email".localized())
-            })
+            }
             .disabled(!MFMailComposeViewController.canSendMail())
             .mailSheet(Settings.Configuration.shared.mailOptions,
                        result: self.$result,
@@ -45,7 +44,6 @@ extension Settings {
         }
         
         public init() {
-            
         }
     }
 }

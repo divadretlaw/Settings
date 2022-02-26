@@ -31,12 +31,12 @@ extension Settings {
         @State private var showResetAlert = false
         
         public var body: some View {
-            Button(action: {
+            Button {
                 self.showResetAlert = true
-            }, label: {
+            } label: {
                 Text("reset.button".localized())
                     .foregroundColor(.red)
-            })
+            }
             .alert(isPresented: $showResetAlert) {
                 Alert(title: Text("reset.alert.title".localized()),
                       message: Text("reset.alert.message".localized()),

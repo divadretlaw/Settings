@@ -29,7 +29,7 @@ typealias Font = NSFont
 
 extension NSColor {
     static var label: NSColor {
-        return NSColor.labelColor
+        NSColor.labelColor
     }
 }
 #endif

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserDefaultsEntryView: View {
     @ObservedObject var viewModel: UserDefaultsEntryViewModel
-    @State var showConfirmationDialog: Bool = false
+    @State var showConfirmationDialog = false
     @Environment(\.presentationMode) var presentationMode
 
     #if os(iOS)

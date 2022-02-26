@@ -46,8 +46,8 @@ extension Passcode {
         
         func add(_ value: Value) {
             switch value {
-            case .text(let character):
-                guard text.count < self.length else { return }
+            case let .text(character):
+                guard text.count < length else { return }
                 text.append(character)
             case .delete:
                 text = String(text.dropLast())
@@ -56,9 +56,9 @@ extension Passcode {
             }
             
             if mode == .changeCode {
-                self.checkNewCode()
+                checkNewCode()
             } else {
-                self.checkCode()
+                checkCode()
             }
         }
         
@@ -78,14 +78,14 @@ extension Passcode {
         
         func cancel() {
             guard mode != .authentication else { return }
-            self.dismiss(success: false)
+            dismiss(success: false)
         }
         
         private func checkCode() {
             guard text.count >= length else { return }
             
             if Passcode.shared.getCode() == text {
-                self.dismiss(success: true)
+                dismiss(success: true)
             } else {
                 wrongCodeCount += 1
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
@@ -107,7 +107,7 @@ extension Passcode {
             }
             
             if newCode == text {
-                self.dismiss(success: Passcode.shared.set(code: newCode))
+                dismiss(success: Passcode.shared.set(code: newCode))
             } else {
                 wrongCodeCount += 1
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in

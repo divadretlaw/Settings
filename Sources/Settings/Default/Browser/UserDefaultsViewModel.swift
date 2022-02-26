@@ -41,7 +41,7 @@ class UserDefaultsViewModel: ObservableObject, Identifiable {
         }
         
         static func == (lhs: UserDefaultsViewModel.UserDefaultEntry, rhs: UserDefaultsViewModel.UserDefaultEntry) -> Bool {
-            return lhs.id == rhs.id
+            lhs.id == rhs.id
         }
     }
 }

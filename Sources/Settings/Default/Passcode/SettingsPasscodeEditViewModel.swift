@@ -24,12 +24,11 @@ extension Settings.PasscodeEditView {
         
         func changeCode() {
             Passcode.shared.changeCode { _ in
-                
             }
         }
         
         func deleteCode() -> Bool {
-            return Passcode.shared.deleteCode()
+            Passcode.shared.deleteCode()
         }
     }
 }
