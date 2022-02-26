@@ -2,6 +2,14 @@
 
 Provides a simple generic settings controller with some default app setting sections.
 
+## Features
+
+- Fully customizable
+- Easily localizable
+- Provides useful default settings
+
+Supports: iOS, macOS (partially)
+
 ## Usage
 
 ### Sheet
@@ -36,13 +44,21 @@ See the Demo Project to see some reference implementations.
 
 ### Appearance
 
-Easily switch the app between light and dark mode.
+Easily provide a setting within the app to switch between light and dark mode. Options are system, manually or screen brightness based.
 
 Usage: Add the view to the `SettingsView.content`
 
 ```swift
+Settings.AdvancedAppearanceView()
+```
+
+or add this for a simplified version
+
+```swift
 Settings.AppearanceView()
 ```
+
+![Apperance Example](Resources/Appearance.png)
 
 ### Passcode
 
@@ -98,7 +114,7 @@ Settings.ResetView {
 
 ### App Icon
 
-Change the App Icon of your app
+Easily change the App Icon of your app
 
 ```swift
 Settings.AlternativeIconView(icons: AlternativeAppIcon.allCases)
@@ -116,6 +132,18 @@ enum AlternativeAppIcon: String, AlternateIcon {
     var title: String { get }
     var subtitle: String? { get }
 }
+```
+
+![AppIcon Example](Resources/AppIcon.png)
+
+### UserDefaults Browser
+
+Browse your apps UserDefaults. Good for debugging.
+
+Usage: Add the view anywhere in your app.
+
+```swift
+UserDefaultsView()
 ```
 
 ### LicensePlist
