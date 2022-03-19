@@ -19,17 +19,18 @@ struct CheckmarkToggleStyle: ToggleStyle {
             } label: {
                 HStack {
                     configuration.label
-                        .foregroundColor(Color(.label))
+                        .foregroundColor(.primary)
                     Spacer()
                     if configuration.isOn {
                         Image(systemName: "checkmark.circle.fill")
                             .font(SwiftUI.Font.headline.weight(.bold))
+                            .foregroundColor(onColor)
                             .accessibility(removeTraits: .isImage)
                             .accessibility(addTraits: .isButton)
                     } else {
                         Image(systemName: "circle")
                             .font(SwiftUI.Font.headline.weight(.light))
-                            .foregroundColor(self.offColor)
+                            .foregroundColor(offColor)
                             .accessibility(removeTraits: .isImage)
                             .accessibility(addTraits: .isButton)
                     }
@@ -37,6 +38,10 @@ struct CheckmarkToggleStyle: ToggleStyle {
             }
             .buttonStyle(.plain)
         }
+    }
+    
+    var onColor: Color {
+        return .accentColor
     }
     
     var offColor: Color {
@@ -57,14 +62,15 @@ extension ToggleStyle where Self == CheckmarkToggleStyle {
 struct CheckmarkToggleStyle_Previews: PreviewProvider {
     static var previews: some View {
         List {
-            Toggle(isOn: .constant(true), label: {
+            Toggle(isOn: .constant(true)) {
                 Text("True")
-            })
-                .toggleStyle(CheckmarkToggleStyle())
-            Toggle(isOn: .constant(false), label: {
+            }
+            .toggleStyle(.checkmark)
+        
+            Toggle(isOn: .constant(false)) {
                 Text("False")
-            })
-                .toggleStyle(CheckmarkToggleStyle())
+            }
+            .toggleStyle(.checkmark)
         }
     }
 }
