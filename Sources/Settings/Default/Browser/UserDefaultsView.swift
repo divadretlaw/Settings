@@ -11,41 +11,25 @@ import SwiftUI
 public struct UserDefaultsView: View {
     @StateObject var viewModel = UserDefaultsViewModel()
 
-    #if os(iOS)
     public var body: some View {
-        List {
-            ForEach(viewModel.entries, id: \.id) { entry in
-                self.row(for: entry)
-                    .contextMenu(menuItems: {
-                        Button {
-                            self.viewModel.delete(entry: entry)
-                        } label: {
-                            Image(systemName: "trash")
-                            Text("common.delete".localized())
-                        }
-                    })
-            }
-        }
-        .listStyle(.plain)
-        .navigationBarTitle("userdefaults.title".localized())
-        .dismissable()
-        .onAppear {
-            self.viewModel.loadAllUserDefaults()
-        }
+        #if os(iOS)
+        list.dismissable()
+        #else
+        list
+        #endif
     }
-    #else
-    public var body: some View {
+    
+    var list: some View {
         List {
             ForEach(viewModel.entries, id: \.id) { entry in
                 self.row(for: entry)
-                    .contextMenu(menuItems: {
+                    .contextMenu {
                         Button {
                             self.viewModel.delete(entry: entry)
                         } label: {
-                            Image(systemName: "trash")
-                            Text("common.delete".localized())
+                            Label("common.delete".localized(), systemImage: "trash")
                         }
-                    })
+                    }
             }
         }
         .listStyle(.plain)
@@ -54,7 +38,6 @@ public struct UserDefaultsView: View {
             self.viewModel.loadAllUserDefaults()
         }
     }
-    #endif
 
     @ViewBuilder
     func row(for entry: UserDefaultsViewModel.UserDefaultEntry) -> some View {
@@ -63,11 +46,13 @@ public struct UserDefaultsView: View {
                 Text(entry.key)
                 Spacer()
                 Text(String(reflecting: entry.value))
-                    .frame(alignment: Alignment.trailing)
+                    .frame(alignment: .trailing)
                     .font(.system(.body, design: .monospaced))
             }
         } else {
-            NavigationLink(destination: UserDefaultsEntryView(viewModel: UserDefaultsEntryViewModel(entry: entry))) {
+            NavigationLink {
+                UserDefaultsEntryView(viewModel: UserDefaultsEntryViewModel(entry: entry))
+            } label: {
                 HStack {
                     Text(entry.key)
                     Spacer()

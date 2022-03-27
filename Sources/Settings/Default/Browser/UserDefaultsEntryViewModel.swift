@@ -8,7 +8,6 @@
 import Foundation
 
 class UserDefaultsEntryViewModel: ObservableObject, Identifiable {
-    let id = UUID()
     @Published var entry: UserDefaultsViewModel.UserDefaultEntry
     
     init(entry: UserDefaultsViewModel.UserDefaultEntry) {

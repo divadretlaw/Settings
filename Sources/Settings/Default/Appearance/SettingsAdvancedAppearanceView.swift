@@ -96,7 +96,7 @@ extension Settings {
                             .font(.caption)
                     }
                 })
-                    .toggleStyle(.checkmark)
+                .toggleStyle(.checkmark)
             }
             
             if !viewModel.matchSystemTheme {
@@ -110,7 +110,7 @@ extension Settings {
                         }), label: {
                             Text("appearance.option.manually.light".localized())
                         })
-                            .toggleStyle(.checkmark)
+                        .toggleStyle(.checkmark)
                         
                         Toggle(isOn: Binding(get: {
                             viewModel.useDarkMode
@@ -120,7 +120,7 @@ extension Settings {
                         }), label: {
                             Text("appearance.option.manually.dark".localized())
                         })
-                            .toggleStyle(.checkmark)
+                        .toggleStyle(.checkmark)
                     } header: {
                         Text("appearance.option.manually.theme".localized())
                     }

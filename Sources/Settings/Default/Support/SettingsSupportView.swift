@@ -18,8 +18,10 @@ extension Settings {
         @State private var showMFMailView = false
         
         public var body: some View {
-            Section(header: self.headerView) {
+            Section {
                 SupportView()
+            } header: {
+                headerView
             }
         }
         

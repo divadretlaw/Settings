@@ -8,7 +8,6 @@
 import Foundation
 
 class UserDefaultsViewModel: ObservableObject, Identifiable {
-    let id = UUID()
     @Published var entries: [UserDefaultEntry] = []
     
     func loadAllUserDefaults() {

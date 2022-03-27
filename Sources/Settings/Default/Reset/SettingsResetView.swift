@@ -14,8 +14,10 @@ extension Settings {
         var reset: (() -> Void)?
         
         public var body: some View {
-            Section(header: self.headerView) {
+            Section {
                 ResetView(reset: reset)
+            } header: {
+                headerView
             }
         }
         

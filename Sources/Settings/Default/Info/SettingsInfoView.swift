@@ -14,8 +14,10 @@ extension Settings {
         var bundle: Bundle
         
         public var body: some View {
-            Section(header: self.headerView) {
+            Section {
                 InfoView(infos: infos, bundle: bundle)
+            } header: {
+                headerView
             }
         }
         

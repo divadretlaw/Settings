@@ -12,7 +12,8 @@ public typealias SettingsView = Settings.SettingsView
 
 extension Settings {
     public struct SettingsView<T, Content>: View where T: Identifiable, Content: View {
-        var title = "settings.title".localized()
+        var title = Text("settings.title".localized())
+        var displayMode: NavigationBarItem.TitleDisplayMode = .automatic
         var content: () -> Content
         
         private var showSettings: BindingWrapper<T>
@@ -27,7 +28,7 @@ extension Settings {
                 }
                 .listStyle(GroupedListStyle())
                 .environment(\.horizontalSizeClass, .regular)
-                .navigationBarTitle(self.title)
+                .navigationBarTitle(self.title, displayMode: displayMode)
                 .dismissable()
             }
             .navigationViewStyle(StackNavigationViewStyle())
@@ -56,6 +57,26 @@ extension Settings {
             self.showSettings = BindingWrapper(showSettings)
             self.content = content
             self.dismisser = Dismisser()
+        }
+        
+        // MARK: Modifier
+        
+        public func navigationTitle(_ title: String) -> Self {
+            var view = self
+            view.title = Text(title)
+            return view
+        }
+        
+        public func navigationTitle(_ title: Text) -> Self {
+            var view = self
+            view.title = title
+            return view
+        }
+        
+        public func navigationBarTitleDisplayMode(_ displayMode: NavigationBarItem.TitleDisplayMode) -> Self {
+            var view = self
+            view.displayMode = displayMode
+            return view
         }
     }
 }

@@ -38,7 +38,7 @@ extension View {
     func dismissable() -> some View {
         #if os(iOS)
         if #available(iOS 14, *) {
-            self.toolbar {
+            toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if Dismisser.shared != nil {
                         Dismisser.navigationBarButton()

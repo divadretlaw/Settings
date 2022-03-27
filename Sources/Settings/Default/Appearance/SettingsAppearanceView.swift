@@ -12,8 +12,10 @@ extension Settings {
         public var header = (title: "appearance.title", show: true)
         
         public var body: some View {
-            Section(header: self.headerView) {
+            Section {
                 AppearanceView()
+            } header: {
+                headerView
             }
             .animation(.default)
         }

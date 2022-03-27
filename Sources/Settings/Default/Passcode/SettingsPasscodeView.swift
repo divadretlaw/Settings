@@ -14,8 +14,10 @@ extension Settings {
         public var header = (title: "passcode.title", show: true)
         
         public var body: some View {
-            Section(header: self.headerView) {
+            Section {
                 PasscodeView()
+            } header: {
+                headerView
             }
         }
         

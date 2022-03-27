@@ -14,7 +14,7 @@ struct CodeView: View {
     var body: some View {
         VStack {
             HStack {
-                ForEach(0 ..< viewModel.length) { index in
+                ForEach(0 ..< viewModel.length, id: \.self) { index in
                     CharacterView(isOn: index < self.viewModel.text.count)
                         .padding()
                 }
