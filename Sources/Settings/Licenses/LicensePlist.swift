@@ -18,6 +18,7 @@ public struct LicensePlist: Hashable {
         public let id: UUID
         public let title: String
         public let license: String
+        public let licenseType: LicenseType?
         public var source: String?
         
         public init?(title: String, url: URL) {
@@ -36,6 +37,12 @@ public struct LicensePlist: Hashable {
                 
                 self.license = string
                 
+                if let string = license["License"] as? String {
+                    self.licenseType = LicenseType(rawValue: string)
+                } else {
+                    self.licenseType = nil
+                }
+                
                 for element in array {
                     if let dict = element as? NSDictionary {
                         if let source = dict["DefaultValue"] as? String {
@@ -49,10 +56,11 @@ public struct LicensePlist: Hashable {
         }
         
         #if DEBUG
-        init(title: String, license: String, source: String? = nil) {
+        init(title: String, license: String, licenseType: LicenseType? = nil, source: String? = nil) {
             self.id = UUID()
             self.title = title
             self.license = license
+            self.licenseType = licenseType
             self.source = source
         }
         #endif
