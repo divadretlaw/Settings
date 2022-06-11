@@ -15,7 +15,7 @@ extension Settings {
         
         public var body: some View {
             Section {
-                InfoView(infos: infos, bundle: bundle)
+                Settings.InfoView(infos: infos, bundle: bundle)
             } header: {
                 headerView
             }
@@ -30,13 +30,31 @@ extension Settings {
     public struct InfoView: View {
         var infos: [InfoPlistKey]
         var bundle: Bundle
-
+        
+        public enum Layout {
+            case horizontal
+            case vertical
+        }
+        
+        var layout = Layout.horizontal
+        
         public var body: some View {
             ForEach(infos, id: \.self) { info in
-                HStack {
-                    Text(info.title.localized())
-                    Spacer()
-                    Text(value(for: info))
+                if layout == .horizontal {
+                    HStack {
+                        Text(info.title.localized())
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Text(value(for: info))
+                            .foregroundColor(.secondary)
+                    }
+                } else {
+                    VStack(alignment: .leading) {
+                        Text(info.title.localized())
+                            .foregroundColor(.primary)
+                        Text(value(for: info))
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
         }
@@ -52,6 +70,12 @@ extension Settings {
                 return ""
             }
             return value
+        }
+        
+        public func layout(_ layout: Layout) -> Self {
+            var view = self
+            view.layout = layout
+            return view
         }
     }
 }
@@ -80,6 +104,12 @@ struct SettingsInfoView_Previews: PreviewProvider {
                                          .buildNumber,
                                          .appName,
                                          .sdkVersion])
+            
+            Settings.InfoView(infos: [.version,
+                             .buildNumber,
+                             .appName,
+                             .sdkVersion])
+            .layout(.vertical)
         }
     }
 }
