@@ -17,7 +17,7 @@ public struct MFMailButton<Content>: View where Content: View {
     
     public var body: some View {
         Button(action: {
-            
+            showMFMailView = true
         }, label: label)
         .disabled(!MFMailComposeViewController.canSendMail())
         .mailSheet(Settings.Configuration.shared.mailOptions,
