@@ -6,14 +6,14 @@ import PackageDescription
 let package = Package(
     name: "Settings",
     defaultLocalization: "en",
-    platforms: [.iOS(.v13), .macOS(.v11)],
+    platforms: [.iOS(.v14), .macOS(.v11)],
     products: [
         .library(
             name: "Settings",
             targets: ["Settings"]),
     ],
     dependencies: [
-        .package(name: "KeychainSwift", url: "https://github.com/evgenyneu/keychain-swift", from: "20.0.0")
+        .package(name: "KeychainSwift", url: "https://github.com/evgenyneu/keychain-swift", from: "21.0.0")
     ],
     targets: [
         .target(
